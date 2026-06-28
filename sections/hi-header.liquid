@@ -1,10 +1,11 @@
 {% doc %}
   Hi Header — sticky nav with 3-level mega menus and mobile drawer accordion.
 
-  Nav items are section blocks. Each block can optionally have a mega_linklist:
-    - Top-level links in the linklist = column headers (level 2)
-    - Children of those links = items in each column (level 3)
-  Featured image, title, and CTA are block settings for the mega panel right panel.
+  Main navigation driven by section.settings.menu (link_list).
+  Each nav position (1–5) can optionally link to a separate mega menu linklist:
+    - Top-level links in that linklist = column headers (level 2)
+    - Their child links = items inside each column (level 3)
+  A featured image + title + CTA can be set per mega position in section settings.
 {% enddoc %}
 
 <header class="hi-header" data-hi-header>
@@ -25,23 +26,36 @@
       </button>
 
       <nav class="hi-desktop-nav" aria-label="{{ 'hi.general.main_nav' | t }}">
-        {%- for block in section.blocks -%}
-          {%- assign mega_list = linklists[block.settings.mega_linklist] -%}
+        {%- assign nav_links = linklists[section.settings.menu].links -%}
+        {%- for link in nav_links -%}
+          {%- assign pos = forloop.index -%}
+          {%- assign mega_list_key  = 'mega_' | append: pos | append: '_linklist' -%}
+          {%- assign mega_img_key   = 'mega_' | append: pos | append: '_image' -%}
+          {%- assign mega_title_key = 'mega_' | append: pos | append: '_title' -%}
+          {%- assign mega_cta_key   = 'mega_' | append: pos | append: '_cta_text' -%}
+          {%- assign mega_url_key   = 'mega_' | append: pos | append: '_cta_url' -%}
+
+          {%- assign mega_list  = linklists[section.settings[mega_list_key]] -%}
+          {%- assign mega_img   = section.settings[mega_img_key] -%}
+          {%- assign mega_title = section.settings[mega_title_key] -%}
+          {%- assign mega_cta   = section.settings[mega_cta_key] -%}
+          {%- assign mega_url   = section.settings[mega_url_key] -%}
+
           {%- assign has_mega = false -%}
           {%- if mega_list.links.size > 0 -%}{%- assign has_mega = true -%}{%- endif -%}
 
-          <div class="hi-navitem" {{ block.shopify_attributes }}>
-            <a href="{{ block.settings.url | default: '#' }}"
+          <div class="hi-navitem">
+            <a href="{{ link.url }}"
               class="hi-navlink"
-              {%- if block.settings.url == request.path %} aria-current="page"{%- endif -%}>
-              {{ block.settings.label }}
+              {%- if link.active %} aria-current="page"{%- endif -%}>
+              {{ link.title }}
             </a>
 
             {%- if has_mega -%}
-              <div class="hi-megapanel" role="region" aria-label="{{ block.settings.label }}">
+              <div class="hi-megapanel" role="region" aria-label="{{ link.title }}">
                 <div class="hi-megapanel-inner">
 
-                  {%- comment -%} Column headers (level 2) + their child links (level 3) {%- endcomment -%}
+                  {%- comment -%} Columns: level-2 headers + level-3 links {%- endcomment -%}
                   <div class="hi-megacols">
                     {%- for col in mega_list.links -%}
                       <div class="hi-megacol">
@@ -54,23 +68,23 @@
                   </div>
 
                   {%- comment -%} Featured image card (right panel) {%- endcomment -%}
-                  {%- if block.settings.mega_image != blank or block.settings.mega_title != blank -%}
-                    <a href="{{ block.settings.mega_cta_url | default: block.settings.url }}" class="hi-megafeat">
+                  {%- if mega_img != blank or mega_title != blank -%}
+                    <a href="{{ mega_url | default: link.url }}" class="hi-megafeat">
                       <div class="hi-megafeat-img">
-                        {%- if block.settings.mega_image != blank -%}
-                          {{ block.settings.mega_image | image_url: width: 700 | image_tag:
+                        {%- if mega_img != blank -%}
+                          {{ mega_img | image_url: width: 700 | image_tag:
                               loading: 'lazy',
-                              alt: block.settings.mega_title,
+                              alt: mega_title,
                               class: 'hi-megafeat-photo' }}
                         {%- endif -%}
                       </div>
                       <div class="hi-megafeat-grad"></div>
                       <div class="hi-megafeat-content">
-                        <div class="hi-megafeat-label">{{ block.settings.label }}</div>
-                        {%- if block.settings.mega_title != blank -%}
-                          <div class="hi-megafeat-title">{{ block.settings.mega_title }}</div>
+                        <div class="hi-megafeat-label">{{ link.title }}</div>
+                        {%- if mega_title != blank -%}
+                          <div class="hi-megafeat-title">{{ mega_title }}</div>
                         {%- endif -%}
-                        <div class="hi-megafeat-cta">{{ block.settings.mega_cta_text | default: 'Shop Now' }} →</div>
+                        <div class="hi-megafeat-cta">{{ mega_cta | default: 'Shop Now' }} →</div>
                       </div>
                     </a>
                   {%- endif -%}
@@ -112,7 +126,7 @@
   </div>
 </header>
 
-{%- comment -%}──── MOBILE DRAWER (slide-in from left) ────{%- endcomment -%}
+{%- comment -%}──── MOBILE DRAWER ────{%- endcomment -%}
 <div class="hi-drawer-backdrop" data-hi-drawer-backdrop></div>
 <aside class="hi-drawer" id="hi-drawer" data-hi-drawer
   role="dialog" aria-modal="true" aria-label="{{ 'hi.general.menu' | t }}">
@@ -134,13 +148,14 @@
 
   <a href="{{ routes.search_url }}" class="hi-drawer-row">{{ 'hi.general.search' | t }}</a>
 
-  {%- for block in section.blocks -%}
-    {%- assign mega_list = linklists[block.settings.mega_linklist] -%}
+  {%- for link in linklists[section.settings.menu].links -%}
+    {%- assign pos = forloop.index -%}
+    {%- assign mega_list_key = 'mega_' | append: pos | append: '_linklist' -%}
+    {%- assign mega_list     = linklists[section.settings[mega_list_key]] -%}
+
     {%- if mega_list.links.size > 0 -%}
-      {%- comment -%} Accordion row with sub-columns {%- endcomment -%}
       <button type="button" class="hi-drawer-row" data-hi-acc aria-expanded="false">
-        {{ block.settings.label }}
-        <span class="hi-acc-plus" aria-hidden="true">+</span>
+        {{ link.title }} <span class="hi-acc-plus" aria-hidden="true">+</span>
       </button>
       <div class="hi-acc-panel" role="region">
         {%- for col in mega_list.links -%}
@@ -150,20 +165,27 @@
           {%- endfor -%}
         {%- endfor -%}
       </div>
+    {%- elsif link.links.size > 0 -%}
+      <button type="button" class="hi-drawer-row" data-hi-acc aria-expanded="false">
+        {{ link.title }} <span class="hi-acc-plus" aria-hidden="true">+</span>
+      </button>
+      <div class="hi-acc-panel" role="region">
+        {%- for child in link.links -%}
+          <a href="{{ child.url }}" class="hi-acc-link">{{ child.title }}</a>
+        {%- endfor -%}
+      </div>
     {%- else -%}
-      <a href="{{ block.settings.url | default: '#' }}" class="hi-drawer-row">
-        {{ block.settings.label }}
-      </a>
+      <a href="{{ link.url }}" class="hi-drawer-row">{{ link.title }}</a>
     {%- endif -%}
   {%- endfor -%}
 
   {%- if shop.customer_accounts_enabled -%}
     <a href="{{ routes.account_url }}" class="hi-drawer-row">{{ 'hi.general.account' | t }}</a>
   {%- endif -%}
-
   <button type="button" class="hi-drawer-row" data-hi-cart-trigger>
     {{ 'hi.general.cart' | t }} ({{ cart.item_count }})
   </button>
+
 </aside>
 
 {% stylesheet %}
@@ -199,7 +221,7 @@
   min-width: 0;
 }
 
-/* ─────────── Burger (mobile-only) ─────────── */
+/* ─────────── Burger — hidden on desktop, shown on mobile ─────────── */
 .hi-burger {
   display: none !important;
   background: none;
@@ -218,14 +240,14 @@
   align-items: center;
   gap: 26px;
 }
-/* hi-navitem must NOT have position:relative — megapanel positions vs. header */
+/* hi-navitem must NOT have position:relative — megapanel is relative to the sticky header */
 .hi-navitem {
   display: flex;
   align-items: center;
   height: 74px;
 }
 
-/* ─────────── Nav links with animated underline ─────────── */
+/* ─────────── Nav link + animated underline ─────────── */
 .hi-navlink {
   position: relative;
   color: #3A372F;
@@ -255,7 +277,7 @@
 .hi-navitem:hover > .hi-navlink::after,
 .hi-navlink:hover::after { transform: scaleX(1); }
 
-/* ─────────── Mega panel (3-level dropdown) ─────────── */
+/* ─────────── Mega panel ─────────── */
 .hi-megapanel {
   position: absolute;
   top: 100%;
@@ -287,7 +309,7 @@
   gap: 56px;
   align-items: flex-start;
 }
-/* Columns wrapper (level 2 + 3) */
+/* Level-2 column wrappers */
 .hi-megacols {
   display: flex;
   gap: 56px;
@@ -295,7 +317,7 @@
   flex-wrap: wrap;
 }
 .hi-megacol { min-width: 100px; }
-/* Level 2: column header */
+/* Level-2: column header */
 .hi-megacol-title {
   font-family: 'Oswald', sans-serif;
   font-weight: 600;
@@ -305,7 +327,7 @@
   color: #16150F;
   margin-bottom: 14px;
 }
-/* Level 3: column items */
+/* Level-3: column items */
 .hi-megalink {
   display: block;
   color: #54504A;
@@ -362,7 +384,8 @@
   letter-spacing: .14em; text-transform: uppercase;
   margin-top: 12px;
   border-bottom: 2px solid var(--hi-accent, #5C6B47);
-  padding-bottom: 3px; display: inline-block;
+  padding-bottom: 3px;
+  display: inline-block;
 }
 
 /* ─────────── Logo ─────────── */
@@ -386,7 +409,7 @@
   letter-spacing: .42em; color: var(--hi-accent, #5C6B47); margin-top: 3px;
 }
 
-/* ─────────── Right: text links + cart ─────────── */
+/* ─────────── Right: search / account / cart ─────────── */
 .hi-header-right {
   display: flex;
   align-items: center;
@@ -427,7 +450,6 @@
   z-index: 199;
 }
 .hi-drawer-backdrop[data-open="true"] { opacity: 1; visibility: visible; }
-
 .hi-drawer {
   position: fixed; top: 0; left: 0; bottom: 0;
   width: 86%; max-width: 360px;
@@ -453,7 +475,6 @@
   padding: 4px; line-height: 0;
 }
 .hi-drawer-close svg { width: 22px; height: 22px; }
-
 .hi-drawer-row {
   display: flex; align-items: center; justify-content: space-between;
   gap: 12px; width: 100%;
@@ -486,8 +507,7 @@
 }
 .hi-acc-link {
   display: block; padding: 9px 26px;
-  color: #54504A; text-decoration: none;
-  font-size: 15px;
+  color: #54504A; text-decoration: none; font-size: 15px;
   transition: color .2s ease;
 }
 .hi-acc-link:hover { color: #16150F; }
@@ -505,7 +525,6 @@
 (function () {
   'use strict';
 
-  /* ── Drawer open / close ── */
   var burger   = document.querySelector('[data-hi-burger]');
   var backdrop = document.querySelector('[data-hi-drawer-backdrop]');
   var drawer   = document.querySelector('[data-hi-drawer]');
@@ -529,26 +548,24 @@
   if (burger)   burger.addEventListener('click', openDrawer);
   if (backdrop) backdrop.addEventListener('click', closeDrawer);
   if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
-
-  /* Close drawer when an anchor link inside is tapped */
   if (drawer) {
     drawer.querySelectorAll('a').forEach(function (a) {
       a.addEventListener('click', closeDrawer);
     });
   }
 
-  /* ── Accordion rows in mobile drawer ── */
+  /* Accordion */
   document.querySelectorAll('[data-hi-acc]').forEach(function (btn) {
     btn.addEventListener('click', function () {
       var isOpen = btn.getAttribute('data-open') === 'true';
       var panel  = btn.nextElementSibling;
-      btn.setAttribute('data-open',      isOpen ? 'false' : 'true');
-      btn.setAttribute('aria-expanded',  isOpen ? 'false' : 'true');
+      btn.setAttribute('data-open',     isOpen ? 'false' : 'true');
+      btn.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
       if (panel) panel.setAttribute('data-open', isOpen ? 'false' : 'true');
     });
   });
 
-  /* ── Scroll hide / show header ── */
+  /* Scroll hide / show */
   var header = document.querySelector('[data-hi-header]');
   if (header) {
     var lastY = 0, ticking = false;
@@ -572,60 +589,13 @@
 {% schema %}
 {
   "name": "Header",
-  "blocks": [
-    {
-      "type": "nav_item",
-      "name": "Navigation item",
-      "settings": [
-        {
-          "type": "text",
-          "id": "label",
-          "label": "Label",
-          "default": "Shop"
-        },
-        {
-          "type": "url",
-          "id": "url",
-          "label": "Link URL"
-        },
-        {
-          "type": "header",
-          "content": "Mega Menu (optional)"
-        },
-        {
-          "type": "paragraph",
-          "content": "Create a navigation menu in Shopify Admin → Navigation. Top-level links become column headers; their child links become the items inside each column."
-        },
-        {
-          "type": "link_list",
-          "id": "mega_linklist",
-          "label": "Mega menu navigation"
-        },
-        {
-          "type": "image_picker",
-          "id": "mega_image",
-          "label": "Featured image"
-        },
-        {
-          "type": "text",
-          "id": "mega_title",
-          "label": "Featured title"
-        },
-        {
-          "type": "text",
-          "id": "mega_cta_text",
-          "label": "CTA text",
-          "default": "Shop Now"
-        },
-        {
-          "type": "url",
-          "id": "mega_cta_url",
-          "label": "CTA URL"
-        }
-      ]
-    }
-  ],
   "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Main navigation menu",
+      "default": "main-menu"
+    },
     {
       "type": "header",
       "content": "Logo"
@@ -646,37 +616,195 @@
       "id": "logo_text_line2",
       "label": "Logo line 2",
       "default": "CLOTHING CO."
+    },
+    {
+      "type": "header",
+      "content": "Mega Menu — Nav Position 1"
+    },
+    {
+      "type": "paragraph",
+      "content": "Matches the 1st link in your main menu. Create a navigation menu with column headers as top-level links and product links as their children."
+    },
+    {
+      "type": "link_list",
+      "id": "mega_1_linklist",
+      "label": "Mega menu for position 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "mega_1_image",
+      "label": "Featured image"
+    },
+    {
+      "type": "text",
+      "id": "mega_1_title",
+      "label": "Featured title"
+    },
+    {
+      "type": "text",
+      "id": "mega_1_cta_text",
+      "label": "CTA label",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "mega_1_cta_url",
+      "label": "CTA URL"
+    },
+    {
+      "type": "header",
+      "content": "Mega Menu — Nav Position 2"
+    },
+    {
+      "type": "link_list",
+      "id": "mega_2_linklist",
+      "label": "Mega menu for position 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "mega_2_image",
+      "label": "Featured image"
+    },
+    {
+      "type": "text",
+      "id": "mega_2_title",
+      "label": "Featured title"
+    },
+    {
+      "type": "text",
+      "id": "mega_2_cta_text",
+      "label": "CTA label",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "mega_2_cta_url",
+      "label": "CTA URL"
+    },
+    {
+      "type": "header",
+      "content": "Mega Menu — Nav Position 3"
+    },
+    {
+      "type": "link_list",
+      "id": "mega_3_linklist",
+      "label": "Mega menu for position 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "mega_3_image",
+      "label": "Featured image"
+    },
+    {
+      "type": "text",
+      "id": "mega_3_title",
+      "label": "Featured title"
+    },
+    {
+      "type": "text",
+      "id": "mega_3_cta_text",
+      "label": "CTA label",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "mega_3_cta_url",
+      "label": "CTA URL"
+    },
+    {
+      "type": "header",
+      "content": "Mega Menu — Nav Position 4"
+    },
+    {
+      "type": "link_list",
+      "id": "mega_4_linklist",
+      "label": "Mega menu for position 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "mega_4_image",
+      "label": "Featured image"
+    },
+    {
+      "type": "text",
+      "id": "mega_4_title",
+      "label": "Featured title"
+    },
+    {
+      "type": "text",
+      "id": "mega_4_cta_text",
+      "label": "CTA label",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "mega_4_cta_url",
+      "label": "CTA URL"
+    },
+    {
+      "type": "header",
+      "content": "Mega Menu — Nav Position 5"
+    },
+    {
+      "type": "link_list",
+      "id": "mega_5_linklist",
+      "label": "Mega menu for position 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "mega_5_image",
+      "label": "Featured image"
+    },
+    {
+      "type": "text",
+      "id": "mega_5_title",
+      "label": "Featured title"
+    },
+    {
+      "type": "text",
+      "id": "mega_5_cta_text",
+      "label": "CTA label",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "mega_5_cta_url",
+      "label": "CTA URL"
+    },
+    {
+      "type": "header",
+      "content": "Mega Menu — Nav Position 6"
+    },
+    {
+      "type": "link_list",
+      "id": "mega_6_linklist",
+      "label": "Mega menu for position 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "mega_6_image",
+      "label": "Featured image"
+    },
+    {
+      "type": "text",
+      "id": "mega_6_title",
+      "label": "Featured title"
+    },
+    {
+      "type": "text",
+      "id": "mega_6_cta_text",
+      "label": "CTA label",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "mega_6_cta_url",
+      "label": "CTA URL"
     }
   ],
   "presets": [
     {
-      "name": "Header",
-      "blocks": [
-        {
-          "type": "nav_item",
-          "settings": { "label": "New", "url": "/collections/new-arrivals" }
-        },
-        {
-          "type": "nav_item",
-          "settings": { "label": "Men", "url": "/collections/mens" }
-        },
-        {
-          "type": "nav_item",
-          "settings": { "label": "Women", "url": "/collections/womens" }
-        },
-        {
-          "type": "nav_item",
-          "settings": { "label": "Youth", "url": "/collections/youth" }
-        },
-        {
-          "type": "nav_item",
-          "settings": { "label": "Shop by Activity", "url": "/collections/activity" }
-        },
-        {
-          "type": "nav_item",
-          "settings": { "label": "About", "url": "/pages/about" }
-        }
-      ]
+      "name": "Header"
     }
   ]
 }
