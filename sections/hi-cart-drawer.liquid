@@ -1,0 +1,160 @@
+{%- assign threshold_cents = section.settings.free_shipping_threshold | times: 100 -%}
+{%- if threshold_cents > 0 -%}
+  {%- assign progress = cart.total_price | times: 100 | divided_by: threshold_cents | at_most: 100 -%}
+{%- else -%}
+  {%- assign progress = 100 -%}
+{%- endif -%}
+
+<div class="hi-cart-backdrop" data-hi-cart-backdrop></div>
+<aside class="hi-cart" data-hi-cart role="dialog" aria-modal="true" aria-label="{{ 'hi.cart_drawer.title' | t }}">
+  <div class="hi-cart-head">
+    <span class="hi-cart-head-title">{{ 'hi.cart_drawer.title' | t }} ({{ cart.item_count }})</span>
+    <button class="hi-drawer-close" data-hi-cart-close aria-label="{{ 'hi.general.close_cart' | t }}">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <path d="M4 4l12 12M16 4L4 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+
+  {%- if section.settings.free_shipping_threshold > 0 -%}
+    <div class="hi-cart-ship">
+      {%- if progress >= 100 -%}
+        <p class="hi-cart-ship-msg">{{ 'hi.cart_drawer.free_shipping_done' | t }}</p>
+      {%- else -%}
+        {%- assign remaining = cart.total_price | minus: threshold_cents -%}
+        {%- assign remaining_amount = section.settings.free_shipping_threshold | minus: cart.total_price | divided_by: 100.0 -%}
+        <p class="hi-cart-ship-msg">{{ 'hi.general.cart' | t | default: 'Add' }} <strong>{{ remaining_amount | money }}</strong> {{ 'hi.cart_drawer.free_shipping_done' | t | default: 'more for free shipping' }}</p>
+      {%- endif -%}
+      <div class="hi-cart-bar">
+        <div class="hi-cart-bar-fill" style="width:{{ progress }}%"></div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  <div class="hi-cart-items">
+    {%- if cart.item_count > 0 -%}
+      {%- for item in cart.items -%}
+        <div class="hi-cart-item" data-cart-item data-key="{{ item.key }}">
+          {%- if item.image != blank -%}
+            {{ item.image | image_url: width: 200 | image_tag: class: 'hi-cart-thumb', loading: 'lazy', alt: item.title }}
+          {%- endif -%}
+          <div class="hi-cart-item-info">
+            <div class="hi-cart-item-title">{{ item.product.title }}</div>
+            {%- if item.variant.title != 'Default Title' -%}
+              <div class="hi-cart-item-variant">{{ item.variant.title }}</div>
+            {%- endif -%}
+            <div class="hi-qty">
+              <button data-qty-change="-" aria-label="{{ 'hi.general.decrease_qty' | t | default: 'Decrease quantity' }}">−</button>
+              <span data-qty-val>{{ item.quantity }}</span>
+              <button data-qty-change="+" aria-label="{{ 'hi.general.increase_qty' | t | default: 'Increase quantity' }}">+</button>
+            </div>
+            <div class="hi-cart-item-price">{{ item.final_line_price | money }}</div>
+            <button class="hi-cart-remove" data-remove-item="{{ item.key }}">{{ 'hi.general.remove' | t | default: 'Remove' }}</button>
+          </div>
+        </div>
+      {%- endfor -%}
+    {%- else -%}
+      <div class="hi-cart-empty">
+        <p>{{ 'hi.cart_drawer.empty' | t | default: 'Your cart is empty.' }}</p>
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="hi-cart-foot">
+    <div class="hi-cart-subtotal">
+      <span class="hi-cart-subtotal-label">{{ 'hi.cart_drawer.subtotal' | t | default: 'Subtotal' }}</span>
+      <span class="hi-cart-subtotal-price">{{ cart.total_price | money }}</span>
+    </div>
+    <a href="/checkout" class="hi-btn hi-btn--primary hi-cart-checkout">{{ section.settings.checkout_label }}</a>
+    <button class="hi-cart-continue" data-hi-cart-close>{{ 'hi.general.continue_shopping' | t }}</button>
+  </div>
+</aside>
+
+{% stylesheet %}
+.hi-cart-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 15px;
+  color: #8A8479;
+  padding: 40px 24px;
+}
+{% endstylesheet %}
+
+{% javascript %}
+(function(){
+  var backdrop=document.querySelector('[data-hi-cart-backdrop]');
+  var drawer=document.querySelector('[data-hi-cart]');
+  var closeBtns=document.querySelectorAll('[data-hi-cart-close]');
+  function open(){
+    if(!drawer)return;
+    drawer.classList.add('hi-cart--open');
+    if(backdrop)backdrop.classList.add('hi-cart-backdrop--open');
+    document.body.style.overflow='hidden';
+    var cartIcon=document.querySelector('[data-hi-cart-trigger]');
+    if(cartIcon)cartIcon.setAttribute('aria-expanded','true');
+  }
+  function close(){
+    if(!drawer)return;
+    drawer.classList.remove('hi-cart--open');
+    if(backdrop)backdrop.classList.remove('hi-cart-backdrop--open');
+    document.body.style.overflow='';
+    var cartIcon=document.querySelector('[data-hi-cart-trigger]');
+    if(cartIcon)cartIcon.setAttribute('aria-expanded','false');
+  }
+  if(backdrop)backdrop.addEventListener('click',close);
+  closeBtns.forEach(function(btn){btn.addEventListener('click',close);});
+  document.addEventListener('click',function(e){
+    if(e.target.closest('[data-hi-cart-trigger]')){e.preventDefault();open();}
+  });
+  document.addEventListener('click',function(e){
+    var btn=e.target.closest('[data-qty-change]');
+    if(!btn)return;
+    var item=btn.closest('[data-cart-item]');
+    if(!item)return;
+    var key=item.dataset.key;
+    var qtyEl=item.querySelector('[data-qty-val]');
+    var qty=parseInt(qtyEl.textContent,10)+(btn.dataset.qtyChange==='+'?1:-1);
+    if(qty<0)qty=0;
+    fetch('/cart/change.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:key,quantity:qty})})
+      .then(function(){location.reload();});
+  });
+  document.addEventListener('click',function(e){
+    var btn=e.target.closest('[data-remove-item]');
+    if(!btn)return;
+    var key=btn.dataset.removeItem;
+    fetch('/cart/change.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:key,quantity:0})})
+      .then(function(){location.reload();});
+  });
+})();
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Cart Drawer",
+  "settings": [
+    {
+      "type": "range",
+      "id": "free_shipping_threshold",
+      "label": "Free shipping threshold ($)",
+      "min": 0,
+      "max": 200,
+      "step": 5,
+      "default": 75
+    },
+    {
+      "type": "text",
+      "id": "checkout_label",
+      "label": "Checkout button label",
+      "default": "Proceed to Checkout"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Cart Drawer"
+    }
+  ]
+}
+{% endschema %}

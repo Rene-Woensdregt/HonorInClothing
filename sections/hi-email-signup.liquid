@@ -1,0 +1,132 @@
+<section class="hi-news-section">
+  <div class="hi-news-inner" data-hi-reveal>
+    {%- if section.settings.eyebrow != blank -%}
+      <div class="hi-news-eyebrow">{{ section.settings.eyebrow }}</div>
+    {%- endif -%}
+    {%- if section.settings.heading != blank -%}
+      <h2 class="hi-news-heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subtext != blank -%}
+      <p class="hi-news-sub">{{ section.settings.subtext }}</p>
+    {%- endif -%}
+    {%- form 'customer', class: 'hi-news-form-wrap' -%}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      {%- if form.posted_successfully? -%}
+        <p class="hi-news-success">{{ section.settings.success_message }}</p>
+      {%- else -%}
+        <div class="hi-news-form">
+          <input
+            class="hi-news-input"
+            type="email"
+            name="contact[email]"
+            id="hi-news-email-{{ section.id }}"
+            autocomplete="email"
+            placeholder="{{ 'hi.email_signup.placeholder' | t }}"
+            required
+            aria-label="{{ 'hi.email_signup.placeholder' | t }}"
+          >
+          <button type="submit" class="hi-btn hi-btn--accent hi-news-btn">{{ section.settings.button_label }}</button>
+        </div>
+        {%- if form.errors -%}
+          <p class="hi-news-error">{{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}</p>
+        {%- endif -%}
+      {%- endif -%}
+    {%- endform -%}
+  </div>
+</section>
+
+{% stylesheet %}
+.hi-news-section {
+  background: #16150F;
+  padding: 88px 32px;
+}
+.hi-news-inner {
+  max-width: 880px;
+  margin: 0 auto;
+  text-align: center;
+}
+.hi-news-eyebrow {
+  font-family: 'Oswald', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: #5C6B47;
+  margin-bottom: 16px;
+}
+.hi-news-heading {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(28px, 3.5vw, 46px);
+  font-weight: 700;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  color: #FBF9F5;
+  margin: 0 0 18px;
+}
+.hi-news-sub {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 15px;
+  font-weight: 300;
+  color: rgba(251,249,245,.65);
+  line-height: 1.7;
+  margin: 0;
+}
+.hi-news-success {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 15px;
+  color: #9AA585;
+  margin-top: 24px;
+}
+.hi-news-error {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 13px;
+  color: #e07070;
+  margin-top: 8px;
+}
+@media (max-width: 560px) {
+  .hi-news-section { padding: 60px 20px; }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Email Signup",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Join The Community"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Earn your honor — and 10% off."
+    },
+    {
+      "type": "text",
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "Sign up for first access to new drops, the brand story, and exclusive offers for the Honor In community."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Join Now"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success message",
+      "default": "You're in. Welcome to the Honor In community."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Email Signup"
+    }
+  ]
+}
+{% endschema %}

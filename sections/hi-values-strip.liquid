@@ -1,0 +1,96 @@
+<div class="hi-values-wrap">
+  <div class="hi-values">
+    <div class="hi-values-set">
+      {%- assign values = section.settings.value_1 | append: '|' | append: section.settings.value_2 | append: '|' | append: section.settings.value_3 | append: '|' | append: section.settings.value_4 | append: '|' | append: section.settings.value_5 | append: '|' | append: section.settings.value_6 | split: '|' -%}
+      {%- for val in values -%}
+        {%- if val != blank -%}
+          <span class="hi-value-item">
+            <span class="hi-value-dot" aria-hidden="true"></span>
+            <span class="hi-value-text">{{ val }}</span>
+          </span>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+    <div class="hi-values-dup" aria-hidden="true">
+      {%- for val in values -%}
+        {%- if val != blank -%}
+          <span class="hi-value-item">
+            <span class="hi-value-dot"></span>
+            <span class="hi-value-text">{{ val }}</span>
+          </span>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+.hi-values-wrap {
+  background: #16150F;
+  overflow: hidden;
+}
+.hi-value-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #5C6B47;
+  flex-shrink: 0;
+}
+.hi-value-text {
+  font-family: 'Oswald', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: #CFC9BC;
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Values Strip",
+  "settings": [
+    {
+      "type": "text",
+      "id": "value_1",
+      "label": "Value 1",
+      "default": "Honor"
+    },
+    {
+      "type": "text",
+      "id": "value_2",
+      "label": "Value 2",
+      "default": "Character"
+    },
+    {
+      "type": "text",
+      "id": "value_3",
+      "label": "Value 3",
+      "default": "Integrity"
+    },
+    {
+      "type": "text",
+      "id": "value_4",
+      "label": "Value 4",
+      "default": "Hard Work"
+    },
+    {
+      "type": "text",
+      "id": "value_5",
+      "label": "Value 5",
+      "default": "Service"
+    },
+    {
+      "type": "text",
+      "id": "value_6",
+      "label": "Value 6",
+      "default": "Legacy"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Values Strip"
+    }
+  ]
+}
+{% endschema %}

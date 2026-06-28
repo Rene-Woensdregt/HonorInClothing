@@ -1,0 +1,135 @@
+<section class="hi-ig-section">
+  <div class="hi-ig-wrap">
+    <div class="hi-ig-header" data-hi-reveal>
+      {%- if section.settings.eyebrow != blank -%}
+        <div class="hi-ig-eyebrow">{{ section.settings.eyebrow }}</div>
+      {%- endif -%}
+      {%- if section.settings.title != blank -%}
+        <h2 class="hi-ig-title">{{ section.settings.title }}</h2>
+      {%- endif -%}
+    </div>
+    <div class="hi-ig-grid">
+      {%- for i in (1..6) -%}
+        {%- assign img_key = 'image_' | append: i -%}
+        {%- assign img = section.settings[img_key] -%}
+        <a href="{{ section.settings.instagram_url }}" class="hi-ig" target="_blank" rel="noopener" aria-label="{{ 'hi.instagram.name' | t }}">
+          {%- if img != blank -%}
+            {{ img | image_url: width: 500 | image_tag: class: 'hi-ig-img', loading: 'lazy', alt: 'Instagram post' }}
+          {%- else -%}
+            <div class="hi-ig-placeholder"></div>
+          {%- endif -%}
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+.hi-ig-section { padding: 80px 0; background: #FBF9F5; }
+.hi-ig-wrap { max-width: 1280px; margin: 0 auto; }
+.hi-ig-header { text-align: center; padding: 0 32px 40px; }
+.hi-ig-eyebrow {
+  font-family: 'Oswald', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: #5C6B47;
+  margin-bottom: 10px;
+}
+.hi-ig-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(26px, 3vw, 36px);
+  font-weight: 700;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  color: #16150F;
+  margin: 0;
+}
+.hi-ig {
+  display: block;
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+}
+.hi-ig-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .9s cubic-bezier(.2,.7,.3,1);
+}
+.hi-ig:hover .hi-ig-img { transform: scale(1.07); }
+.hi-ig-placeholder {
+  position: absolute;
+  inset: 0;
+  background: #D3CCBE;
+}
+@media (max-width: 900px) {
+  .hi-ig-grid { grid-template-columns: repeat(3,1fr) !important; }
+}
+@media (max-width: 560px) {
+  .hi-ig-section { padding: 56px 0; }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Instagram Feed",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Handle / eyebrow",
+      "default": "@honorinclothing"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Follow The Journey"
+    },
+    {
+      "type": "url",
+      "id": "instagram_url",
+      "label": "Instagram URL"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Photo 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Photo 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "Photo 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_4",
+      "label": "Photo 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_5",
+      "label": "Photo 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_6",
+      "label": "Photo 6"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Instagram Feed"
+    }
+  ]
+}
+{% endschema %}

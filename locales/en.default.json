@@ -536,5 +536,52 @@
       "send_on": "YYYY-MM-DD",
       "send_on_label": "Send on (optional)"
     }
+  },
+  "hi": {
+    "general": {
+      "open_menu": "Open menu",
+      "close_menu": "Close menu",
+      "close_cart": "Close cart",
+      "search": "Search",
+      "cart": "Cart",
+      "continue_shopping": "Continue shopping",
+      "items_in_cart": "{{ count }} items in cart",
+      "prev": "Previous",
+      "next": "Next",
+      "go_to_slide": "Go to slide",
+      "decrease_qty": "Decrease quantity",
+      "increase_qty": "Increase quantity",
+      "remove": "Remove"
+    },
+    "announcement_bar": { "name": "Announcement Bar" },
+    "hero": { "name": "Hero Banner" },
+    "values_strip": { "name": "Values Strip" },
+    "featured_collection": {
+      "name": "Featured Collection",
+      "shop_now": "Shop Now",
+      "shop_all": "Shop All",
+      "sold_out": "Sold Out",
+      "add_to_cart": "Add to Cart"
+    },
+    "shop_by_activity": { "name": "Shop by Activity" },
+    "veteran_support": { "name": "Veteran Support" },
+    "brand_story": { "name": "Brand Story" },
+    "testimonials": { "name": "Testimonials" },
+    "email_signup": {
+      "name": "Email Signup",
+      "placeholder": "Enter your email",
+      "success": "You're in. Welcome to the community."
+    },
+    "instagram": { "name": "Instagram Feed" },
+    "header": { "name": "Header" },
+    "cart_drawer": {
+      "name": "Cart Drawer",
+      "title": "Your Cart",
+      "free_shipping_done": "You've unlocked free shipping!",
+      "checkout": "Proceed to Checkout",
+      "empty": "Your cart is empty.",
+      "subtotal": "Subtotal"
+    },
+    "footer": { "name": "Footer" }
   }
 }

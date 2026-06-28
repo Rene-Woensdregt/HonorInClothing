@@ -1,0 +1,337 @@
+<header class="hi-header" data-hi-header>
+  <div class="hi-header-inner">
+    <!-- Left: burger + desktop nav -->
+    <div class="hi-header-left">
+      <button class="hi-burger" data-hi-burger aria-label="{{ 'hi.general.open_menu' | t }}" aria-expanded="false" aria-controls="hi-drawer">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav class="hi-desktop-nav" aria-label="Main navigation">
+        {%- for i in (1..5) -%}
+          {%- assign label_key = 'nav_' | append: i | append: '_label' -%}
+          {%- assign url_key = 'nav_' | append: i | append: '_url' -%}
+          {%- assign nav_label = section.settings[label_key] -%}
+          {%- assign nav_url = section.settings[url_key] -%}
+          {%- if nav_label != blank -%}
+            <span class="hi-navitem">
+              <a href="{{ nav_url }}" class="hi-navlink">{{ nav_label }}</a>
+            </span>
+          {%- endif -%}
+        {%- endfor -%}
+      </nav>
+    </div>
+
+    <!-- Center: logo -->
+    <a href="{{ routes.root_url }}" class="hi-logo-link" aria-label="{{ shop.name }}">
+      {%- if section.settings.logo != blank -%}
+        {{ section.settings.logo | image_url: width: 200 | image_tag: class: 'hi-logo-img', loading: 'eager', alt: shop.name }}
+      {%- else -%}
+        <div class="hi-logo-text">
+          <span class="hi-logo-l1">{{ section.settings.logo_text_line1 }}</span>
+          <span class="hi-logo-l2">{{ section.settings.logo_text_line2 }}</span>
+        </div>
+      {%- endif -%}
+    </a>
+
+    <!-- Right: search + cart -->
+    <div class="hi-header-right">
+      {%- if section.settings.search_enabled -%}
+        <a href="{{ routes.search_url }}" class="hi-header-icon" aria-label="{{ 'hi.general.search' | t }}">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M13 13l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </a>
+      {%- endif -%}
+      {%- if section.settings.cart_enabled -%}
+        <button class="hi-header-icon hi-cart-icon" data-hi-cart-trigger aria-label="{{ 'hi.general.cart' | t }}" aria-expanded="false">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M3 4h1.5l2 8.5h8L16 7H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="9" cy="16.5" r="1" fill="currentColor"/>
+            <circle cx="14" cy="16.5" r="1" fill="currentColor"/>
+          </svg>
+          {%- if cart.item_count > 0 -%}
+            <span class="hi-cart-count" data-cart-count>{{ cart.item_count }}</span>
+          {%- else -%}
+            <span class="hi-cart-count hi-cart-count--hidden" data-cart-count>0</span>
+          {%- endif -%}
+        </button>
+      {%- endif -%}
+    </div>
+  </div>
+</header>
+
+<!-- Mobile drawer -->
+<div class="hi-drawer-backdrop" data-hi-drawer-backdrop></div>
+<aside class="hi-drawer" id="hi-drawer" data-hi-drawer role="dialog" aria-modal="true" aria-label="{{ 'hi.general.open_menu' | t }}">
+  <div class="hi-drawer-head">
+    <a href="{{ routes.root_url }}" class="hi-logo-link hi-drawer-logo">
+      <div class="hi-logo-text">
+        <span class="hi-logo-l1">{{ section.settings.logo_text_line1 }}</span>
+        <span class="hi-logo-l2">{{ section.settings.logo_text_line2 }}</span>
+      </div>
+    </a>
+    <button class="hi-drawer-close" data-hi-drawer-close aria-label="{{ 'hi.general.close_menu' | t }}">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <path d="M4 4l12 12M16 4L4 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+  <nav aria-label="Mobile navigation">
+    {%- for i in (1..5) -%}
+      {%- assign label_key = 'nav_' | append: i | append: '_label' -%}
+      {%- assign url_key = 'nav_' | append: i | append: '_url' -%}
+      {%- assign nav_label = section.settings[label_key] -%}
+      {%- assign nav_url = section.settings[url_key] -%}
+      {%- if nav_label != blank -%}
+        <a href="{{ nav_url }}" class="hi-drawer-row">{{ nav_label }}</a>
+      {%- endif -%}
+    {%- endfor -%}
+  </nav>
+</aside>
+
+{% stylesheet %}
+.hi-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(251,249,245,.96);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid #E7E2D7;
+  transition: transform .3s ease;
+}
+.hi-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 74px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+  gap: 24px;
+}
+.hi-header-left {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  flex: 1;
+}
+.hi-desktop-nav {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+.hi-logo-link {
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.hi-logo-img { height: 40px; width: auto; display: block; }
+.hi-logo-text { display: flex; flex-direction: column; align-items: center; line-height: 1; }
+.hi-logo-l1 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  color: #16150F;
+}
+.hi-logo-l2 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 9.5px;
+  font-weight: 400;
+  letter-spacing: .42em;
+  color: #5C6B47;
+  margin-top: 3px;
+}
+.hi-header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+  justify-content: flex-end;
+}
+.hi-header-icon {
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #16150F;
+  padding: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: color .2s;
+  text-decoration: none;
+}
+.hi-header-icon:hover { color: #5C6B47; }
+.hi-cart-count {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 17px;
+  height: 17px;
+  background: #5C6B47;
+  color: #fff;
+  border-radius: 50%;
+  font-family: 'Oswald', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hi-cart-count--hidden { display: none; }
+.hi-drawer-logo { margin: 0; }
+@media (min-width: 901px) {
+  .hi-burger { display: none; }
+}
+@media (max-width: 900px) {
+  .hi-desktop-nav { display: none; }
+  .hi-header-inner { padding: 0 20px; }
+}
+{% endstylesheet %}
+
+{% javascript %}
+(function(){
+  var burger=document.querySelector('[data-hi-burger]');
+  var backdrop=document.querySelector('[data-hi-drawer-backdrop]');
+  var drawer=document.querySelector('[data-hi-drawer]');
+  var closeBtn=document.querySelector('[data-hi-drawer-close]');
+  function openDrawer(){
+    if(!drawer)return;
+    drawer.setAttribute('data-open','true');
+    if(backdrop)backdrop.setAttribute('data-open','true');
+    if(burger)burger.setAttribute('aria-expanded','true');
+    document.body.style.overflow='hidden';
+  }
+  function closeDrawer(){
+    if(!drawer)return;
+    drawer.removeAttribute('data-open');
+    if(backdrop)backdrop.removeAttribute('data-open');
+    if(burger)burger.setAttribute('aria-expanded','false');
+    document.body.style.overflow='';
+  }
+  if(burger)burger.addEventListener('click',openDrawer);
+  if(closeBtn)closeBtn.addEventListener('click',closeDrawer);
+  if(backdrop)backdrop.addEventListener('click',closeDrawer);
+  // scroll hide/show
+  var header=document.querySelector('[data-hi-header]');
+  if(header){
+    var last=0,ticking=false;
+    window.addEventListener('scroll',function(){
+      if(!ticking){requestAnimationFrame(function(){
+        var y=window.scrollY;
+        if(y>last&&y>80){header.style.transform='translateY(-100%)';}
+        else{header.style.transform='';}
+        last=y;ticking=false;
+      });ticking=true;}
+    });
+  }
+})();
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo image (optional)"
+    },
+    {
+      "type": "text",
+      "id": "logo_text_line1",
+      "label": "Logo text line 1",
+      "default": "HONOR IN"
+    },
+    {
+      "type": "text",
+      "id": "logo_text_line2",
+      "label": "Logo text line 2",
+      "default": "CLOTHING CO."
+    },
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
+      "type": "text",
+      "id": "nav_1_label",
+      "label": "Nav link 1 label",
+      "default": "Shop"
+    },
+    {
+      "type": "url",
+      "id": "nav_1_url",
+      "label": "Nav link 1 URL"
+    },
+    {
+      "type": "text",
+      "id": "nav_2_label",
+      "label": "Nav link 2 label",
+      "default": "New Arrivals"
+    },
+    {
+      "type": "url",
+      "id": "nav_2_url",
+      "label": "Nav link 2 URL"
+    },
+    {
+      "type": "text",
+      "id": "nav_3_label",
+      "label": "Nav link 3 label",
+      "default": "Best Sellers"
+    },
+    {
+      "type": "url",
+      "id": "nav_3_url",
+      "label": "Nav link 3 URL"
+    },
+    {
+      "type": "text",
+      "id": "nav_4_label",
+      "label": "Nav link 4 label",
+      "default": "Our Story"
+    },
+    {
+      "type": "url",
+      "id": "nav_4_url",
+      "label": "Nav link 4 URL"
+    },
+    {
+      "type": "text",
+      "id": "nav_5_label",
+      "label": "Nav link 5 label",
+      "default": "Veteran Support"
+    },
+    {
+      "type": "url",
+      "id": "nav_5_url",
+      "label": "Nav link 5 URL"
+    },
+    {
+      "type": "header",
+      "content": "Icons"
+    },
+    {
+      "type": "checkbox",
+      "id": "search_enabled",
+      "label": "Show search icon",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "cart_enabled",
+      "label": "Show cart icon",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Header"
+    }
+  ]
+}
+{% endschema %}

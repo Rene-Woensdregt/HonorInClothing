@@ -8,70 +8,30 @@
  * ------------------------------------------------------------
  */
 {
-  "name": "t:sections.header.name",
+  "name": "Header group",
   "type": "header",
   "sections": {
-    "announcement-bar": {
-      "type": "announcement-bar",
-      "blocks": {
-        "announcement-bar-0": {
-          "type": "announcement",
-          "settings": {
-            "text": "Honor in everything you do. Wear what you stand for.",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "announcement-bar-0"
-      ],
+    "hi-header": {
+      "type": "hi-header",
       "settings": {
-        "auto_rotate": false,
-        "change_slides_speed": 5,
-        "color_scheme": "scheme-1",
-        "show_line_separator": true,
-        "show_social": false,
-        "enable_country_selector": false,
-        "enable_language_selector": false
+        "logo_text_line1": "HONOR IN",
+        "logo_text_line2": "CLOTHING CO.",
+        "nav_1_label": "Shop",
+        "nav_2_label": "New Arrivals",
+        "nav_3_label": "Best Sellers",
+        "nav_4_label": "Our Story",
+        "nav_5_label": "Veteran Support",
+        "search_enabled": true,
+        "cart_enabled": true
       }
     },
-    "header": {
-      "type": "header",
-      "disabled": true,
+    "hi-cart-drawer": {
+      "type": "hi-cart-drawer",
       "settings": {
-        "logo_position": "middle-left",
-        "mobile_logo_position": "center",
-        "menu": "customer-account-main-menu",
-        "menu_type_desktop": "dropdown",
-        "sticky_header_type": "on-scroll-up",
-        "show_line_separator": true,
-        "color_scheme": "scheme-3",
-        "menu_color_scheme": "scheme-3",
-        "enable_country_selector": true,
-        "enable_language_selector": true,
-        "enable_customer_avatar": true,
-        "margin_bottom": 0,
-        "padding_top": 20,
-        "padding_bottom": 20
-      }
-    },
-    "announcement_bar_CRm9wy": {
-      "type": "announcement-bar",
-      "name": "t:sections.announcement-bar.presets.name",
-      "settings": {
-        "auto_rotate": false,
-        "change_slides_speed": 5,
-        "color_scheme": "",
-        "show_line_separator": true,
-        "show_social": false,
-        "enable_country_selector": false,
-        "enable_language_selector": false
+        "free_shipping_threshold": 75,
+        "checkout_label": "Proceed to Checkout"
       }
     }
   },
-  "order": [
-    "announcement-bar",
-    "header",
-    "announcement_bar_CRm9wy"
-  ]
+  "order": ["hi-header", "hi-cart-drawer"]
 }

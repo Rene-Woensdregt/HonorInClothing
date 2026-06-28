@@ -1,0 +1,264 @@
+<section class="hi-fcol" data-hi-carousel>
+  <div class="hi-fcol-inner">
+    <div class="hi-fcol-header" data-hi-reveal>
+      <div>
+        {%- if section.settings.eyebrow != blank -%}
+          <div class="hi-fcol-eyebrow">{{ section.settings.eyebrow }}</div>
+        {%- endif -%}
+        {%- if section.settings.title != blank -%}
+          <h2 class="hi-fcol-title">{{ section.settings.title }}</h2>
+        {%- endif -%}
+      </div>
+      {%- if section.settings.view_all_label != blank -%}
+        <a href="{{ section.settings.view_all_url }}" class="hi-fcol-showall">
+          {{ section.settings.view_all_label }}
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      {%- endif -%}
+    </div>
+    <div class="hi-carousel-wrap">
+      <button class="hi-arrow hi-arrow--left" data-prev aria-label="{{ 'hi.general.prev' | t | default: 'Previous' }}">
+        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="hi-track" data-track>
+        {%- assign col = section.settings.collection -%}
+        {%- if col != blank -%}
+          {%- for product in col.products limit: section.settings.products_limit -%}
+            <div class="hi-card hi-fcol-card">
+              <a href="{{ product.url }}" class="hi-card-img-wrap" aria-label="{{ product.title }}">
+                <div class="hi-card-img-inner">
+                  {%- if product.featured_image != blank -%}
+                    {{ product.featured_image | image_url: width: 600 | image_tag: class: 'hi-card-img-el', loading: 'lazy', alt: product.title }}
+                  {%- else -%}
+                    <div class="hi-card-img-placeholder"></div>
+                  {%- endif -%}
+                  {%- unless product.available -%}
+                    <div class="hi-card-badge">{{ 'hi.featured_collection.sold_out' | t }}</div>
+                  {%- endunless -%}
+                </div>
+              </a>
+              <div class="hi-card-body">
+                <div class="hi-card-name">{{ product.title }}</div>
+                {%- if section.settings.show_price -%}
+                  <div class="hi-card-price">{{ product.price | money }}</div>
+                {%- endif -%}
+                <a href="{{ product.url }}" class="hi-card-cta">
+                  {{ 'hi.featured_collection.shop_now' | t | default: 'Shop Now' }}
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                </a>
+              </div>
+            </div>
+          {%- else -%}
+            {%- for i in (1..4) -%}
+              <div class="hi-card hi-fcol-card">
+                <div class="hi-card-img-wrap">
+                  <div class="hi-card-img-inner hi-card-img-placeholder"></div>
+                </div>
+                <div class="hi-card-body">
+                  <div class="hi-card-name">Sample Product</div>
+                  <div class="hi-card-price">$0.00</div>
+                </div>
+              </div>
+            {%- endfor -%}
+          {%- endfor -%}
+        {%- else -%}
+          {%- for i in (1..4) -%}
+            <div class="hi-card hi-fcol-card">
+              <div class="hi-card-img-wrap">
+                <div class="hi-card-img-inner hi-card-img-placeholder"></div>
+              </div>
+              <div class="hi-card-body">
+                <div class="hi-card-name">Sample Product</div>
+                <div class="hi-card-price">$0.00</div>
+              </div>
+            </div>
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+      <button class="hi-arrow hi-arrow--right" data-next aria-label="{{ 'hi.general.next' | t | default: 'Next' }}">
+        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+.hi-fcol { padding: 88px 32px 70px; }
+.hi-fcol-inner { max-width: 1280px; margin: 0 auto; }
+.hi-fcol-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 36px;
+}
+.hi-fcol-eyebrow {
+  font-family: 'Oswald', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: #5C6B47;
+  margin-bottom: 8px;
+}
+.hi-fcol-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(28px, 3vw, 38px);
+  font-weight: 700;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  color: #16150F;
+  margin: 0;
+}
+.hi-fcol-showall {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #16150F;
+  text-decoration: none;
+  border-bottom: 1px solid #16150F;
+  padding-bottom: 2px;
+  transition: color .25s, border-color .25s;
+  white-space: nowrap;
+}
+.hi-fcol-showall:hover { color: #5C6B47; border-color: #5C6B47; }
+.hi-carousel-wrap { position: relative; }
+.hi-fcol-card {
+  flex: 0 0 calc((100% - 60px) / 4);
+  scroll-snap-align: start;
+}
+.hi-card-img-wrap {
+  display: block;
+  aspect-ratio: 4 / 5;
+  position: relative;
+  overflow: hidden;
+  background: #F0EBE1;
+}
+.hi-card-img-inner {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.hi-card-img-el {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .9s cubic-bezier(.2,.7,.3,1);
+}
+.hi-card:hover .hi-card-img-el { transform: scale(1.07); }
+.hi-card-img-placeholder {
+  width: 100%;
+  height: 100%;
+  background: #E7E2D7;
+}
+.hi-card-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #16150F;
+  color: #fff;
+  font-family: 'Oswald', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+}
+.hi-card-body { padding: 18px 16px 20px; }
+.hi-card-name {
+  font-family: 'Oswald', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #16150F;
+}
+.hi-card-price {
+  font-family: 'Oswald', sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: #16150F;
+  margin-top: 10px;
+}
+@media (max-width: 900px) {
+  .hi-fcol { padding: 60px 20px 48px; }
+  .hi-fcol-card { flex: 0 0 calc((100% - 24px) / 2.1) !important; }
+}
+@media (max-width: 560px) {
+  .hi-fcol-card { flex: 0 0 80% !important; }
+  .hi-fcol-header { flex-direction: column; align-items: flex-start; gap: 14px; }
+}
+{% endstylesheet %}
+
+{% javascript %}
+document.querySelectorAll('[data-hi-carousel]').forEach(function(sec){
+  var track=sec.querySelector('[data-track]');
+  var prev=sec.querySelector('[data-prev]');
+  var next=sec.querySelector('[data-next]');
+  if(!track||!prev||!next)return;
+  var card=track.querySelector('.hi-card');
+  function scrollBy(dir){var w=card?card.offsetWidth+20:280;track.scrollBy({left:dir*w*2,behavior:'smooth'});}
+  prev.addEventListener('click',function(){scrollBy(-1);});
+  next.addEventListener('click',function(){scrollBy(1);});
+});
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Featured Collection",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow label",
+      "default": "New Arrivals"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Just Landed"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_limit",
+      "label": "Products to show",
+      "min": 4,
+      "max": 12,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "View all label",
+      "default": "Shop All"
+    },
+    {
+      "type": "url",
+      "id": "view_all_url",
+      "label": "View all URL"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_price",
+      "label": "Show price",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Collection"
+    }
+  ]
+}
+{% endschema %}

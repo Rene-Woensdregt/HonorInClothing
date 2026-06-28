@@ -9,53 +9,152 @@
  */
 {
   "sections": {
-    "image_banner": {
-      "type": "image-banner",
+    "hi-announcement-bar": {
+      "type": "hi-announcement-bar",
       "settings": {
-        "image": "shopify://shop_images/IMG_6494_41ce067a-5f2a-48dc-ae5b-95f82554b297.jpg",
-        "image_overlay_opacity": 10,
-        "image_height": "large",
-        "image_behavior": "none",
-        "desktop_content_position": "bottom-center",
-        "desktop_content_alignment": "center",
-        "show_text_box": false,
-        "color_scheme": "scheme-3",
-        "stack_images_on_mobile": false,
-        "mobile_content_alignment": "center",
-        "show_text_below": false
+        "text": "Complimentary shipping on orders over $75  ✦  Honor in everything you do.",
+        "speed": 40
       }
     },
-    "featured_collection": {
-      "type": "featured-collection",
+    "hi-hero": {
+      "type": "hi-hero",
       "settings": {
-        "collection": "all",
-        "products_to_show": 8,
-        "title": "Featured products",
-        "heading_size": "h2",
-        "description": "",
-        "show_description": false,
-        "description_style": "body",
-        "columns_desktop": 4,
-        "enable_desktop_slider": false,
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "solid",
-        "color_scheme": "scheme-1",
-        "image_ratio": "adapt",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "quick_add": "none",
-        "columns_mobile": "2",
-        "swipe_on_mobile": false,
-        "padding_top": 44,
-        "padding_bottom": 36
+        "eyebrow": "Premium Active Lifestyle Apparel",
+        "heading": "Live With Honor.",
+        "subheading": "Built for those who show up.",
+        "cta_label": "Shop New Arrivals",
+        "cta_url": "/collections/new-arrivals",
+        "cta2_label": "Our Story",
+        "cta2_url": "/pages/about"
+      }
+    },
+    "hi-values-strip": {
+      "type": "hi-values-strip",
+      "settings": {
+        "value_1": "Honor",
+        "value_2": "Character",
+        "value_3": "Integrity",
+        "value_4": "Hard Work",
+        "value_5": "Service",
+        "value_6": "Legacy"
+      }
+    },
+    "hi-new-arrivals": {
+      "type": "hi-featured-collection",
+      "settings": {
+        "eyebrow": "New Arrivals",
+        "title": "Just Landed",
+        "view_all_label": "Shop All",
+        "products_limit": 8,
+        "show_price": true
+      }
+    },
+    "hi-shop-by-activity": {
+      "type": "hi-shop-by-activity",
+      "settings": {
+        "eyebrow": "Find Your Fit",
+        "title": "Shop By Activity",
+        "activity_1_label": "Outdoor & Hiking",
+        "activity_2_label": "Fitness & Training",
+        "activity_3_label": "Everyday Active"
+      }
+    },
+    "hi-veteran-support": {
+      "type": "hi-veteran-support",
+      "settings": {
+        "eyebrow": "Our Commitment",
+        "heading": "We honor those who served.",
+        "body": "<p>After our first full year in business, Honor In Clothing plans to donate 10% of annual profits to a carefully selected organization supporting veterans living with PTSD.</p>",
+        "cta_label": "Learn More"
+      }
+    },
+    "hi-best-sellers": {
+      "type": "hi-featured-collection",
+      "settings": {
+        "eyebrow": "Customer Favorites",
+        "title": "Best Sellers",
+        "view_all_label": "Shop All",
+        "products_limit": 8,
+        "show_price": true
+      }
+    },
+    "hi-brand-story": {
+      "type": "hi-brand-story",
+      "settings": {
+        "eyebrow": "The Honor In Story",
+        "heading": "More than apparel — a way of living.",
+        "body_1": "<p>Honor In Clothing was founded on a simple belief: the clothes you wear should reflect the values you live by. Built for those who chase purpose over comfort.</p>",
+        "body_2": "<p>Every piece we make is designed for movement, built for endurance, and worn with intention. This is apparel for people who show up — every single day.</p>",
+        "cta_label": "Our Full Story",
+        "cta_url": "/pages/about"
+      }
+    },
+    "hi-testimonials": {
+      "type": "hi-testimonials",
+      "settings": {
+        "eyebrow": "Trusted By Many",
+        "title": "What Our Community Says"
+      },
+      "blocks": {
+        "testimonial-1": {
+          "type": "testimonial",
+          "settings": {
+            "author": "James R.",
+            "location": "Colorado",
+            "rating": 5,
+            "quote": "This brand represents everything I believe in. The quality is outstanding and I wear it with pride every day."
+          }
+        },
+        "testimonial-2": {
+          "type": "testimonial",
+          "settings": {
+            "author": "Sarah M.",
+            "location": "Tennessee",
+            "rating": 5,
+            "quote": "Finally a brand that stands for something real. Honor In Clothing is more than apparel — it's a mindset."
+          }
+        },
+        "testimonial-3": {
+          "type": "testimonial",
+          "settings": {
+            "author": "Mike D.",
+            "location": "Texas",
+            "rating": 5,
+            "quote": "Incredible quality and fast shipping. The fit is perfect and the mission behind the brand is what sold me."
+          }
+        }
+      },
+      "block_order": ["testimonial-1", "testimonial-2", "testimonial-3"]
+    },
+    "hi-email-signup": {
+      "type": "hi-email-signup",
+      "settings": {
+        "eyebrow": "Join The Community",
+        "heading": "Earn your honor — and 10% off.",
+        "subtext": "Sign up for first access to new drops, the brand story, and exclusive offers for the Honor In community.",
+        "button_label": "Join Now",
+        "success_message": "You're in. Welcome to the Honor In community."
+      }
+    },
+    "hi-instagram": {
+      "type": "hi-instagram",
+      "settings": {
+        "eyebrow": "@honorinclothing",
+        "title": "Follow The Journey"
       }
     }
   },
   "order": [
-    "image_banner",
-    "featured_collection"
+    "hi-announcement-bar",
+    "hi-hero",
+    "hi-values-strip",
+    "hi-new-arrivals",
+    "hi-shop-by-activity",
+    "hi-veteran-support",
+    "hi-best-sellers",
+    "hi-brand-story",
+    "hi-testimonials",
+    "hi-email-signup",
+    "hi-instagram"
   ]
 }

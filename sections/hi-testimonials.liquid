@@ -1,0 +1,237 @@
+<section class="hi-testi" data-hi-testimonials>
+  <div class="hi-testi-inner">
+    <div class="hi-testi-header" data-hi-reveal>
+      {%- if section.settings.eyebrow != blank -%}
+        <div class="hi-testi-eyebrow">{{ section.settings.eyebrow }}</div>
+      {%- endif -%}
+      {%- if section.settings.title != blank -%}
+        <h2 class="hi-testi-title">{{ section.settings.title }}</h2>
+      {%- endif -%}
+    </div>
+    {%- if section.blocks.size > 0 -%}
+      <div class="hi-testi-track" data-track>
+        {%- for block in section.blocks -%}
+          <div class="hi-tcard" {{ block.shopify_attributes }}>
+            <div class="hi-tcard-stars" aria-label="{{ block.settings.rating }} out of 5 stars">
+              {%- for i in (1..5) -%}
+                <span class="hi-tcard-star{% if i > block.settings.rating %} hi-tcard-star--empty{% endif %}" aria-hidden="true">★</span>
+              {%- endfor -%}
+            </div>
+            {%- if block.settings.quote != blank -%}
+              <blockquote class="hi-tcard-quote">"{{ block.settings.quote }}"</blockquote>
+            {%- endif -%}
+            <div class="hi-tcard-meta">
+              {%- if block.settings.author != blank -%}
+                <span class="hi-tcard-author">{{ block.settings.author }}</span>
+              {%- endif -%}
+              {%- if block.settings.location != blank -%}
+                <span class="hi-tcard-loc">{{ block.settings.location }}</span>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+      {%- if section.blocks.size > 1 -%}
+        <div class="hi-testi-dots" role="tablist" aria-label="{{ 'hi.testimonials.name' | t }}">
+          {%- for block in section.blocks -%}
+            <button class="hi-dot" role="tab" aria-selected="false" aria-label="{{ 'hi.general.go_to_slide' | t | default: 'Go to slide' }} {{ forloop.index }}"></button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</section>
+
+{% stylesheet %}
+.hi-testi {
+  padding: 88px 32px 80px;
+  background: #FBF9F5;
+}
+.hi-testi-inner { max-width: 820px; margin: 0 auto; text-align: center; }
+.hi-testi-eyebrow {
+  font-family: 'Oswald', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: #5C6B47;
+  margin-bottom: 12px;
+}
+.hi-testi-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(26px, 3vw, 36px);
+  font-weight: 700;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  color: #16150F;
+  margin: 0 0 48px;
+}
+.hi-testi-track { position: relative; }
+.hi-tcard { display: none; }
+.hi-tcard-stars {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin-bottom: 24px;
+}
+.hi-tcard-star {
+  color: #C9A227;
+  font-size: 20px;
+}
+.hi-tcard-star--empty { color: #D3CCBE; }
+.hi-tcard-quote {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(22px, 3vw, 30px);
+  font-weight: 600;
+  line-height: 1.3;
+  color: #16150F;
+  margin: 0 0 28px;
+  font-style: normal;
+}
+.hi-tcard-meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+.hi-tcard-author {
+  font-family: 'Oswald', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #16150F;
+}
+.hi-tcard-loc {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 13px;
+  color: #8A8479;
+}
+.hi-tcard-meta::before {
+  content: '';
+  width: 20px;
+  height: 1px;
+  background: #D3CCBE;
+}
+.hi-testi-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 40px;
+}
+@media (max-width: 560px) {
+  .hi-testi { padding: 60px 20px 56px; }
+}
+{% endstylesheet %}
+
+{% javascript %}
+(function(){
+  document.querySelectorAll('[data-hi-testimonials]').forEach(function(sec){
+    var track=sec.querySelector('[data-track]');
+    var dots=sec.querySelectorAll('.hi-dot');
+    if(!track||!dots.length)return;
+    var cards=track.querySelectorAll('.hi-tcard');
+    var cur=0;
+    var timer;
+    function go(i){
+      cur=i;
+      cards.forEach(function(c,j){c.style.display=j===i?'block':'none';});
+      dots.forEach(function(d,j){d.setAttribute('data-active',j===i?'true':'false');d.setAttribute('aria-selected',j===i?'true':'false');});
+    }
+    dots.forEach(function(d,i){d.addEventListener('click',function(){clearInterval(timer);go(i);startTimer();});});
+    function startTimer(){timer=setInterval(function(){go((cur+1)%cards.length);},5000);}
+    go(0);
+    startTimer();
+  });
+})();
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Trusted By Many"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "What Our Community Says"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Customer name",
+          "default": "James R."
+        },
+        {
+          "type": "text",
+          "id": "location",
+          "label": "Location",
+          "default": "Colorado"
+        },
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "Star rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Review text",
+          "default": "This brand represents everything I believe in. The quality is outstanding and I wear it with pride every day."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials",
+      "blocks": [
+        {
+          "type": "testimonial",
+          "settings": {
+            "author": "James R.",
+            "location": "Colorado",
+            "rating": 5,
+            "quote": "This brand represents everything I believe in. The quality is outstanding and I wear it with pride every day."
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "author": "Sarah M.",
+            "location": "Tennessee",
+            "rating": 5,
+            "quote": "Finally a brand that stands for something real. Honor In Clothing is more than apparel — it's a mindset."
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "author": "Mike D.",
+            "location": "Texas",
+            "rating": 5,
+            "quote": "Incredible quality and fast shipping. The fit is perfect and the mission behind the brand is what sold me."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

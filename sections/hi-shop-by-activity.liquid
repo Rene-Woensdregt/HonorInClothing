@@ -1,0 +1,185 @@
+<section class="hi-act-section">
+  <div class="hi-act-wrap">
+    <div class="hi-act-header" data-hi-reveal>
+      {%- if section.settings.eyebrow != blank -%}
+        <div class="hi-act-eyebrow">{{ section.settings.eyebrow }}</div>
+      {%- endif -%}
+      {%- if section.settings.title != blank -%}
+        <h2 class="hi-act-title">{{ section.settings.title }}</h2>
+      {%- endif -%}
+    </div>
+    <div class="hi-act-grid">
+      {%- for i in (1..3) -%}
+        {%- liquid
+          assign label_key = 'activity_' | append: i | append: '_label'
+          assign image_key = 'activity_' | append: i | append: '_image'
+          assign url_key = 'activity_' | append: i | append: '_url'
+          assign label = section.settings[label_key]
+          assign image = section.settings[image_key]
+          assign url = section.settings[url_key]
+        -%}
+        <a href="{{ url }}" class="hi-tile hi-act-tile">
+          {%- if image != blank -%}
+            {{ image | image_url: width: 800 | image_tag: class: 'hi-card-img', loading: 'lazy', alt: label }}
+          {%- else -%}
+            <div class="hi-act-placeholder"></div>
+          {%- endif -%}
+          <div class="hi-act-tile-overlay" aria-hidden="true"></div>
+          <div class="hi-act-tile-text">
+            <span class="hi-act-tile-label">{{ label }}</span>
+            <span class="hi-tile-arrow" aria-hidden="true">→</span>
+          </div>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+.hi-act-section { padding: 80px 32px; background: #FBF9F5; }
+.hi-act-wrap { max-width: 1280px; margin: 0 auto; }
+.hi-act-header { text-align: center; margin-bottom: 40px; }
+.hi-act-eyebrow {
+  font-family: 'Oswald', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: #5C6B47;
+  margin-bottom: 10px;
+}
+.hi-act-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(28px, 3vw, 38px);
+  font-weight: 700;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  color: #16150F;
+  margin: 0;
+}
+.hi-act-tile {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  text-decoration: none;
+}
+.hi-card-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .9s cubic-bezier(.2,.7,.3,1);
+}
+.hi-act-tile:hover .hi-card-img { transform: scale(1.07); }
+.hi-act-placeholder {
+  position: absolute;
+  inset: 0;
+  background: #C5BFB5;
+}
+.hi-act-tile-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(12,12,9,0) 40%, rgba(12,12,9,.72) 100%);
+  transition: opacity .3s;
+}
+.hi-act-tile:hover .hi-act-tile-overlay { opacity: .85; }
+.hi-act-tile-text {
+  position: absolute;
+  bottom: 28px;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  z-index: 2;
+}
+.hi-act-tile-label {
+  font-family: 'Oswald', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #fff;
+}
+@media (max-width: 900px) {
+  .hi-act-section { padding: 56px 20px; }
+  .hi-act-grid { grid-template-columns: 1fr !important; }
+  .hi-act-tile { aspect-ratio: 16 / 9; }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Shop by Activity",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Find Your Fit"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Shop By Activity"
+    },
+    {
+      "type": "text",
+      "id": "activity_1_label",
+      "label": "Activity 1 label",
+      "default": "Outdoor & Hiking"
+    },
+    {
+      "type": "image_picker",
+      "id": "activity_1_image",
+      "label": "Activity 1 image"
+    },
+    {
+      "type": "url",
+      "id": "activity_1_url",
+      "label": "Activity 1 URL"
+    },
+    {
+      "type": "text",
+      "id": "activity_2_label",
+      "label": "Activity 2 label",
+      "default": "Fitness & Training"
+    },
+    {
+      "type": "image_picker",
+      "id": "activity_2_image",
+      "label": "Activity 2 image"
+    },
+    {
+      "type": "url",
+      "id": "activity_2_url",
+      "label": "Activity 2 URL"
+    },
+    {
+      "type": "text",
+      "id": "activity_3_label",
+      "label": "Activity 3 label",
+      "default": "Everyday Active"
+    },
+    {
+      "type": "image_picker",
+      "id": "activity_3_image",
+      "label": "Activity 3 image"
+    },
+    {
+      "type": "url",
+      "id": "activity_3_url",
+      "label": "Activity 3 URL"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop by Activity"
+    }
+  ]
+}
+{% endschema %}
