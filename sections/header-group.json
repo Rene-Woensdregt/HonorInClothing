@@ -1,12 +1,3 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "name": "Header group",
   "type": "header",
@@ -15,15 +6,35 @@
       "type": "hi-header",
       "settings": {
         "logo_text_line1": "HONOR IN",
-        "logo_text_line2": "CLOTHING CO.",
-        "nav_1_label": "Shop",
-        "nav_2_label": "New Arrivals",
-        "nav_3_label": "Best Sellers",
-        "nav_4_label": "Our Story",
-        "nav_5_label": "Veteran Support",
-        "search_enabled": true,
-        "cart_enabled": true
-      }
+        "logo_text_line2": "CLOTHING CO."
+      },
+      "blocks": {
+        "nav-new": {
+          "type": "nav_item",
+          "settings": { "label": "New", "url": "/collections/new-arrivals" }
+        },
+        "nav-men": {
+          "type": "nav_item",
+          "settings": { "label": "Men", "url": "/collections/mens" }
+        },
+        "nav-women": {
+          "type": "nav_item",
+          "settings": { "label": "Women", "url": "/collections/womens" }
+        },
+        "nav-youth": {
+          "type": "nav_item",
+          "settings": { "label": "Youth", "url": "/collections/youth" }
+        },
+        "nav-activity": {
+          "type": "nav_item",
+          "settings": { "label": "Shop by Activity", "url": "/collections/activity" }
+        },
+        "nav-about": {
+          "type": "nav_item",
+          "settings": { "label": "About", "url": "/pages/about" }
+        }
+      },
+      "blocks_order": ["nav-new", "nav-men", "nav-women", "nav-youth", "nav-activity", "nav-about"]
     },
     "hi-cart-drawer": {
       "type": "hi-cart-drawer",
