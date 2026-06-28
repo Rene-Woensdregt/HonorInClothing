@@ -1,233 +1,613 @@
+{% doc %}
+  Hi Header — sticky navigation with mega menu dropdowns and mobile drawer accordion.
+  Uses linklists[section.settings.menu] for navigation. Nav items with child links
+  automatically show a mega panel on hover (desktop) / accordion (mobile).
+  Featured images per mega panel configurable in schema settings.
+{% enddoc %}
+
 <header class="hi-header" data-hi-header>
   <div class="hi-header-inner">
-    <!-- Left: burger + desktop nav -->
+
+    {%- comment -%} LEFT: burger + desktop nav {%- endcomment -%}
     <div class="hi-header-left">
-      <button class="hi-burger" data-hi-burger aria-label="{{ 'hi.general.open_menu' | t }}" aria-expanded="false" aria-controls="hi-drawer">
-        <span></span>
-        <span></span>
-        <span></span>
+      <button type="button" class="hi-burger" data-hi-burger
+        aria-label="{{ 'hi.general.open_menu' | t }}"
+        aria-expanded="false"
+        aria-controls="hi-drawer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
       </button>
-      <nav class="hi-desktop-nav" aria-label="Main navigation">
-        {%- for i in (1..5) -%}
-          {%- assign label_key = 'nav_' | append: i | append: '_label' -%}
-          {%- assign url_key = 'nav_' | append: i | append: '_url' -%}
-          {%- assign nav_label = section.settings[label_key] -%}
-          {%- assign nav_url = section.settings[url_key] -%}
-          {%- if nav_label != blank -%}
-            <span class="hi-navitem">
-              <a href="{{ nav_url }}" class="hi-navlink">{{ nav_label }}</a>
-            </span>
-          {%- endif -%}
+
+      <nav class="hi-desktop-nav" aria-label="{{ 'hi.general.main_nav' | t }}">
+        {%- assign nav_menu = linklists[section.settings.menu] -%}
+        {%- for link in nav_menu.links -%}
+          {%- assign has_mega = false -%}
+          {%- if link.links.size > 0 -%}{%- assign has_mega = true -%}{%- endif -%}
+          <div class="hi-navitem">
+            <a href="{{ link.url }}"
+              class="hi-navlink"
+              {%- if link.active %} aria-current="page"{%- endif -%}>{{ link.title }}</a>
+            {%- if has_mega -%}
+              {%- assign fi = forloop.index -%}
+              {%- assign mega_img_key   = 'mega_' | append: fi | append: '_image' -%}
+              {%- assign mega_title_key = 'mega_' | append: fi | append: '_title' -%}
+              {%- assign mega_cta_key   = 'mega_' | append: fi | append: '_cta' -%}
+              {%- assign mega_url_key   = 'mega_' | append: fi | append: '_url' -%}
+              {%- assign mega_img   = section.settings[mega_img_key] -%}
+              {%- assign mega_title = section.settings[mega_title_key] -%}
+              {%- assign mega_cta   = section.settings[mega_cta_key] -%}
+              {%- assign mega_url   = section.settings[mega_url_key] -%}
+              <div class="hi-megapanel" role="region" aria-label="{{ link.title }}">
+                <div class="hi-megapanel-inner">
+                  <div class="hi-megapanel-links">
+                    {%- for child in link.links -%}
+                      <a href="{{ child.url }}" class="hi-megalink">{{ child.title }}</a>
+                    {%- endfor -%}
+                  </div>
+                  {%- if mega_img != blank or mega_title != blank -%}
+                    <a href="{{ mega_url | default: link.url }}" class="hi-megafeat">
+                      <div class="hi-megafeat-img">
+                        {%- if mega_img != blank -%}
+                          {{ mega_img | image_url: width: 700 | image_tag: loading: 'lazy', alt: mega_title, class: 'hi-megafeat-photo' }}
+                        {%- endif -%}
+                      </div>
+                      <div class="hi-megafeat-grad"></div>
+                      <div class="hi-megafeat-content">
+                        <div class="hi-megafeat-label">{{ link.title }}</div>
+                        {%- if mega_title != blank -%}
+                          <div class="hi-megafeat-title">{{ mega_title }}</div>
+                        {%- endif -%}
+                        <div class="hi-megafeat-cta">{{ mega_cta | default: 'Shop Now' }} →</div>
+                      </div>
+                    </a>
+                  {%- endif -%}
+                </div>
+              </div>
+            {%- endif -%}
+          </div>
         {%- endfor -%}
       </nav>
     </div>
 
-    <!-- Center: logo -->
+    {%- comment -%} CENTER: logo {%- endcomment -%}
     <a href="{{ routes.root_url }}" class="hi-logo-link" aria-label="{{ shop.name }}">
       {%- if section.settings.logo != blank -%}
         {{ section.settings.logo | image_url: width: 200 | image_tag: class: 'hi-logo-img', loading: 'eager', alt: shop.name }}
       {%- else -%}
         <div class="hi-logo-text">
-          <span class="hi-logo-l1">{{ section.settings.logo_text_line1 }}</span>
-          <span class="hi-logo-l2">{{ section.settings.logo_text_line2 }}</span>
+          <span class="hi-logo-l1">{{ section.settings.logo_text_line1 | default: 'HONOR IN' }}</span>
+          <span class="hi-logo-l2">{{ section.settings.logo_text_line2 | default: 'CLOTHING CO.' }}</span>
         </div>
       {%- endif -%}
     </a>
 
-    <!-- Right: search + cart -->
+    {%- comment -%} RIGHT: search, account, cart {%- endcomment -%}
     <div class="hi-header-right">
-      {%- if section.settings.search_enabled -%}
-        <a href="{{ routes.search_url }}" class="hi-header-icon" aria-label="{{ 'hi.general.search' | t }}">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" stroke-width="1.5"/>
-            <path d="M13 13l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
-        </a>
+      <a href="{{ routes.search_url }}" class="hi-navlink hi-desktop-only">{{ 'hi.general.search' | t }}</a>
+      {%- if shop.customer_accounts_enabled -%}
+        <a href="{{ routes.account_url }}" class="hi-navlink hi-desktop-only">{{ 'hi.general.account' | t }}</a>
       {%- endif -%}
-      {%- if section.settings.cart_enabled -%}
-        <button class="hi-header-icon hi-cart-icon" data-hi-cart-trigger aria-label="{{ 'hi.general.cart' | t }}" aria-expanded="false">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M3 4h1.5l2 8.5h8L16 7H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="9" cy="16.5" r="1" fill="currentColor"/>
-            <circle cx="14" cy="16.5" r="1" fill="currentColor"/>
-          </svg>
-          {%- if cart.item_count > 0 -%}
-            <span class="hi-cart-count" data-cart-count>{{ cart.item_count }}</span>
-          {%- else -%}
-            <span class="hi-cart-count hi-cart-count--hidden" data-cart-count>0</span>
-          {%- endif -%}
-        </button>
-      {%- endif -%}
+      <button type="button" class="hi-cart-trigger" data-hi-cart-trigger
+        aria-label="{{ 'hi.general.cart' | t }}">
+        {{ 'hi.general.cart' | t }}
+        <span class="hi-cart-badge" data-cart-count>{{ cart.item_count }}</span>
+      </button>
     </div>
+
   </div>
 </header>
 
-<!-- Mobile drawer -->
+{%- comment -%} MOBILE DRAWER (slide from left) {%- endcomment -%}
 <div class="hi-drawer-backdrop" data-hi-drawer-backdrop></div>
-<aside class="hi-drawer" id="hi-drawer" data-hi-drawer role="dialog" aria-modal="true" aria-label="{{ 'hi.general.open_menu' | t }}">
+<aside class="hi-drawer" id="hi-drawer" data-hi-drawer role="dialog" aria-modal="true" aria-label="{{ 'hi.general.menu' | t }}">
   <div class="hi-drawer-head">
-    <a href="{{ routes.root_url }}" class="hi-logo-link hi-drawer-logo">
-      <div class="hi-logo-text">
-        <span class="hi-logo-l1">{{ section.settings.logo_text_line1 }}</span>
-        <span class="hi-logo-l2">{{ section.settings.logo_text_line2 }}</span>
-      </div>
-    </a>
-    <button class="hi-drawer-close" data-hi-drawer-close aria-label="{{ 'hi.general.close_menu' | t }}">
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-        <path d="M4 4l12 12M16 4L4 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    <div class="hi-logo-text">
+      <span class="hi-logo-l1">{{ section.settings.logo_text_line1 | default: 'HONOR IN' }}</span>
+    </div>
+    <button type="button" class="hi-drawer-close" data-hi-drawer-close aria-label="{{ 'hi.general.close_menu' | t }}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+        <line x1="18" y1="6" x2="6" y2="18"></line>
       </svg>
     </button>
   </div>
-  <nav aria-label="Mobile navigation">
-    {%- for i in (1..5) -%}
-      {%- assign label_key = 'nav_' | append: i | append: '_label' -%}
-      {%- assign url_key = 'nav_' | append: i | append: '_url' -%}
-      {%- assign nav_label = section.settings[label_key] -%}
-      {%- assign nav_url = section.settings[url_key] -%}
-      {%- if nav_label != blank -%}
-        <a href="{{ nav_url }}" class="hi-drawer-row">{{ nav_label }}</a>
-      {%- endif -%}
-    {%- endfor -%}
-  </nav>
+
+  <a href="{{ routes.search_url }}" class="hi-drawer-row">{{ 'hi.general.search' | t }}</a>
+
+  {%- for link in linklists[section.settings.menu].links -%}
+    {%- if link.links.size > 0 -%}
+      <button type="button" class="hi-drawer-row" data-hi-acc aria-expanded="false">
+        {{ link.title }} <span class="hi-acc-plus" aria-hidden="true">+</span>
+      </button>
+      <div class="hi-acc-panel" role="region">
+        {%- for child in link.links -%}
+          <a href="{{ child.url }}" class="hi-acc-link">{{ child.title }}</a>
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <a href="{{ link.url }}" class="hi-drawer-row">{{ link.title }}</a>
+    {%- endif -%}
+  {%- endfor -%}
+
+  {%- if shop.customer_accounts_enabled -%}
+    <a href="{{ routes.account_url }}" class="hi-drawer-row">{{ 'hi.general.account' | t }}</a>
+  {%- endif -%}
+  <button type="button" class="hi-drawer-row" data-hi-cart-trigger>
+    {{ 'hi.general.cart' | t }} ({{ cart.item_count }})
+  </button>
 </aside>
 
 {% stylesheet %}
+/* ─── Header shell ─── */
 .hi-header {
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 50;
   background: rgba(251,249,245,.96);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border-bottom: 1px solid #E7E2D7;
-  transition: transform .3s ease;
+  transition: transform .35s cubic-bezier(.2,.7,.3,1);
+  will-change: transform;
 }
 .hi-header-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 74px;
   max-width: 1280px;
   margin: 0 auto;
   padding: 0 32px;
-  gap: 24px;
-}
-.hi-header-left {
+  height: 74px;
   display: flex;
   align-items: center;
-  gap: 32px;
-  flex: 1;
+  justify-content: space-between;
+  gap: 24px;
 }
+
+/* ─── Left ─── */
+.hi-header-left {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-width: 0;
+}
+
+/* ─── Burger ─── */
+.hi-burger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  margin-left: -6px;
+  color: #16150F;
+  align-items: center;
+}
+.hi-burger svg { width: 24px; height: 24px; display: block; }
+
+/* ─── Desktop nav ─── */
 .hi-desktop-nav {
   display: flex;
   align-items: center;
-  gap: 28px;
+  gap: 26px;
 }
+.hi-navitem {
+  display: flex;
+  align-items: center;
+  height: 74px;
+}
+.hi-navlink {
+  position: relative;
+  color: #3A372F;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color .2s cubic-bezier(.2,.7,.3,1);
+}
+.hi-navlink::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  bottom: -4px;
+  height: 2px;
+  background: var(--hi-accent, #5C6B47);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .26s cubic-bezier(.2,.7,.3,1);
+}
+.hi-navitem:hover > .hi-navlink,
+.hi-navlink:hover { color: #16150F; }
+.hi-navitem:hover > .hi-navlink::after,
+.hi-navlink:hover::after { transform: scaleX(1); }
+
+/* ─── Mega panel ─── */
+.hi-megapanel {
+  position: absolute;
+  top: 74px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-10px);
+  width: 100vw;
+  background: #FBF9F5;
+  border-top: 1px solid #E7E2D7;
+  box-shadow: 0 30px 46px rgba(20,21,15,.13);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .26s cubic-bezier(.2,.7,.3,1), transform .26s cubic-bezier(.2,.7,.3,1), visibility .26s;
+  z-index: 45;
+}
+.hi-navitem:hover .hi-megapanel {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+.hi-megapanel-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 42px 32px 46px;
+  display: flex;
+  gap: 56px;
+  align-items: flex-start;
+}
+.hi-megapanel-links {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  max-height: 280px;
+  gap: 0;
+  column-gap: 56px;
+}
+.hi-megacol-title {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: #16150F;
+  margin-bottom: 14px;
+  break-after: avoid;
+}
+.hi-megalink {
+  display: block;
+  color: #54504A;
+  text-decoration: none;
+  font-size: 14.5px;
+  padding: 7px 0;
+  width: max-content;
+  transition: color .2s ease, transform .2s ease;
+}
+.hi-megalink:hover { color: #16150F; transform: translateX(5px); }
+
+/* ─── Mega featured image ─── */
+.hi-megafeat {
+  position: relative;
+  display: block;
+  width: 300px;
+  flex-shrink: 0;
+  aspect-ratio: 5 / 4;
+  overflow: hidden;
+  text-decoration: none;
+  background: #E9E4DA;
+  transition: box-shadow .4s cubic-bezier(.2,.7,.3,1);
+}
+.hi-megafeat:hover { box-shadow: 0 18px 38px rgba(20,21,15,.2); }
+.hi-megafeat-img {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.hi-megafeat-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .9s cubic-bezier(.2,.7,.3,1);
+}
+.hi-megafeat:hover .hi-megafeat-photo { transform: scale(1.07); }
+.hi-megafeat-grad {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(12,12,9,0) 28%, rgba(12,12,9,.74) 100%);
+}
+.hi-megafeat-content {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: 22px 24px;
+  color: #fff;
+}
+.hi-megafeat-label {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: #E2DCCE;
+  margin-bottom: 6px;
+}
+.hi-megafeat-title {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+  line-height: 1.05;
+}
+.hi-megafeat-cta {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  margin-top: 12px;
+  border-bottom: 2px solid var(--hi-accent, #5C6B47);
+  padding-bottom: 3px;
+  display: inline-block;
+}
+
+/* ─── Logo ─── */
 .hi-logo-link {
   text-decoration: none;
+  text-align: center;
   flex-shrink: 0;
+  transition: opacity .2s ease;
 }
+.hi-logo-link:hover { opacity: .7; }
 .hi-logo-img { height: 40px; width: auto; display: block; }
-.hi-logo-text { display: flex; flex-direction: column; align-items: center; line-height: 1; }
+.hi-logo-text { display: flex; flex-direction: column; align-items: center; }
 .hi-logo-l1 {
   font-family: 'Oswald', sans-serif;
-  font-size: 20px;
   font-weight: 700;
+  font-size: 23px;
   letter-spacing: .18em;
   color: #16150F;
+  line-height: 1;
 }
 .hi-logo-l2 {
   font-family: 'Oswald', sans-serif;
-  font-size: 9.5px;
   font-weight: 400;
+  font-size: 9.5px;
   letter-spacing: .42em;
-  color: #5C6B47;
+  color: var(--hi-accent, #5C6B47);
   margin-top: 3px;
 }
+
+/* ─── Right: search / account / cart ─── */
 .hi-header-right {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 22px;
   flex: 1;
   justify-content: flex-end;
 }
-.hi-header-icon {
-  position: relative;
+.hi-cart-trigger {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: #16150F;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  transition: opacity .2s ease;
+}
+.hi-cart-trigger:hover { opacity: .6; }
+.hi-cart-badge {
+  background: var(--hi-accent, #5C6B47);
+  color: #fff;
+  border-radius: 50%;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+  font-family: 'Oswald', sans-serif;
+  line-height: 1;
+}
+
+/* ─── Mobile drawer ─── */
+.hi-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(12,12,9,.5);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .3s ease, visibility .3s;
+  z-index: 199;
+}
+.hi-drawer-backdrop[data-open="true"] { opacity: 1; visibility: visible; }
+.hi-drawer {
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  width: 86%;
+  max-width: 360px;
+  background: #FBF9F5;
+  z-index: 200;
+  transform: translateX(-100%);
+  transition: transform .34s cubic-bezier(.2,.7,.3,1);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.hi-drawer[data-open="true"] {
+  transform: none;
+  box-shadow: 0 0 60px rgba(12,12,9,.34);
+}
+.hi-drawer-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 22px;
+  border-bottom: 1px solid #E7E2D7;
+  position: sticky;
+  top: 0;
+  background: #FBF9F5;
+}
+.hi-drawer-close {
   background: none;
   border: none;
   cursor: pointer;
   color: #16150F;
-  padding: 6px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: color .2s;
-  text-decoration: none;
+  padding: 4px;
+  line-height: 0;
 }
-.hi-header-icon:hover { color: #5C6B47; }
-.hi-cart-count {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 17px;
-  height: 17px;
-  background: #5C6B47;
-  color: #fff;
-  border-radius: 50%;
-  font-family: 'Oswald', sans-serif;
-  font-size: 10px;
-  font-weight: 600;
+.hi-drawer-close svg { width: 22px; height: 22px; }
+.hi-drawer-row {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 16px 22px;
+  border: none;
+  border-bottom: 1px solid #ECE7DC;
+  background: none;
+  cursor: pointer;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: #16150F;
+  text-decoration: none;
+  text-align: left;
+  box-sizing: border-box;
 }
-.hi-cart-count--hidden { display: none; }
-.hi-drawer-logo { margin: 0; }
-@media (min-width: 901px) {
-  .hi-burger { display: none; }
+.hi-acc-plus {
+  font-size: 22px;
+  font-weight: 300;
+  line-height: 1;
+  transition: transform .3s ease;
+  color: var(--hi-accent, #5C6B47);
 }
+.hi-drawer-row[data-open="true"] .hi-acc-plus { transform: rotate(45deg); }
+.hi-acc-panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .34s cubic-bezier(.2,.7,.3,1);
+  background: #F1ECE1;
+}
+.hi-acc-panel[data-open="true"] { max-height: 1200px; }
+.hi-acc-coltitle {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: #8A8479;
+  padding: 16px 26px 6px;
+}
+.hi-acc-link {
+  display: block;
+  padding: 9px 26px;
+  color: #54504A;
+  text-decoration: none;
+  font-size: 15px;
+  transition: color .2s ease;
+}
+.hi-acc-link:hover { color: #16150F; }
+
+/* ─── Responsive ─── */
 @media (max-width: 900px) {
-  .hi-desktop-nav { display: none; }
+  .hi-desktop-nav { display: none !important; }
+  .hi-desktop-only { display: none !important; }
+  .hi-burger { display: inline-flex !important; }
   .hi-header-inner { padding: 0 20px; }
 }
 {% endstylesheet %}
 
 {% javascript %}
-(function(){
-  var burger=document.querySelector('[data-hi-burger]');
-  var backdrop=document.querySelector('[data-hi-drawer-backdrop]');
-  var drawer=document.querySelector('[data-hi-drawer]');
-  var closeBtn=document.querySelector('[data-hi-drawer-close]');
-  function openDrawer(){
-    if(!drawer)return;
-    drawer.setAttribute('data-open','true');
-    if(backdrop)backdrop.setAttribute('data-open','true');
-    if(burger)burger.setAttribute('aria-expanded','true');
-    document.body.style.overflow='hidden';
+(function () {
+  /* Drawer open / close */
+  var burger   = document.querySelector('[data-hi-burger]');
+  var backdrop = document.querySelector('[data-hi-drawer-backdrop]');
+  var drawer   = document.querySelector('[data-hi-drawer]');
+  var closeBtn = document.querySelector('[data-hi-drawer-close]');
+
+  function openDrawer() {
+    if (!drawer) return;
+    drawer.setAttribute('data-open', 'true');
+    if (backdrop) backdrop.setAttribute('data-open', 'true');
+    if (burger)   burger.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
   }
-  function closeDrawer(){
-    if(!drawer)return;
+  function closeDrawer() {
+    if (!drawer) return;
     drawer.removeAttribute('data-open');
-    if(backdrop)backdrop.removeAttribute('data-open');
-    if(burger)burger.setAttribute('aria-expanded','false');
-    document.body.style.overflow='';
+    if (backdrop) backdrop.removeAttribute('data-open');
+    if (burger)   burger.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
   }
-  if(burger)burger.addEventListener('click',openDrawer);
-  if(closeBtn)closeBtn.addEventListener('click',closeDrawer);
-  if(backdrop)backdrop.addEventListener('click',closeDrawer);
-  // scroll hide/show
-  var header=document.querySelector('[data-hi-header]');
-  if(header){
-    var last=0,ticking=false;
-    window.addEventListener('scroll',function(){
-      if(!ticking){requestAnimationFrame(function(){
-        var y=window.scrollY;
-        if(y>last&&y>80){header.style.transform='translateY(-100%)';}
-        else{header.style.transform='';}
-        last=y;ticking=false;
-      });ticking=true;}
+
+  if (burger)   burger.addEventListener('click', openDrawer);
+  if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+  if (backdrop) backdrop.addEventListener('click', closeDrawer);
+
+  /* Close drawer on any link inside it */
+  if (drawer) {
+    drawer.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', closeDrawer);
     });
   }
+
+  /* Accordion nav items */
+  document.querySelectorAll('[data-hi-acc]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var isOpen = btn.getAttribute('data-open') === 'true';
+      var panel  = btn.nextElementSibling;
+      btn.setAttribute('data-open', isOpen ? 'false' : 'true');
+      btn.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+      if (panel) panel.setAttribute('data-open', isOpen ? 'false' : 'true');
+    });
+  });
+
+  /* Scroll hide / show header */
+  var header = document.querySelector('[data-hi-header]');
+  if (header) {
+    var lastY = 0, ticking = false;
+    window.addEventListener('scroll', function () {
+      if (!ticking) {
+        requestAnimationFrame(function () {
+          var y = window.scrollY || 0;
+          if (y > lastY && y > 140) {
+            header.style.transform = 'translateY(-100%)';
+          } else {
+            header.style.transform = 'translateY(0)';
+          }
+          lastY = y;
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+  }
+
+  /* Mega panel — keep open on panel hover */
+  document.querySelectorAll('.hi-navitem').forEach(function (item) {
+    var panel = item.querySelector('.hi-megapanel');
+    if (!panel) return;
+    var leaveTimer;
+    item.addEventListener('mouseenter', function () {
+      clearTimeout(leaveTimer);
+    });
+    item.addEventListener('mouseleave', function () {
+      leaveTimer = setTimeout(function () {}, 120);
+    });
+  });
 })();
 {% endjavascript %}
 
@@ -236,96 +616,156 @@
   "name": "Header",
   "settings": [
     {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Navigation menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
       "type": "image_picker",
       "id": "logo",
-      "label": "Logo image (optional)"
+      "label": "Logo image (optional — overrides text)"
     },
     {
       "type": "text",
       "id": "logo_text_line1",
-      "label": "Logo text line 1",
+      "label": "Logo line 1",
       "default": "HONOR IN"
     },
     {
       "type": "text",
       "id": "logo_text_line2",
-      "label": "Logo text line 2",
+      "label": "Logo line 2",
       "default": "CLOTHING CO."
     },
     {
       "type": "header",
-      "content": "Navigation"
+      "content": "Mega Menu — Nav Item 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "mega_1_image",
+      "label": "Featured image"
     },
     {
       "type": "text",
-      "id": "nav_1_label",
-      "label": "Nav link 1 label",
-      "default": "Shop"
-    },
-    {
-      "type": "url",
-      "id": "nav_1_url",
-      "label": "Nav link 1 URL"
+      "id": "mega_1_title",
+      "label": "Featured title"
     },
     {
       "type": "text",
-      "id": "nav_2_label",
-      "label": "Nav link 2 label",
-      "default": "New Arrivals"
+      "id": "mega_1_cta",
+      "label": "CTA text",
+      "default": "Shop Now"
     },
     {
       "type": "url",
-      "id": "nav_2_url",
-      "label": "Nav link 2 URL"
-    },
-    {
-      "type": "text",
-      "id": "nav_3_label",
-      "label": "Nav link 3 label",
-      "default": "Best Sellers"
-    },
-    {
-      "type": "url",
-      "id": "nav_3_url",
-      "label": "Nav link 3 URL"
-    },
-    {
-      "type": "text",
-      "id": "nav_4_label",
-      "label": "Nav link 4 label",
-      "default": "Our Story"
-    },
-    {
-      "type": "url",
-      "id": "nav_4_url",
-      "label": "Nav link 4 URL"
-    },
-    {
-      "type": "text",
-      "id": "nav_5_label",
-      "label": "Nav link 5 label",
-      "default": "Veteran Support"
-    },
-    {
-      "type": "url",
-      "id": "nav_5_url",
-      "label": "Nav link 5 URL"
+      "id": "mega_1_url",
+      "label": "CTA URL"
     },
     {
       "type": "header",
-      "content": "Icons"
+      "content": "Mega Menu — Nav Item 2"
     },
     {
-      "type": "checkbox",
-      "id": "search_enabled",
-      "label": "Show search icon",
-      "default": true
+      "type": "image_picker",
+      "id": "mega_2_image",
+      "label": "Featured image"
     },
     {
-      "type": "checkbox",
-      "id": "cart_enabled",
-      "label": "Show cart icon",
-      "default": true
+      "type": "text",
+      "id": "mega_2_title",
+      "label": "Featured title"
+    },
+    {
+      "type": "text",
+      "id": "mega_2_cta",
+      "label": "CTA text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "mega_2_url",
+      "label": "CTA URL"
+    },
+    {
+      "type": "header",
+      "content": "Mega Menu — Nav Item 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "mega_3_image",
+      "label": "Featured image"
+    },
+    {
+      "type": "text",
+      "id": "mega_3_title",
+      "label": "Featured title"
+    },
+    {
+      "type": "text",
+      "id": "mega_3_cta",
+      "label": "CTA text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "mega_3_url",
+      "label": "CTA URL"
+    },
+    {
+      "type": "header",
+      "content": "Mega Menu — Nav Item 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "mega_4_image",
+      "label": "Featured image"
+    },
+    {
+      "type": "text",
+      "id": "mega_4_title",
+      "label": "Featured title"
+    },
+    {
+      "type": "text",
+      "id": "mega_4_cta",
+      "label": "CTA text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "mega_4_url",
+      "label": "CTA URL"
+    },
+    {
+      "type": "header",
+      "content": "Mega Menu — Nav Item 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "mega_5_image",
+      "label": "Featured image"
+    },
+    {
+      "type": "text",
+      "id": "mega_5_title",
+      "label": "Featured title"
+    },
+    {
+      "type": "text",
+      "id": "mega_5_cta",
+      "label": "CTA text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "mega_5_url",
+      "label": "CTA URL"
     }
   ],
   "presets": [
