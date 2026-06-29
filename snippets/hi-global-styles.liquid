@@ -6,6 +6,11 @@
 {% stylesheet %}
 :root { --hi-accent: #5C6B47; }
 
+/* Dawn base.css hides empty divs — restore display for our decorative elements */
+section[class*="hi-"] div:empty { display: block; }
+.hi-cart-backdrop,
+.hi-drawer-backdrop { display: block !important; }
+
 /* ── Keyframes ─────────────────────────────────────────── */
 @keyframes hi-kenburns { from{transform:scale(1.06)} to{transform:scale(1)} }
 @keyframes hi-rise { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:none} }
@@ -16,7 +21,7 @@
 [data-hi-reveal].hi-visible { opacity:1;transform:none; }
 
 /* ── Buttons ───────────────────────────────────────────── */
-.hi-btn { display:inline-flex;align-items:center;justify-content:center;padding:16px 36px;text-decoration:none;font-family:'Oswald',sans-serif;font-weight:600;font-size:14px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;border:none;transition:background .28s cubic-bezier(.2,.7,.3,1),color .28s; }
+.hi-btn { display:inline-flex;align-items:center;justify-content:center;padding:16px 36px;text-decoration:none;font-family:'Oswald',sans-serif;font-weight:600;font-size:14px;line-height:1.5;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;border:none;transition:background .28s cubic-bezier(.2,.7,.3,1),color .28s; }
 .hi-btn--light { background:#FBF9F5;color:#16150F; }
 .hi-btn--light:hover { background:var(--hi-accent);color:#fff; }
 .hi-btn--ghost { background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.7); }
