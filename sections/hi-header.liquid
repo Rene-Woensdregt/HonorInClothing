@@ -126,8 +126,8 @@
     </a>
 
     {%- comment -%}──── RIGHT: search, account, cart ────{%- endcomment -%}
-    <div class="hi-header-right">
-      <a href="{{ routes.search_url }}" class="hi-icon hi-desktop-only" aria-label="{{ 'hi.general.search' | t }}">
+    <div class="hi-header-right hi-header-actions">
+      <a href="{{ routes.search_url }}" class="hi-icon" aria-label="{{ 'hi.general.search' | t }}">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <circle cx="11" cy="11" r="7"></circle>
           <line x1="21" y1="21" x2="16.5" y2="16.5"></line>
@@ -175,8 +175,6 @@
     </button>
   </div>
 
-  <a href="{{ routes.search_url }}" class="hi-drawer-row">{{ 'hi.general.search' | t }}</a>
-
   {%- for link in linklists[section.settings.menu].links -%}
     {%- if link.links.size > 0 -%}
       <button type="button" class="hi-drawer-row" data-hi-acc aria-expanded="false">
@@ -202,11 +200,16 @@
   {%- endfor -%}
 
   {%- if shop.customer_accounts_enabled -%}
-    <a href="{{ routes.account_url }}" class="hi-drawer-row">{{ 'hi.general.account' | t }}</a>
+    <a href="{{ routes.account_url }}" class="hi-drawer-row">
+      <span style="display:flex;align-items:center;gap:12px;">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="8" r="4"></circle>
+          <path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"></path>
+        </svg>
+        {{ 'hi.general.account' | t }}
+      </span>
+    </a>
   {%- endif -%}
-  <button type="button" class="hi-drawer-row" data-hi-cart-trigger>
-    {{ 'hi.general.cart' | t }} ({{ cart.item_count }})
-  </button>
 
 </aside>
 
@@ -539,6 +542,7 @@
   .hi-desktop-only { display: none; }
   .hi-burger { display: inline-flex; }
   .hi-header-inner { padding: 0 20px; }
+  .hi-header-actions { gap: 16px; }
 }
 
 /* ─────────── Dawn override resets ─────────── */
@@ -596,6 +600,14 @@
   if (burger)   burger.addEventListener('click', openDrawer);
   if (backdrop) backdrop.addEventListener('click', closeDrawer);
   if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+
+  // Close on tap/click anywhere outside the drawer (works on all touch devices)
+  document.addEventListener('pointerdown', function(e) {
+    if (!drawer || drawer.getAttribute('data-open') !== 'true') return;
+    if (drawer.contains(e.target)) return;
+    if (burger && burger.contains(e.target)) return;
+    closeDrawer();
+  });
   if (drawer) {
     drawer.querySelectorAll('a').forEach(function (a) {
       a.addEventListener('click', closeDrawer);
