@@ -52,13 +52,16 @@
       "settings": {
         "eyebrow": "Find Your Fit",
         "title": "Shop By Activity",
-        "activity_1_label": "Outdoor & Hiking",
+        "activity_1_sublabel": "Hiking & Outdoors",
+        "activity_1_label": "On The Trail",
         "activity_1_image": "shopify://shop_images/activewear-minimal-4.jpg",
         "activity_1_url": "",
-        "activity_2_label": "Fitness & Training",
+        "activity_2_sublabel": "Fitness & Performance",
+        "activity_2_label": "In Training",
         "activity_2_image": "shopify://shop_images/activewear-minimal-2.jpg",
         "activity_2_url": "",
-        "activity_3_label": "Everyday Active",
+        "activity_3_sublabel": "Work & Life",
+        "activity_3_label": "Everyday Carry",
         "activity_3_image": "shopify://shop_images/activewear-minimal-5.jpg",
         "activity_3_url": ""
       }

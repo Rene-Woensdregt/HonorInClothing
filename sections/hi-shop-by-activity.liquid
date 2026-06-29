@@ -12,9 +12,11 @@
       {%- for i in (1..3) -%}
         {%- liquid
           assign label_key = 'activity_' | append: i | append: '_label'
+          assign sublabel_key = 'activity_' | append: i | append: '_sublabel'
           assign image_key = 'activity_' | append: i | append: '_image'
           assign url_key = 'activity_' | append: i | append: '_url'
           assign label = section.settings[label_key]
+          assign sublabel = section.settings[sublabel_key]
           assign image = section.settings[image_key]
           assign url = section.settings[url_key]
         -%}
@@ -26,8 +28,13 @@
           {%- endif -%}
           <div class="hi-act-tile-overlay" aria-hidden="true"></div>
           <div class="hi-act-tile-text">
-            <span class="hi-act-tile-label">{{ label }}</span>
-            <span class="hi-tile-arrow" aria-hidden="true">→</span>
+            {%- if sublabel != blank -%}
+              <div class="hi-act-tile-sublabel">{{ sublabel }}</div>
+            {%- endif -%}
+            <div class="hi-act-tile-main">
+              <span class="hi-act-tile-label">{{ label }}</span>
+              <span class="hi-tile-arrow" aria-hidden="true">→</span>
+            </div>
           </div>
         </a>
       {%- endfor -%}
@@ -41,18 +48,18 @@
 .hi-act-header { text-align: center; margin-bottom: 40px; }
 .hi-act-eyebrow {
   font-family: 'Oswald', sans-serif;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
-  letter-spacing: .22em;
+  letter-spacing: .24em;
   text-transform: uppercase;
   color: #5C6B47;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 .hi-act-title {
   font-family: 'Oswald', sans-serif;
-  font-size: clamp(28px, 3vw, 38px);
-  font-weight: 700;
-  letter-spacing: .02em;
+  font-size: clamp(28px, 3vw, 46px);
+  font-weight: 600;
+  letter-spacing: .01em;
   text-transform: uppercase;
   color: #16150F;
   margin: 0;
@@ -87,21 +94,38 @@
 .hi-act-tile:hover .hi-act-tile-overlay { opacity: .85; }
 .hi-act-tile-text {
   position: absolute;
-  bottom: 28px;
+  bottom: 0;
   left: 0;
   right: 0;
+  display: block;
+  padding: 30px 28px;
+  z-index: 2;
+}
+.hi-act-tile-sublabel {
+  font-family: 'Oswald', sans-serif;
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: #E2DCCE;
+  margin-bottom: 4px;
+}
+.hi-act-tile-main {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
-  z-index: 2;
+  gap: 12px;
 }
 .hi-act-tile-label {
   font-family: 'Oswald', sans-serif;
-  font-size: 16px;
+  font-size: 27px;
   font-weight: 600;
-  letter-spacing: .14em;
+  letter-spacing: .02em;
   text-transform: uppercase;
+  color: #fff;
+}
+.hi-tile-arrow {
+  font-size: 18px;
+  font-weight: 600;
   color: #fff;
 }
 @media (max-width: 900px) {
@@ -129,9 +153,15 @@
     },
     {
       "type": "text",
+      "id": "activity_1_sublabel",
+      "label": "Activity 1 sub-label",
+      "default": "Hiking & Outdoors"
+    },
+    {
+      "type": "text",
       "id": "activity_1_label",
-      "label": "Activity 1 label",
-      "default": "Outdoor & Hiking"
+      "label": "Activity 1 title",
+      "default": "On The Trail"
     },
     {
       "type": "image_picker",
@@ -145,9 +175,15 @@
     },
     {
       "type": "text",
+      "id": "activity_2_sublabel",
+      "label": "Activity 2 sub-label",
+      "default": "Fitness & Performance"
+    },
+    {
+      "type": "text",
       "id": "activity_2_label",
-      "label": "Activity 2 label",
-      "default": "Fitness & Training"
+      "label": "Activity 2 title",
+      "default": "In Training"
     },
     {
       "type": "image_picker",
@@ -161,9 +197,15 @@
     },
     {
       "type": "text",
+      "id": "activity_3_sublabel",
+      "label": "Activity 3 sub-label",
+      "default": "Work & Life"
+    },
+    {
+      "type": "text",
       "id": "activity_3_label",
-      "label": "Activity 3 label",
-      "default": "Everyday Active"
+      "label": "Activity 3 title",
+      "default": "Everyday Carry"
     },
     {
       "type": "image_picker",
