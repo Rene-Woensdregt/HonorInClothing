@@ -19,6 +19,7 @@
     "hi-hero": {
       "type": "hi-hero",
       "settings": {
+        "image": "shopify://shop_images/HIC_FACEBOOK_COVER_JPG.jpg",
         "eyebrow": "Premium Active Lifestyle Apparel",
         "heading": "Live With Honor.",
         "subheading": "Built for those who show up.",
@@ -44,8 +45,10 @@
       "settings": {
         "eyebrow": "New Arrivals",
         "title": "Just Landed",
-        "view_all_label": "Shop All",
+        "collection": "",
         "products_limit": 8,
+        "view_all_label": "Shop All",
+        "view_all_url": "",
         "show_price": true
       }
     },
@@ -55,17 +58,25 @@
         "eyebrow": "Find Your Fit",
         "title": "Shop By Activity",
         "activity_1_label": "Outdoor & Hiking",
+        "activity_1_image": "shopify://shop_images/activewear-minimal-4.jpg",
+        "activity_1_url": "",
         "activity_2_label": "Fitness & Training",
-        "activity_3_label": "Everyday Active"
+        "activity_2_image": "shopify://shop_images/activewear-minimal-2.jpg",
+        "activity_2_url": "",
+        "activity_3_label": "Everyday Active",
+        "activity_3_image": "shopify://shop_images/activewear-minimal-5.jpg",
+        "activity_3_url": ""
       }
     },
     "hi-veteran-support": {
       "type": "hi-veteran-support",
       "settings": {
+        "image": "shopify://shop_images/IMG_6494.jpg",
         "eyebrow": "Our Commitment",
         "heading": "We honor those who served.",
         "body": "<p>After our first full year in business, Honor In Clothing plans to donate 10% of annual profits to a carefully selected organization supporting veterans living with PTSD.</p>",
-        "cta_label": "Learn More"
+        "cta_label": "Learn More",
+        "cta_url": ""
       }
     },
     "hi-best-sellers": {
@@ -73,8 +84,10 @@
       "settings": {
         "eyebrow": "Customer Favorites",
         "title": "Best Sellers",
-        "view_all_label": "Shop All",
+        "collection": "",
         "products_limit": 8,
+        "view_all_label": "Shop All",
+        "view_all_url": "",
         "show_price": true
       }
     },
@@ -86,15 +99,12 @@
         "body_1": "<p>Honor In Clothing was founded on a simple belief: the clothes you wear should reflect the values you live by. Built for those who chase purpose over comfort.</p>",
         "body_2": "<p>Every piece we make is designed for movement, built for endurance, and worn with intention. This is apparel for people who show up — every single day.</p>",
         "cta_label": "Our Full Story",
-        "cta_url": "/pages/about"
+        "cta_url": "/pages/about",
+        "image": "shopify://shop_images/IMG_2644.jpg"
       }
     },
     "hi-testimonials": {
       "type": "hi-testimonials",
-      "settings": {
-        "eyebrow": "Trusted By Many",
-        "title": "What Our Community Says"
-      },
       "blocks": {
         "testimonial-1": {
           "type": "testimonial",
@@ -124,7 +134,15 @@
           }
         }
       },
-      "block_order": ["testimonial-1", "testimonial-2", "testimonial-3"]
+      "block_order": [
+        "testimonial-1",
+        "testimonial-2",
+        "testimonial-3"
+      ],
+      "settings": {
+        "eyebrow": "Trusted By Many",
+        "title": "What Our Community Says"
+      }
     },
     "hi-email-signup": {
       "type": "hi-email-signup",
@@ -140,7 +158,14 @@
       "type": "hi-instagram",
       "settings": {
         "eyebrow": "@honorinclothing",
-        "title": "Follow The Journey"
+        "title": "Follow The Journey",
+        "instagram_url": "",
+        "image_1": "shopify://shop_images/activewear-minimal-1.jpg",
+        "image_2": "shopify://shop_images/activewear-minimal-3.jpg",
+        "image_3": "shopify://shop_images/activewear-minimal-7.jpg",
+        "image_4": "shopify://shop_images/activewear-minimal-6.jpg",
+        "image_5": "shopify://shop_images/activewear-minimal-4.jpg",
+        "image_6": "shopify://shop_images/activewear-minimal-5.jpg"
       }
     }
   },

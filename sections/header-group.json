@@ -1,45 +1,67 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "name": "Header group",
   "type": "header",
   "sections": {
     "hi-header": {
       "type": "hi-header",
-      "settings": {
-        "menu": "main-menu",
-        "logo_text_line1": "HONOR IN",
-        "logo_text_line2": "CLOTHING CO."
-      },
       "blocks": {
-        "mega-new": {
-          "type": "mega_menu",
-          "settings": {
-            "nav_title": "New",
-            "mega_cta_text": "Shop New Arrivals"
-          }
-        },
-        "mega-men": {
-          "type": "mega_menu",
-          "settings": {
-            "nav_title": "Men",
-            "mega_cta_text": "Shop Men's"
-          }
-        },
-        "mega-women": {
-          "type": "mega_menu",
-          "settings": {
-            "nav_title": "Women",
-            "mega_cta_text": "Shop Women's"
-          }
-        },
-        "mega-youth": {
+        "mega_menu_jykPzx": {
           "type": "mega_menu",
           "settings": {
             "nav_title": "Youth",
-            "mega_cta_text": "Shop Youth"
+            "mega_title": "",
+            "mega_cta_text": "Shop Now",
+            "mega_cta_url": ""
+          }
+        },
+        "mega_menu_NBXYVV": {
+          "type": "mega_menu",
+          "settings": {
+            "nav_title": "Women",
+            "mega_title": "",
+            "mega_cta_text": "Shop Now",
+            "mega_cta_url": ""
+          }
+        },
+        "mega_menu_XxQybd": {
+          "type": "mega_menu",
+          "settings": {
+            "nav_title": "Men",
+            "mega_title": "",
+            "mega_cta_text": "Shop Now",
+            "mega_cta_url": ""
+          }
+        },
+        "mega_menu_ghXF8C": {
+          "type": "mega_menu",
+          "settings": {
+            "nav_title": "New",
+            "mega_title": "",
+            "mega_cta_text": "Shop Now",
+            "mega_cta_url": ""
           }
         }
       },
-      "blocks_order": ["mega-new", "mega-men", "mega-women", "mega-youth"]
+      "block_order": [
+        "mega_menu_jykPzx",
+        "mega_menu_NBXYVV",
+        "mega_menu_XxQybd",
+        "mega_menu_ghXF8C"
+      ],
+      "settings": {
+        "menu": "new-main-menu",
+        "logo_text_line1": "HONOR IN",
+        "logo_text_line2": "CLOTHING CO."
+      }
     },
     "hi-cart-drawer": {
       "type": "hi-cart-drawer",
@@ -49,5 +71,8 @@
       }
     }
   },
-  "order": ["hi-header", "hi-cart-drawer"]
+  "order": [
+    "hi-header",
+    "hi-cart-drawer"
+  ]
 }
