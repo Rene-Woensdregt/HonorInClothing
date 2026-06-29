@@ -556,7 +556,21 @@
       "increase_qty": "Increase quantity",
       "remove": "Remove"
     },
-    "announcement_bar": { "name": "Announcement Bar" },
+    "announcement_bar": {
+      "name": "Announcement Bar",
+      "label": "Announcement bar",
+      "settings": {
+        "speed": { "label": "Scroll speed" }
+      },
+      "blocks": {
+        "message": {
+          "name": "Message",
+          "settings": {
+            "text": { "label": "Message text" }
+          }
+        }
+      }
+    },
     "hero": { "name": "Hero Banner" },
     "values_strip": { "name": "Values Strip" },
     "featured_collection": {

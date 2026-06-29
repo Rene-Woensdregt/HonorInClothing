@@ -9,17 +9,10 @@
  */
 {
   "sections": {
-    "hi-announcement-bar": {
-      "type": "hi-announcement-bar",
-      "settings": {
-        "text": "Complimentary shipping on orders over $75  ✦  Honor in everything you do.",
-        "speed": 40
-      }
-    },
     "hi-hero": {
       "type": "hi-hero",
       "settings": {
-        "image": "shopify://shop_images/HIC_FACEBOOK_COVER_JPG.jpg",
+        "image": "shopify://shop_images/photo-1551632811-561732d1e306.jpg",
         "eyebrow": "Premium Active Lifestyle Apparel",
         "heading": "Live With Honor.",
         "subheading": "Built for those who show up.",
@@ -170,7 +163,6 @@
     }
   },
   "order": [
-    "hi-announcement-bar",
     "hi-hero",
     "hi-values-strip",
     "hi-new-arrivals",

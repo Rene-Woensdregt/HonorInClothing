@@ -3406,5 +3406,24 @@
         "name": "Collapsible content"
       }
     }
+  },
+  "hi": {
+    "announcement_bar": {
+      "name": "Announcement Bar",
+      "settings": {
+        "speed": { "label": "Scroll speed" }
+      },
+      "blocks": {
+        "message": {
+          "name": "Message",
+          "settings": {
+            "text": { "label": "Message text" }
+          }
+        }
+      }
+    },
+    "cart_drawer": {
+      "name": "Cart Drawer"
+    }
   }
 }
