@@ -14,10 +14,10 @@
       "settings": {
         "image": "shopify://shop_images/photo-1551632811-561732d1e306.jpg",
         "eyebrow": "Premium Active Lifestyle Apparel",
-        "heading": "Live With Honor.",
-        "subheading": "Built for those who show up.",
-        "cta_label": "Shop New Arrivals",
-        "cta_url": "/collections/new-arrivals",
+        "heading": "Honor in everything you do.",
+        "subheading": "Built for people who live with purpose — rugged, refined apparel for the trail, the work, and the life you're proud of.",
+        "cta_label": "Shop The Collection",
+        "cta_url": "/collections/all",
         "cta2_label": "Our Story",
         "cta2_url": "/pages/about"
       }
@@ -36,13 +36,15 @@
     "hi-new-arrivals": {
       "type": "hi-featured-collection",
       "settings": {
-        "eyebrow": "New Arrivals",
-        "title": "Just Landed",
+        "eyebrow": "Just Dropped",
+        "title": "New Arrivals",
         "collection": "",
         "products_limit": 8,
-        "view_all_label": "Shop All",
-        "view_all_url": "",
-        "show_price": true
+        "view_all_label": "Shop All New",
+        "view_all_url": "/collections/new-arrivals",
+        "show_price": true,
+        "badge_label": "New",
+        "badge_style": "dark"
       }
     },
     "hi-shop-by-activity": {
@@ -66,9 +68,9 @@
       "settings": {
         "image": "shopify://shop_images/IMG_6494.jpg",
         "eyebrow": "Our Commitment",
-        "heading": "We honor those who served.",
-        "body": "<p>After our first full year in business, Honor In Clothing plans to donate 10% of annual profits to a carefully selected organization supporting veterans living with PTSD.</p>",
-        "cta_label": "Learn More",
+        "heading": "We Honor Those Who Served.",
+        "body": "<p>After our first full year in business, Honor In Clothing plans to donate <strong>10% of annual profits</strong> to a carefully selected organization supporting veterans living with PTSD.</p>",
+        "cta_label": "Learn About Our Mission",
         "cta_url": ""
       }
     },
@@ -80,8 +82,10 @@
         "collection": "",
         "products_limit": 8,
         "view_all_label": "Shop All",
-        "view_all_url": "",
-        "show_price": true
+        "view_all_url": "/collections/best-sellers",
+        "show_price": true,
+        "badge_label": "Best Seller",
+        "badge_style": "accent"
       }
     },
     "hi-brand-story": {
@@ -133,15 +137,15 @@
         "testimonial-3"
       ],
       "settings": {
-        "eyebrow": "Trusted By Many",
-        "title": "What Our Community Says"
+        "eyebrow": "Worn With Purpose",
+        "title": "What People Are Saying"
       }
     },
     "hi-email-signup": {
       "type": "hi-email-signup",
       "settings": {
         "eyebrow": "Join The Community",
-        "heading": "Earn your honor — and 10% off.",
+        "heading": "Earn Your Honor — And 10% Off.",
         "subtext": "Sign up for first access to new drops, the brand story, and exclusive offers for the Honor In community.",
         "button_label": "Join Now",
         "success_message": "You're in. Welcome to the Honor In community."
