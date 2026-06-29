@@ -25,7 +25,7 @@
             required
             aria-label="{{ 'hi.email_signup.placeholder' | t }}"
           >
-          <button type="submit" class="hi-btn hi-btn--accent hi-news-btn">{{ section.settings.button_label }}</button>
+          <button type="submit" class="hi-btn hi-btn--light hi-news-btn">{{ section.settings.button_label }}</button>
         </div>
         {%- if form.errors -%}
           <p class="hi-news-error">{{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}</p>
@@ -38,39 +38,41 @@
 {% stylesheet %}
 .hi-news-section {
   background: #16150F;
-  padding: 88px 32px;
 }
 .hi-news-inner {
   max-width: 880px;
   margin: 0 auto;
   text-align: center;
+  padding: 80px 32px;
 }
 .hi-news-eyebrow {
   font-family: 'Oswald', sans-serif;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
-  letter-spacing: .22em;
+  letter-spacing: .26em;
   text-transform: uppercase;
   color: #5C6B47;
   margin-bottom: 16px;
 }
 .hi-news-heading {
   font-family: 'Oswald', sans-serif;
-  font-size: clamp(28px, 3.5vw, 46px);
-  font-weight: 700;
-  letter-spacing: .02em;
+  font-size: clamp(28px, 3.1vw, 44px);
+  font-weight: 600;
+  letter-spacing: 0;
   text-transform: uppercase;
   color: #FBF9F5;
-  margin: 0 0 18px;
+  margin: 0 0 16px !important;
 }
 .hi-news-sub {
   font-family: 'Hanken Grotesk', sans-serif;
-  font-size: 15px;
-  font-weight: 300;
-  color: rgba(251,249,245,.65);
-  line-height: 1.7;
+  font-size: 17px;
+  font-weight: 400;
+  color: rgba(243,239,230,.78);
+  line-height: 1.6;
   margin: 0;
 }
+.hi-news-form { gap: 10px !important; }
+.hi-news-input { background: rgba(255,255,255,.06) !important; }
 .hi-news-success {
   font-family: 'Hanken Grotesk', sans-serif;
   font-size: 15px;
@@ -84,7 +86,7 @@
   margin-top: 8px;
 }
 @media (max-width: 560px) {
-  .hi-news-section { padding: 60px 20px; }
+  .hi-news-inner { padding: 60px 20px; }
 }
 {% endstylesheet %}
 
