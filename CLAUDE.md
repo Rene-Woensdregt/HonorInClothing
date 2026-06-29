@@ -1,10 +1,10 @@
 # Honor In Clothing — Shopify Theme Development
 
 ## Project
-- **Store:** Honor In Clothing (`https://honorinclothing.com`)
+- **Store:** Honor In Clothing (`https://honor-in-clothing.myshopify.com`)
 - **Theme:** Shopify Dawn v15.4.1
 - **Dev Theme ID:** 163039707357
-- **Dev Preview URL:** `https://honorinclothing.com/?_ab=0&_fd=0&_sc=1&preview_theme_id=163039707357`
+- **Dev Preview URL:** `https://honor-in-clothing.myshopify.com/?preview_theme_id=163039707357`
 - **Reference Site:** Vuori Clothing (`https://vuoriclothing.com`) — premium active lifestyle benchmark
 - **Developer:** Rene
 
@@ -45,9 +45,9 @@
 | Role | Font | Weight | Use |
 |------|------|--------|-----|
 | Heading | Oswald | 700 Bold | All headings, display, hero |
-| Body | Inter | 400 Regular | Body copy, labels, UI text |
+| Body | Hanken Grotesk | 400 Regular | Body copy, labels, UI text |
 | Shopify handle (heading) | `oswald_n7` | — | Set in settings_data.json |
-| Shopify handle (body) | `inter_n4` | — | Set in settings_data.json |
+| Shopify handle (body) | `hanken_grotesk_n4` | — | Set in settings_data.json |
 
 ### Type Scale
 | Level | Size | Font | Transform |

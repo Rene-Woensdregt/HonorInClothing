@@ -78,8 +78,9 @@
 
                   {%- comment -%} Optional featured image card {%- endcomment -%}
                   {%- assign feat_img   = mega_block.settings.mega_image -%}
+                  {%- assign feat_label = mega_block.settings.mega_label | default: link.title -%}
                   {%- assign feat_title = mega_block.settings.mega_title -%}
-                  {%- assign feat_cta   = mega_block.settings.mega_cta_text -%}
+                  {%- assign feat_cta   = mega_block.settings.mega_cta_text | default: 'Shop Now' -%}
                   {%- assign feat_url   = mega_block.settings.mega_cta_url | default: link.url -%}
                   {%- if feat_img != blank or feat_title != blank -%}
                     <a href="{{ feat_url }}" class="hi-megafeat">
@@ -94,11 +95,11 @@
                       {%- endif -%}
                       <div class="hi-megafeat-grad"></div>
                       <div class="hi-megafeat-content">
-                        <div class="hi-megafeat-label">{{ link.title }}</div>
+                        <div class="hi-megafeat-label">{{ feat_label }}</div>
                         {%- if feat_title != blank -%}
                           <div class="hi-megafeat-title">{{ feat_title }}</div>
                         {%- endif -%}
-                        <div class="hi-megafeat-cta">{{ feat_cta | default: 'Shop Now' }} →</div>
+                        <div class="hi-megafeat-cta">{{ feat_cta }} →</div>
                       </div>
                     </a>
                   {%- endif -%}
@@ -126,13 +127,27 @@
 
     {%- comment -%}──── RIGHT: search, account, cart ────{%- endcomment -%}
     <div class="hi-header-right">
-      <a href="{{ routes.search_url }}" class="hi-navlink hi-desktop-only">{{ 'hi.general.search' | t }}</a>
+      <a href="{{ routes.search_url }}" class="hi-icon hi-desktop-only" aria-label="{{ 'hi.general.search' | t }}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"></circle>
+          <line x1="21" y1="21" x2="16.5" y2="16.5"></line>
+        </svg>
+      </a>
       {%- if shop.customer_accounts_enabled -%}
-        <a href="{{ routes.account_url }}" class="hi-navlink hi-desktop-only">{{ 'hi.general.account' | t }}</a>
+        <a href="{{ routes.account_url }}" class="hi-icon hi-desktop-only" aria-label="{{ 'hi.general.account' | t }}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"></path>
+          </svg>
+        </a>
       {%- endif -%}
-      <button type="button" class="hi-cart-trigger" data-hi-cart-trigger
-        aria-label="{{ 'hi.general.cart' | t }}">
-        {{ 'hi.general.cart' | t }}
+      <button type="button" class="hi-icon" data-hi-cart-trigger
+        aria-label="{{ 'hi.general.cart' | t }}"
+        style="position:relative;background:none;border:none;padding:0;cursor:pointer;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M6 8h12l-1 12H7L6 8z"></path>
+          <path d="M9 8V6a3 3 0 0 1 6 0v2"></path>
+        </svg>
         <span class="hi-cart-badge" data-cart-count>{{ cart.item_count }}</span>
       </button>
     </div>
@@ -198,15 +213,10 @@
 {% stylesheet %}
 /* ─────────── Header shell ─────────── */
 .hi-header {
-  position: sticky;
-  top: 0;
-  z-index: 50;
   background: rgba(251,249,245,.96);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border-bottom: 1px solid #E7E2D7;
-  transition: transform .35s cubic-bezier(.2,.7,.3,1);
-  will-change: transform;
 }
 .hi-header-inner {
   max-width: 1280px;
@@ -230,7 +240,7 @@
 
 /* ─────────── Burger — hidden on desktop, shown on mobile ─────────── */
 .hi-burger {
-  display: none !important;
+  display: none;
   background: none;
   border: none;
   cursor: pointer;
@@ -320,9 +330,8 @@
   gap: 56px;
   flex: 1;
   flex-wrap: wrap;
-  align-items: flex-start;
 }
-.hi-megacol { min-width: 100px; }
+.hi-megacol {}
 /* Level 2: column header (rendered as <a> so needs link-reset) */
 .hi-megacol-title {
   display: block;
@@ -341,6 +350,8 @@
   display: block;
   color: #54504A;
   text-decoration: none;
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-weight: 400;
   font-size: 14.5px;
   padding: 7px 0;
   width: max-content;
@@ -421,28 +432,29 @@
   flex: 1;
   justify-content: flex-end;
 }
-.hi-cart-trigger {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  background: none; border: none; padding: 0;
-  cursor: pointer;
+/* Icon buttons (search, account, cart) */
+.hi-icon {
   color: #16150F;
-  font-family: 'Oswald', sans-serif;
-  font-weight: 600; font-size: 13px;
-  letter-spacing: .13em; text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  cursor: pointer;
   transition: opacity .2s ease;
 }
-.hi-cart-trigger:hover { opacity: .6; }
+.hi-icon:hover { opacity: .55; }
+.hi-icon svg { width: 21px; height: 21px; display: block; }
 .hi-cart-badge {
+  position: absolute;
+  top: -7px; right: -9px;
   background: var(--hi-accent, #5C6B47);
   color: #fff;
   border-radius: 50%;
-  min-width: 18px; height: 18px;
-  padding: 0 5px;
+  min-width: 16px; height: 16px;
+  padding: 0 4px;
   display: inline-flex; align-items: center; justify-content: center;
   font-family: 'Oswald', sans-serif;
-  font-size: 11px; font-weight: 600; line-height: 1;
+  font-size: 10px;
 }
 
 /* ─────────── Mobile drawer ─────────── */
@@ -514,6 +526,8 @@
   padding: 9px 26px;
   color: #54504A;
   text-decoration: none;
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-weight: 400;
   font-size: 15px;
   transition: color .2s ease;
 }
@@ -521,10 +535,37 @@
 
 /* ─────────── Responsive ─────────── */
 @media (max-width: 900px) {
-  .hi-desktop-nav { display: none !important; }
-  .hi-desktop-only { display: none !important; }
-  .hi-burger { display: inline-flex !important; }
+  .hi-desktop-nav { display: none; }
+  .hi-desktop-only { display: none; }
+  .hi-burger { display: inline-flex; }
   .hi-header-inner { padding: 0 20px; }
+}
+
+/* ─────────── Dawn override resets ─────────── */
+/* Dawn base.css sets body { line-height: 1.8 } which cascades to all descendants.
+   Set explicit line-heights so elements match the design proportions. */
+.hi-navlink       { line-height: 1; }
+.hi-megacol-title { line-height: 1; }
+.hi-megalink      { line-height: 1.3; letter-spacing: 0; }
+.hi-megafeat-label,
+.hi-megafeat-cta  { line-height: 1; }
+.hi-logo-l2       { line-height: 1; }
+.hi-cart-badge    { line-height: 1; letter-spacing: 0; }
+.hi-drawer-row    { line-height: 1; }
+.hi-acc-coltitle  { line-height: 1; }
+.hi-acc-link      { line-height: 1.3; letter-spacing: 0; }
+/* Dawn base.css *:focus-visible adds a box-shadow to all elements — override for our UI */
+.hi-icon:focus,         .hi-icon:focus-visible,
+.hi-burger:focus,       .hi-burger:focus-visible,
+.hi-drawer-close:focus, .hi-drawer-close:focus-visible {
+  outline: 2px solid var(--hi-accent, #5C6B47);
+  outline-offset: 3px;
+  box-shadow: none;
+}
+.hi-navlink:focus,      .hi-navlink:focus-visible,
+.hi-drawer-row:focus,   .hi-drawer-row:focus-visible {
+  outline: none;
+  box-shadow: none;
 }
 {% endstylesheet %}
 
@@ -572,17 +613,27 @@
     });
   });
 
-  /* Scroll hide / show */
+  /* Sticky + scroll hide / show
+     CSS sticky on .hi-header alone is constrained by its .shopify-section parent
+     (same height = 74px), so we promote sticky to the wrapper — same approach as Dawn.
+     We then animate `top` (not translateY) to hide/show without leaving a layout gap. */
   var header = document.querySelector('[data-hi-header]');
   if (header) {
+    var stickyTarget = header;
+    var sect = header.closest('.shopify-section');
+    if (sect) {
+      sect.style.position = 'sticky';
+      sect.style.top = '0';
+      sect.style.zIndex = '50';
+      sect.style.transition = 'top .35s cubic-bezier(.2,.7,.3,1)';
+      stickyTarget = sect;
+    }
     var lastY = 0, ticking = false;
     window.addEventListener('scroll', function () {
       if (!ticking) {
         requestAnimationFrame(function () {
           var y = window.scrollY || 0;
-          header.style.transform = (y > lastY && y > 140)
-            ? 'translateY(-100%)'
-            : 'translateY(0)';
+          stickyTarget.style.top = (y > lastY && y > 140) ? '-74px' : '0';
           lastY = y;
           ticking = false;
         });
@@ -615,6 +666,12 @@
           "type": "image_picker",
           "id": "mega_image",
           "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "mega_label",
+          "label": "Label",
+          "info": "Small uppercase label above the title (e.g. \"Men's\", \"Featured Collection\")"
         },
         {
           "type": "text",

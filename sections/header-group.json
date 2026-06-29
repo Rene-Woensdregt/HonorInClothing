@@ -18,8 +18,10 @@
           "type": "mega_menu",
           "settings": {
             "nav_title": "Youth",
-            "mega_title": "",
-            "mega_cta_text": "Shop Now",
+            "mega_image": "shopify://shop_images/photo-1521572163474-6864f9cf17ab.jpg",
+            "mega_label": "Youth",
+            "mega_title": "Built To Play",
+            "mega_cta_text": "Shop Youth",
             "mega_cta_url": ""
           }
         },
@@ -27,8 +29,10 @@
           "type": "mega_menu",
           "settings": {
             "nav_title": "Women",
-            "mega_title": "",
-            "mega_cta_text": "Shop Now",
+            "mega_image": "shopify://shop_images/photo-1524504388940-b1c1722653e1.jpg",
+            "mega_label": "Women's",
+            "mega_title": "Foundation Collection",
+            "mega_cta_text": "Shop New",
             "mega_cta_url": ""
           }
         },
@@ -36,8 +40,10 @@
           "type": "mega_menu",
           "settings": {
             "nav_title": "Men",
-            "mega_title": "",
-            "mega_cta_text": "Shop Now",
+            "mega_image": "shopify://shop_images/photo-1539571696357-5a69c17a67c6.jpg",
+            "mega_label": "Men's",
+            "mega_title": "Ridge Insulated Jacket",
+            "mega_cta_text": "Shop Outerwear",
             "mega_cta_url": ""
           }
         },
@@ -45,7 +51,9 @@
           "type": "mega_menu",
           "settings": {
             "nav_title": "New",
-            "mega_title": "",
+            "mega_image": "shopify://shop_images/photo-1529626455594-4ff0802cfb7e.jpg",
+            "mega_label": "Featured Collection",
+            "mega_title": "The Trailhead Edit",
             "mega_cta_text": "Shop Now",
             "mega_cta_url": ""
           }
