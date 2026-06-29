@@ -1,0 +1,23 @@
+# Playwright automation artifacts
+.playwright-mcp/
+
+# Review screenshots generated during dev
+*.png
+*.jpg
+*.jpeg
+*.gif
+
+# Design mockup files (temp scratchpad HTML)
+*-mockup.html
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+
+# Node
+node_modules/
+*.log
+
+# Environment
+.env
+.env.*
