@@ -112,12 +112,15 @@
 /* ─────────── Cart panel ─────────── */
 .hi-cart {
   position: fixed; top: 0; right: 0; bottom: 0;
-  width: 90%; max-width: 420px;
+  width: 380px;
   background: #FBF9F5;
   z-index: 202;
   transform: translateX(100%);
   transition: transform .36s cubic-bezier(.2,.7,.3,1);
   display: flex; flex-direction: column;
+}
+@media (max-width: 480px) {
+  .hi-cart { width: 85% !important; }
 }
 .hi-cart--open {
   transform: none;
