@@ -1,139 +1,409 @@
 {%- assign threshold_cents = section.settings.free_shipping_threshold | times: 100 -%}
-{%- if threshold_cents > 0 -%}
-  {%- assign progress = cart.total_price | times: 100 | divided_by: threshold_cents | at_most: 100 -%}
+{%- if threshold_cents > 0 and cart.item_count > 0 -%}
+  {%- assign progress = cart.total_price | times: 100.0 | divided_by: threshold_cents | at_most: 100 -%}
+  {%- assign remaining_cents = threshold_cents | minus: cart.total_price -%}
 {%- else -%}
   {%- assign progress = 100 -%}
 {%- endif -%}
 
 <div class="hi-cart-backdrop" data-hi-cart-backdrop></div>
 <aside class="hi-cart" data-hi-cart role="dialog" aria-modal="true" aria-label="{{ 'hi.cart_drawer.title' | t }}">
+
+  {%- comment -%}── Head ──{%- endcomment -%}
   <div class="hi-cart-head">
-    <span class="hi-cart-head-title">{{ 'hi.cart_drawer.title' | t }} ({{ cart.item_count }})</span>
-    <button class="hi-drawer-close" data-hi-cart-close aria-label="{{ 'hi.general.close_cart' | t }}">
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-        <path d="M4 4l12 12M16 4L4 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    <div class="hi-cart-head-title">
+      {{ 'hi.cart_drawer.title' | t }}
+      <span class="hi-cart-head-count">({{ cart.item_count }})</span>
+    </div>
+    <button type="button" class="hi-drawer-close" data-hi-cart-close aria-label="{{ 'hi.general.close_cart' | t }}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+        <line x1="18" y1="6" x2="6" y2="18"></line>
       </svg>
     </button>
   </div>
 
-  {%- if section.settings.free_shipping_threshold > 0 -%}
-    <div class="hi-cart-ship">
-      {%- if progress >= 100 -%}
-        <p class="hi-cart-ship-msg">{{ 'hi.cart_drawer.free_shipping_done' | t }}</p>
-      {%- else -%}
-        {%- assign remaining = cart.total_price | minus: threshold_cents -%}
-        {%- assign remaining_amount = section.settings.free_shipping_threshold | minus: cart.total_price | divided_by: 100.0 -%}
-        <p class="hi-cart-ship-msg">{{ 'hi.general.cart' | t | default: 'Add' }} <strong>{{ remaining_amount | money }}</strong> {{ 'hi.cart_drawer.free_shipping_done' | t | default: 'more for free shipping' }}</p>
-      {%- endif -%}
-      <div class="hi-cart-bar">
-        <div class="hi-cart-bar-fill" style="width:{{ progress }}%"></div>
-      </div>
-    </div>
-  {%- endif -%}
+  {%- if cart.item_count > 0 -%}
 
-  <div class="hi-cart-items">
-    {%- if cart.item_count > 0 -%}
+    {%- comment -%}── Free shipping bar ──{%- endcomment -%}
+    {%- if section.settings.free_shipping_threshold > 0 -%}
+      <div class="hi-cart-ship">
+        {%- if progress >= 100 -%}
+          <div class="hi-cart-ship-msg">{{ 'hi.cart_drawer.free_shipping_done' | t }}</div>
+        {%- else -%}
+          {%- assign remaining_formatted = remaining_cents | money -%}
+          <div class="hi-cart-ship-msg">{{ 'hi.cart_drawer.free_shipping_add' | t: amount: remaining_formatted }}</div>
+        {%- endif -%}
+        <div class="hi-cart-bar">
+          <div class="hi-cart-bar-fill" style="width:{{ progress }}%"></div>
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- comment -%}── Items ──{%- endcomment -%}
+    <div class="hi-cart-items">
       {%- for item in cart.items -%}
         <div class="hi-cart-item" data-cart-item data-key="{{ item.key }}">
-          {%- if item.image != blank -%}
-            {{ item.image | image_url: width: 200 | image_tag: class: 'hi-cart-thumb', loading: 'lazy', alt: item.title }}
-          {%- endif -%}
-          <div class="hi-cart-item-info">
-            <div class="hi-cart-item-title">{{ item.product.title }}</div>
-            {%- if item.variant.title != 'Default Title' -%}
-              <div class="hi-cart-item-variant">{{ item.variant.title }}</div>
+          <div class="hi-cart-thumb">
+            {%- if item.image != blank -%}
+              {{ item.image | image_url: width: 200 | image_tag:
+                  loading: 'lazy',
+                  alt: item.title,
+                  style: 'width:100%;height:100%;object-fit:cover;display:block;' }}
             {%- endif -%}
-            <div class="hi-qty">
-              <button data-qty-change="-" aria-label="{{ 'hi.general.decrease_qty' | t | default: 'Decrease quantity' }}">−</button>
-              <span data-qty-val>{{ item.quantity }}</span>
-              <button data-qty-change="+" aria-label="{{ 'hi.general.increase_qty' | t | default: 'Increase quantity' }}">+</button>
+          </div>
+          <div class="hi-cart-item-info">
+            <div class="hi-cart-item-top">
+              <div class="hi-cart-item-name">{{ item.product.title }}</div>
+              <div class="hi-cart-item-price">{{ item.final_line_price | money }}</div>
             </div>
-            <div class="hi-cart-item-price">{{ item.final_line_price | money }}</div>
-            <button class="hi-cart-remove" data-remove-item="{{ item.key }}">{{ 'hi.general.remove' | t | default: 'Remove' }}</button>
+            {%- unless item.variant.title == 'Default Title' -%}
+              <div class="hi-cart-item-meta">{{ item.variant.title }}</div>
+            {%- endunless -%}
+            <div class="hi-cart-item-bottom">
+              <div class="hi-qty">
+                <button type="button" data-qty-change="-" aria-label="{{ 'hi.general.decrease_qty' | t }}">−</button>
+                <span data-qty-val>{{ item.quantity }}</span>
+                <button type="button" data-qty-change="+" aria-label="{{ 'hi.general.increase_qty' | t }}">+</button>
+              </div>
+              <button type="button" class="hi-cart-remove" data-remove-item="{{ item.key }}">{{ 'hi.general.remove' | t }}</button>
+            </div>
           </div>
         </div>
       {%- endfor -%}
-    {%- else -%}
-      <div class="hi-cart-empty">
-        <p>{{ 'hi.cart_drawer.empty' | t | default: 'Your cart is empty.' }}</p>
-      </div>
-    {%- endif -%}
-  </div>
-
-  <div class="hi-cart-foot">
-    <div class="hi-cart-subtotal">
-      <span class="hi-cart-subtotal-label">{{ 'hi.cart_drawer.subtotal' | t | default: 'Subtotal' }}</span>
-      <span class="hi-cart-subtotal-price">{{ cart.total_price | money }}</span>
     </div>
-    <a href="/checkout" class="hi-btn hi-btn--primary hi-cart-checkout">{{ section.settings.checkout_label }}</a>
-    <button class="hi-cart-continue" data-hi-cart-close>{{ 'hi.general.continue_shopping' | t }}</button>
-  </div>
+
+    {%- comment -%}── Footer ──{%- endcomment -%}
+    <div class="hi-cart-foot">
+      <div class="hi-cart-subtotal-row">
+        <span class="hi-cart-subtotal-label">{{ 'hi.cart_drawer.subtotal' | t }}</span>
+        <span class="hi-cart-subtotal-price">{{ cart.total_price | money }}</span>
+      </div>
+      <div class="hi-cart-ship-notice">{{ 'hi.cart_drawer.shipping_notice' | t }}</div>
+      <a href="/checkout" class="hi-btn hi-btn--primary hi-btn--full">{{ section.settings.checkout_label }}</a>
+      <button type="button" class="hi-cart-continue" data-hi-cart-close>{{ 'hi.general.continue_shopping' | t }}</button>
+    </div>
+
+  {%- else -%}
+
+    {%- comment -%}── Empty state ──{%- endcomment -%}
+    <div class="hi-cart-empty">
+      <div class="hi-cart-empty-title">{{ 'hi.cart_drawer.empty_heading' | t }}</div>
+      <div class="hi-cart-empty-body">{{ 'hi.cart_drawer.empty_body' | t }}</div>
+      <a href="/collections/all" class="hi-btn hi-btn--primary" data-hi-cart-close>{{ 'hi.cart_drawer.start_shopping' | t }}</a>
+    </div>
+
+  {%- endif -%}
+
 </aside>
 
 {% stylesheet %}
-.hi-cart-empty {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  font-family: 'Hanken Grotesk', sans-serif;
-  font-size: 15px;
-  color: #8A8479;
-  padding: 40px 24px;
+/* ─────────── Cart backdrop ─────────── */
+.hi-cart-backdrop {
+  display: block !important;
+  position: fixed; inset: 0;
+  background: rgba(12,12,9,.5);
+  opacity: 0; pointer-events: none;
+  transition: opacity .3s ease;
+  z-index: 201;
 }
+.hi-cart-backdrop--open { opacity: 1; pointer-events: auto; }
+
+/* ─────────── Cart panel ─────────── */
+.hi-cart {
+  position: fixed; top: 0; right: 0; bottom: 0;
+  width: 90%; max-width: 420px;
+  background: #FBF9F5;
+  z-index: 202;
+  transform: translateX(100%);
+  transition: transform .36s cubic-bezier(.2,.7,.3,1);
+  display: flex; flex-direction: column;
+}
+.hi-cart--open {
+  transform: none;
+  box-shadow: 0 0 60px rgba(12,12,9,.34);
+}
+
+/* ─────────── Head ─────────── */
+.hi-cart-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 22px 24px;
+  border-bottom: 1px solid #E7E2D7;
+  flex-shrink: 0;
+}
+.hi-cart-head-title {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700; font-size: 17px;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: #16150F; line-height: 1;
+}
+.hi-cart-head-count { color: #8A8479; }
+
+/* ─────────── Free shipping strip ─────────── */
+.hi-cart-ship {
+  padding: 15px 24px;
+  background: #F1ECE1;
+  border-bottom: 1px solid #E7E2D7;
+  flex-shrink: 0;
+}
+.hi-cart-ship-msg {
+  font-family: 'Oswald', sans-serif;
+  font-size: 11.5px; letter-spacing: .14em;
+  text-transform: uppercase; color: #16150F; line-height: 1;
+}
+.hi-cart-bar {
+  height: 5px; background: #E0D9CB;
+  border-radius: 3px; overflow: hidden; margin-top: 10px;
+}
+.hi-cart-bar-fill {
+  height: 100%; background: var(--hi-accent, #5C6B47);
+  border-radius: 3px; transition: width .4s ease;
+}
+
+/* ─────────── Items list ─────────── */
+.hi-cart-items { flex: 1; overflow-y: auto; }
+.hi-cart-item {
+  display: flex; gap: 16px;
+  padding: 20px 24px;
+  border-bottom: 1px solid #ECE7DC;
+}
+.hi-cart-thumb {
+  width: 78px; height: 98px;
+  background: #E9E4DA; flex-shrink: 0; overflow: hidden;
+}
+.hi-cart-item-info {
+  flex: 1; display: flex; flex-direction: column; min-width: 0;
+}
+.hi-cart-item-top {
+  display: flex; justify-content: space-between; gap: 12px;
+}
+.hi-cart-item-name {
+  font-weight: 600; font-size: 15px; line-height: 1.3; color: #16150F;
+}
+.hi-cart-item-price {
+  font-weight: 600; font-size: 15px;
+  white-space: nowrap; color: #16150F; line-height: 1.3;
+}
+.hi-cart-item-meta {
+  font-size: 12.5px; color: #8A8479;
+  margin-top: 4px; line-height: 1.3; letter-spacing: 0;
+}
+.hi-cart-item-bottom {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: auto; padding-top: 16px;
+}
+
+/* ─────────── Qty control ─────────── */
+.hi-qty {
+  display: inline-flex; align-items: center;
+  border: 1px solid #D7D0C2;
+}
+.hi-qty button {
+  width: 30px; height: 30px;
+  border: none; background: none; cursor: pointer;
+  font-size: 17px; color: #16150F; line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .2s ease;
+}
+.hi-qty button:hover { background: #F1ECE1; }
+.hi-qty span {
+  min-width: 32px; text-align: center;
+  font-family: 'Oswald', sans-serif;
+  font-size: 14px; line-height: 1; letter-spacing: 0;
+}
+
+/* ─────────── Remove button ─────────── */
+.hi-cart-remove {
+  background: none; border: none; cursor: pointer;
+  color: #8A8479; font-size: 12px;
+  letter-spacing: .04em; text-decoration: underline;
+  padding: 0; text-underline-offset: 2px;
+  transition: color .2s ease; line-height: 1;
+  font-family: 'Hanken Grotesk', sans-serif;
+}
+.hi-cart-remove:hover { color: #16150F; }
+
+/* ─────────── Footer ─────────── */
+.hi-cart-foot {
+  border-top: 1px solid #E7E2D7;
+  padding: 22px 24px;
+  flex-shrink: 0;
+}
+.hi-cart-subtotal-row {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 6px;
+}
+.hi-cart-subtotal-label {
+  font-family: 'Oswald', sans-serif;
+  font-size: 13px; letter-spacing: .12em;
+  text-transform: uppercase; color: #54504A; line-height: 1;
+}
+.hi-cart-subtotal-price {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600; font-size: 21px; line-height: 1;
+}
+.hi-cart-ship-notice {
+  font-size: 12.5px; color: #8A8479;
+  margin-bottom: 18px; letter-spacing: 0; line-height: 1.4;
+}
+.hi-cart-continue {
+  display: block; width: 100%;
+  background: none; border: none; cursor: pointer;
+  margin-top: 12px; color: #16150F;
+  font-family: 'Oswald', sans-serif;
+  font-size: 12.5px; letter-spacing: .14em; text-transform: uppercase;
+  text-decoration: underline; text-underline-offset: 3px;
+  padding: 6px; line-height: 1;
+}
+
+/* ─────────── Empty state ─────────── */
+.hi-cart-empty {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center; padding: 40px; gap: 16px;
+}
+.hi-cart-empty-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 20px; text-transform: uppercase; letter-spacing: .06em; line-height: 1;
+}
+.hi-cart-empty-body {
+  color: #8A8479; font-size: 14.5px; line-height: 1.6;
+  max-width: 30ch; letter-spacing: 0;
+}
+
+/* ─────────── Button system (used in cart) ─────────── */
+.hi-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 16px 36px; text-decoration: none;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600; font-size: 14px;
+  letter-spacing: .14em; text-transform: uppercase;
+  cursor: pointer; border: none; line-height: 1;
+  transition: background .28s cubic-bezier(.2,.7,.3,1),
+              color .28s cubic-bezier(.2,.7,.3,1);
+}
+.hi-btn--primary { background: #16150F; color: #fff; }
+.hi-btn--primary:hover { background: var(--hi-accent, #5C6B47); color: #fff; }
+.hi-btn--full { width: 100%; }
 {% endstylesheet %}
 
 {% javascript %}
-(function(){
-  var backdrop=document.querySelector('[data-hi-cart-backdrop]');
-  var drawer=document.querySelector('[data-hi-cart]');
-  var closeBtns=document.querySelectorAll('[data-hi-cart-close]');
-  function open(){
-    if(!drawer)return;
-    drawer.classList.add('hi-cart--open');
-    if(backdrop)backdrop.classList.add('hi-cart-backdrop--open');
-    document.body.style.overflow='hidden';
-    var cartIcon=document.querySelector('[data-hi-cart-trigger]');
-    if(cartIcon)cartIcon.setAttribute('aria-expanded','true');
+(function () {
+  'use strict';
+
+  function getDrawer()   { return document.querySelector('[data-hi-cart]'); }
+  function getBackdrop() { return document.querySelector('[data-hi-cart-backdrop]'); }
+
+  /* Escape the header stacking context so z-index works correctly */
+  (function () {
+    var b = getBackdrop(), d = getDrawer();
+    if (b) document.body.appendChild(b);
+    if (d) document.body.appendChild(d);
+  })();
+
+  function open() {
+    var d = getDrawer(), b = getBackdrop();
+    if (!d) return;
+    d.classList.add('hi-cart--open');
+    if (b) b.classList.add('hi-cart-backdrop--open');
+    document.body.style.overflow = 'hidden';
   }
-  function close(){
-    if(!drawer)return;
-    drawer.classList.remove('hi-cart--open');
-    if(backdrop)backdrop.classList.remove('hi-cart-backdrop--open');
-    document.body.style.overflow='';
-    var cartIcon=document.querySelector('[data-hi-cart-trigger]');
-    if(cartIcon)cartIcon.setAttribute('aria-expanded','false');
+
+  function close() {
+    var d = getDrawer(), b = getBackdrop();
+    if (!d) return;
+    d.classList.remove('hi-cart--open');
+    if (b) b.classList.remove('hi-cart-backdrop--open');
+    document.body.style.overflow = '';
   }
-  if(backdrop)backdrop.addEventListener('click',close);
-  closeBtns.forEach(function(btn){btn.addEventListener('click',close);});
-  document.addEventListener('click',function(e){
-    if(e.target.closest('[data-hi-cart-trigger]')){e.preventDefault();open();}
+
+  function isOpen() {
+    var d = getDrawer();
+    return d && d.classList.contains('hi-cart--open');
+  }
+
+  /* Refresh cart via Shopify section rendering — no page reload */
+  function refreshCart() {
+    fetch('/?sections=hi-cart-drawer')
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        var temp = document.createElement('div');
+        temp.innerHTML = data['hi-cart-drawer'];
+        temp.querySelectorAll('script, style').forEach(function (el) { el.remove(); });
+        var newBackdrop = temp.querySelector('[data-hi-cart-backdrop]');
+        var newDrawer   = temp.querySelector('[data-hi-cart]');
+        var curBackdrop = getBackdrop();
+        var curDrawer   = getDrawer();
+        if (curBackdrop && newBackdrop) curBackdrop.replaceWith(newBackdrop);
+        if (curDrawer   && newDrawer)   curDrawer.replaceWith(newDrawer);
+        open();
+        /* Update header cart badge */
+        return fetch('/cart.js');
+      })
+      .then(function (r) { return r.json(); })
+      .then(function (cart) {
+        var badge = document.querySelector('[data-cart-count]');
+        if (badge) badge.textContent = cart.item_count;
+      });
+  }
+
+  /* Open on cart icon click */
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('[data-hi-cart-trigger]')) {
+      e.preventDefault();
+      open();
+    }
   });
-  document.addEventListener('click',function(e){
-    var btn=e.target.closest('[data-qty-change]');
-    if(!btn)return;
-    var item=btn.closest('[data-cart-item]');
-    if(!item)return;
-    var key=item.dataset.key;
-    var qtyEl=item.querySelector('[data-qty-val]');
-    var qty=parseInt(qtyEl.textContent,10)+(btn.dataset.qtyChange==='+'?1:-1);
-    if(qty<0)qty=0;
-    fetch('/cart/change.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:key,quantity:qty})})
-      .then(function(){location.reload();});
+
+  /* Close on close buttons */
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('[data-hi-cart-close]')) close();
   });
-  document.addEventListener('click',function(e){
-    var btn=e.target.closest('[data-remove-item]');
-    if(!btn)return;
-    var key=btn.dataset.removeItem;
-    fetch('/cart/change.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:key,quantity:0})})
-      .then(function(){location.reload();});
+
+  /* Close on tap/click outside the drawer */
+  document.addEventListener('pointerdown', function (e) {
+    if (!isOpen()) return;
+    var d = getDrawer();
+    var trigger = document.querySelector('[data-hi-cart-trigger]');
+    if (d && d.contains(e.target)) return;
+    if (trigger && trigger.contains(e.target)) return;
+    close();
   });
+
+  /* Qty change */
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-qty-change]');
+    if (!btn) return;
+    var item = btn.closest('[data-cart-item]');
+    if (!item) return;
+    var key   = item.dataset.key;
+    var qtyEl = item.querySelector('[data-qty-val]');
+    var qty   = parseInt(qtyEl.textContent, 10) + (btn.dataset.qtyChange === '+' ? 1 : -1);
+    if (qty < 0) qty = 0;
+    fetch('/cart/change.js', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({id: key, quantity: qty})
+    }).then(refreshCart);
+  });
+
+  /* Remove item */
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-remove-item]');
+    if (!btn) return;
+    fetch('/cart/change.js', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({id: btn.dataset.removeItem, quantity: 0})
+    }).then(refreshCart);
+  });
+
 })();
 {% endjavascript %}
 
 {% schema %}
 {
-  "name": "Cart Drawer",
+  "name": "t:hi.cart_drawer.name",
   "settings": [
     {
       "type": "range",
@@ -153,7 +423,7 @@
   ],
   "presets": [
     {
-      "name": "Cart Drawer"
+      "name": "t:hi.cart_drawer.name"
     }
   ]
 }

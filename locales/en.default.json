@@ -581,9 +581,13 @@
       "name": "Cart Drawer",
       "title": "Your Cart",
       "free_shipping_done": "You've unlocked free shipping!",
+      "free_shipping_add": "Add {{ amount }} more for free shipping",
       "checkout": "Proceed to Checkout",
-      "empty": "Your cart is empty.",
-      "subtotal": "Subtotal"
+      "subtotal": "Subtotal",
+      "shipping_notice": "Shipping & taxes calculated at checkout.",
+      "empty_heading": "Your cart is empty",
+      "empty_body": "Looks like you haven't added anything yet. Find something worth honoring.",
+      "start_shopping": "Start Shopping"
     },
     "footer": { "name": "Footer" }
   }
