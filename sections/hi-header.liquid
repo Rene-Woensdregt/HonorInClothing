@@ -5,9 +5,9 @@
 
   Mega menus: add a "Mega menu" block per nav item that needs one.
     - nav_title must match the nav link's exact title (e.g. "Men").
-    - mega_linklist is a separate Shopify navigation menu where:
-        • Top-level links  = column headers (level 2)
-        • Their children   = links inside each column (level 3)
+    - All mega menu content is read from the main menu itself:
+        • link.links        = column headers (level 2)
+        • col.links         = items within each column (level 3)
     - Optionally add a featured image card shown on the right side of the panel.
 {% enddoc %}
 
@@ -45,12 +45,8 @@
             {%- endif -%}
           {%- endfor -%}
 
-          {%- assign mega_list = nil -%}
-          {%- if mega_block != nil and mega_block.settings.mega_linklist != blank -%}
-            {%- assign mega_list = linklists[mega_block.settings.mega_linklist] -%}
-          {%- endif -%}
           {%- assign has_mega = false -%}
-          {%- if mega_list != nil and mega_list.links.size > 0 -%}
+          {%- if mega_block != nil and link.links.size > 0 -%}
             {%- assign has_mega = true -%}
           {%- endif -%}
 
@@ -66,13 +62,13 @@
                 <div class="hi-megapanel-inner">
 
                   {%- comment -%}
-                    Level 2 = column headers (top-level links in mega_linklist)
-                    Level 3 = items within each column (their children)
+                    link.links  = column headers (level 2 from main menu)
+                    col.links   = items within each column (level 3 from main menu)
                   {%- endcomment -%}
                   <div class="hi-megacols">
-                    {%- for col in mega_list.links -%}
+                    {%- for col in link.links -%}
                       <div class="hi-megacol">
-                        <div class="hi-megacol-title">{{ col.title }}</div>
+                        <a href="{{ col.url }}" class="hi-megacol-title">{{ col.title }}</a>
                         {%- for item in col.links -%}
                           <a href="{{ item.url }}" class="hi-megalink">{{ item.title }}</a>
                         {%- endfor -%}
@@ -166,30 +162,22 @@
   <a href="{{ routes.search_url }}" class="hi-drawer-row">{{ 'hi.general.search' | t }}</a>
 
   {%- for link in linklists[section.settings.menu].links -%}
-    {%- comment -%} Find matching mega block for this nav link {%- endcomment -%}
-    {%- assign drawer_block = nil -%}
-    {%- for block in section.blocks -%}
-      {%- if block.settings.nav_title == link.title -%}
-        {%- assign drawer_block = block -%}
-        {%- break -%}
-      {%- endif -%}
-    {%- endfor -%}
-
-    {%- assign drawer_list = nil -%}
-    {%- if drawer_block != nil and drawer_block.settings.mega_linklist != blank -%}
-      {%- assign drawer_list = linklists[drawer_block.settings.mega_linklist] -%}
-    {%- endif -%}
-
-    {%- if drawer_list != nil and drawer_list.links.size > 0 -%}
+    {%- if link.links.size > 0 -%}
       <button type="button" class="hi-drawer-row" data-hi-acc aria-expanded="false">
         {{ link.title }} <span class="hi-acc-plus" aria-hidden="true">+</span>
       </button>
       <div class="hi-acc-panel" role="region">
-        {%- for col in drawer_list.links -%}
-          <div class="hi-acc-coltitle">{{ col.title }}</div>
-          {%- for item in col.links -%}
-            <a href="{{ item.url }}" class="hi-acc-link">{{ item.title }}</a>
-          {%- endfor -%}
+        {%- for col in link.links -%}
+          {%- if col.links.size > 0 -%}
+            {%- comment -%} 3-level: col = header, col.links = items {%- endcomment -%}
+            <div class="hi-acc-coltitle">{{ col.title }}</div>
+            {%- for item in col.links -%}
+              <a href="{{ item.url }}" class="hi-acc-link">{{ item.title }}</a>
+            {%- endfor -%}
+          {%- else -%}
+            {%- comment -%} 2-level fallback: show col directly as a link {%- endcomment -%}
+            <a href="{{ col.url }}" class="hi-acc-link">{{ col.title }}</a>
+          {%- endif -%}
         {%- endfor -%}
       </div>
     {%- else -%}
@@ -618,13 +606,7 @@
           "type": "text",
           "id": "nav_title",
           "label": "Navigation item name",
-          "info": "Must match the exact nav link title (e.g. \"Men\"). This ties the block to that nav item."
-        },
-        {
-          "type": "link_list",
-          "id": "mega_linklist",
-          "label": "Mega menu links",
-          "info": "Create a navigation menu where top-level links are column headers (level 2) and their children are the links inside each column (level 3)."
+          "info": "Must match the exact nav link title (e.g. \"Men\"). Sub-links from the main menu will appear as the mega panel — column headers (level 2) and their children as items (level 3)."
         },
         {
           "type": "header",
