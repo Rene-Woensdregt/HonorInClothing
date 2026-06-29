@@ -10,36 +10,36 @@
         "logo_text_line2": "CLOTHING CO."
       },
       "blocks": {
-        "mega-pos-1": {
+        "mega-new": {
           "type": "mega_menu",
           "settings": {
-            "nav_position": "1",
+            "nav_title": "New",
             "mega_cta_text": "Shop New Arrivals"
           }
         },
-        "mega-pos-2": {
+        "mega-men": {
           "type": "mega_menu",
           "settings": {
-            "nav_position": "2",
+            "nav_title": "Men",
             "mega_cta_text": "Shop Men's"
           }
         },
-        "mega-pos-3": {
+        "mega-women": {
           "type": "mega_menu",
           "settings": {
-            "nav_position": "3",
+            "nav_title": "Women",
             "mega_cta_text": "Shop Women's"
           }
         },
-        "mega-pos-4": {
+        "mega-youth": {
           "type": "mega_menu",
           "settings": {
-            "nav_position": "4",
+            "nav_title": "Youth",
             "mega_cta_text": "Shop Youth"
           }
         }
       },
-      "blocks_order": ["mega-pos-1", "mega-pos-2", "mega-pos-3", "mega-pos-4"]
+      "blocks_order": ["mega-new", "mega-men", "mega-women", "mega-youth"]
     },
     "hi-cart-drawer": {
       "type": "hi-cart-drawer",

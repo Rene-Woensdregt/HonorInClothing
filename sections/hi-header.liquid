@@ -1,12 +1,14 @@
 {% doc %}
-  Hi Header — sticky nav with 3-level mega menus and mobile drawer accordion.
+  Hi Header — sticky nav with mega menus and mobile drawer accordion.
 
-  Main navigation: section.settings.menu (link_list) drives all top-level nav links.
+  Main navigation: section.settings.menu (link_list) drives all top-level nav links
+  AND supplies their sub-links (link.links) which power the mega panel.
 
   Mega menus: add a "Mega menu" block per nav item that needs one.
-    - Block setting "nav_position" (1–8) ties the block to that position in the main menu.
-    - mega_linklist: column headers (level 2) → their children = items (level 3).
-    - Optional featured image + title + CTA shown as a right-panel card.
+    - Block setting "nav_title" must match the nav link's exact title (e.g. "Men").
+    - When matched, the block triggers a mega panel whose links come from that
+      nav item's children in the main menu (link.links).
+    - The block settings only control the optional featured image card (right panel).
 {% enddoc %}
 
 <header class="hi-header" data-hi-header>
@@ -29,21 +31,23 @@
       <nav class="hi-desktop-nav" aria-label="{{ 'hi.general.main_nav' | t }}">
         {%- assign nav_links = linklists[section.settings.menu].links -%}
         {%- for link in nav_links -%}
-          {%- assign pos_str = forloop.index | append: '' -%}
 
-          {%- comment -%} Find a mega_menu block assigned to this position {%- endcomment -%}
+          {%- comment -%}
+            Find a mega_menu block whose nav_title matches this link's title.
+            The block's existence enables the mega panel; its sub-links come
+            from link.links (children of this item in the main menu).
+          {%- endcomment -%}
           {%- assign mega_block = nil -%}
           {%- for block in section.blocks -%}
-            {%- if block.settings.nav_position == pos_str -%}
+            {%- if block.settings.nav_title == link.title -%}
               {%- assign mega_block = block -%}
               {%- break -%}
             {%- endif -%}
           {%- endfor -%}
 
           {%- assign has_mega = false -%}
-          {%- if mega_block != nil -%}
-            {%- assign mega_list = linklists[mega_block.settings.mega_linklist] -%}
-            {%- if mega_list.links.size > 0 -%}{%- assign has_mega = true -%}{%- endif -%}
+          {%- if mega_block != nil and link.links.size > 0 -%}
+            {%- assign has_mega = true -%}
           {%- endif -%}
 
           <div class="hi-navitem">
@@ -57,19 +61,16 @@
               <div class="hi-megapanel" role="region" aria-label="{{ link.title }}" {{ mega_block.shopify_attributes }}>
                 <div class="hi-megapanel-inner">
 
-                  {%- comment -%} Columns: level-2 headers → level-3 links {%- endcomment -%}
+                  {%- comment -%} Sub-links from the main menu item {%- endcomment -%}
                   <div class="hi-megacols">
-                    {%- for col in mega_list.links -%}
+                    {%- for sub in link.links -%}
                       <div class="hi-megacol">
-                        <div class="hi-megacol-title">{{ col.title }}</div>
-                        {%- for child in col.links -%}
-                          <a href="{{ child.url }}" class="hi-megalink">{{ child.title }}</a>
-                        {%- endfor -%}
+                        <a href="{{ sub.url }}" class="hi-megacol-title hi-megacol-link">{{ sub.title }}</a>
                       </div>
                     {%- endfor -%}
                   </div>
 
-                  {%- comment -%} Featured image card (right panel) {%- endcomment -%}
+                  {%- comment -%} Optional featured image card {%- endcomment -%}
                   {%- assign feat_img   = mega_block.settings.mega_image -%}
                   {%- assign feat_title = mega_block.settings.mega_title -%}
                   {%- assign feat_cta   = mega_block.settings.mega_cta_text -%}
@@ -155,40 +156,13 @@
   <a href="{{ routes.search_url }}" class="hi-drawer-row">{{ 'hi.general.search' | t }}</a>
 
   {%- for link in linklists[section.settings.menu].links -%}
-    {%- assign pos_str = forloop.index | append: '' -%}
-
-    {%- assign drawer_block = nil -%}
-    {%- for block in section.blocks -%}
-      {%- if block.settings.nav_position == pos_str -%}
-        {%- assign drawer_block = block -%}
-        {%- break -%}
-      {%- endif -%}
-    {%- endfor -%}
-
-    {%- assign drawer_list = nil -%}
-    {%- if drawer_block != nil -%}
-      {%- assign drawer_list = linklists[drawer_block.settings.mega_linklist] -%}
-    {%- endif -%}
-
-    {%- if drawer_list != nil and drawer_list.links.size > 0 -%}
+    {%- if link.links.size > 0 -%}
       <button type="button" class="hi-drawer-row" data-hi-acc aria-expanded="false">
         {{ link.title }} <span class="hi-acc-plus" aria-hidden="true">+</span>
       </button>
       <div class="hi-acc-panel" role="region">
-        {%- for col in drawer_list.links -%}
-          <div class="hi-acc-coltitle">{{ col.title }}</div>
-          {%- for child in col.links -%}
-            <a href="{{ child.url }}" class="hi-acc-link">{{ child.title }}</a>
-          {%- endfor -%}
-        {%- endfor -%}
-      </div>
-    {%- elsif link.links.size > 0 -%}
-      <button type="button" class="hi-drawer-row" data-hi-acc aria-expanded="false">
-        {{ link.title }} <span class="hi-acc-plus" aria-hidden="true">+</span>
-      </button>
-      <div class="hi-acc-panel" role="region">
-        {%- for child in link.links -%}
-          <a href="{{ child.url }}" class="hi-acc-link">{{ child.title }}</a>
+        {%- for sub in link.links -%}
+          <a href="{{ sub.url }}" class="hi-acc-link">{{ sub.title }}</a>
         {%- endfor -%}
       </div>
     {%- else -%}
@@ -327,9 +301,10 @@
 }
 .hi-megacols {
   display: flex;
-  gap: 56px;
+  gap: 40px;
   flex: 1;
   flex-wrap: wrap;
+  align-items: flex-start;
 }
 .hi-megacol { min-width: 100px; }
 .hi-megacol-title {
@@ -339,18 +314,20 @@
   letter-spacing: .18em;
   text-transform: uppercase;
   color: #16150F;
-  margin-bottom: 14px;
-}
-.hi-megalink {
-  display: block;
-  color: #54504A;
+  margin-bottom: 0;
   text-decoration: none;
-  font-size: 14.5px;
-  padding: 7px 0;
-  width: max-content;
-  transition: color .2s ease, transform .2s ease;
+  display: block;
 }
-.hi-megalink:hover { color: #16150F; transform: translateX(5px); }
+.hi-megacol-link {
+  padding: 9px 0;
+  color: #54504A;
+  font-weight: 500;
+  font-size: 14.5px;
+  letter-spacing: .08em;
+  transition: color .2s ease, transform .2s ease;
+  display: block;
+}
+.hi-megacol-link:hover { color: #16150F; transform: translateX(5px); }
 
 /* ─────────── Mega featured image (right panel) ─────────── */
 .hi-megafeat {
@@ -512,15 +489,12 @@
   background: #F1ECE1;
 }
 .hi-acc-panel[data-open="true"] { max-height: 1200px; }
-.hi-acc-coltitle {
-  font-family: 'Oswald', sans-serif;
-  font-weight: 600; font-size: 11px;
-  letter-spacing: .18em; text-transform: uppercase;
-  color: #8A8479; padding: 16px 26px 6px;
-}
 .hi-acc-link {
-  display: block; padding: 9px 26px;
-  color: #54504A; text-decoration: none; font-size: 15px;
+  display: block; padding: 12px 26px;
+  color: #54504A; text-decoration: none;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 500; font-size: 14px;
+  letter-spacing: .06em; text-transform: uppercase;
   transition: color .2s ease;
 }
 .hi-acc-link:hover { color: #16150F; }
@@ -608,27 +582,10 @@
       "name": "Mega menu",
       "settings": [
         {
-          "type": "select",
-          "id": "nav_position",
-          "label": "Navigation menu position",
-          "info": "Which position in your main menu this mega menu belongs to (1 = first link, 2 = second, etc.)",
-          "options": [
-            { "value": "1", "label": "Position 1" },
-            { "value": "2", "label": "Position 2" },
-            { "value": "3", "label": "Position 3" },
-            { "value": "4", "label": "Position 4" },
-            { "value": "5", "label": "Position 5" },
-            { "value": "6", "label": "Position 6" },
-            { "value": "7", "label": "Position 7" },
-            { "value": "8", "label": "Position 8" }
-          ],
-          "default": "1"
-        },
-        {
-          "type": "link_list",
-          "id": "mega_linklist",
-          "label": "Mega menu links",
-          "info": "Create a navigation menu where top-level links are column headers and their children are the items."
+          "type": "text",
+          "id": "nav_title",
+          "label": "Navigation item name",
+          "info": "Enter the exact name of the nav item in your menu (e.g. \"Men\"). The mega panel will show that item's sub-links."
         },
         {
           "type": "header",
