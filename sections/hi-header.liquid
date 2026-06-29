@@ -1,14 +1,14 @@
 {% doc %}
-  Hi Header — sticky nav with mega menus and mobile drawer accordion.
+  Hi Header — sticky nav with 3-level mega menus and mobile drawer accordion.
 
-  Main navigation: section.settings.menu (link_list) drives all top-level nav links
-  AND supplies their sub-links (link.links) which power the mega panel.
+  Main navigation: section.settings.menu (link_list) drives all top-level nav links.
 
   Mega menus: add a "Mega menu" block per nav item that needs one.
-    - Block setting "nav_title" must match the nav link's exact title (e.g. "Men").
-    - When matched, the block triggers a mega panel whose links come from that
-      nav item's children in the main menu (link.links).
-    - The block settings only control the optional featured image card (right panel).
+    - nav_title must match the nav link's exact title (e.g. "Men").
+    - mega_linklist is a separate Shopify navigation menu where:
+        • Top-level links  = column headers (level 2)
+        • Their children   = links inside each column (level 3)
+    - Optionally add a featured image card shown on the right side of the panel.
 {% enddoc %}
 
 <header class="hi-header" data-hi-header>
@@ -45,8 +45,12 @@
             {%- endif -%}
           {%- endfor -%}
 
+          {%- assign mega_list = nil -%}
+          {%- if mega_block != nil and mega_block.settings.mega_linklist != blank -%}
+            {%- assign mega_list = linklists[mega_block.settings.mega_linklist] -%}
+          {%- endif -%}
           {%- assign has_mega = false -%}
-          {%- if mega_block != nil and link.links.size > 0 -%}
+          {%- if mega_list != nil and mega_list.links.size > 0 -%}
             {%- assign has_mega = true -%}
           {%- endif -%}
 
@@ -61,11 +65,17 @@
               <div class="hi-megapanel" role="region" aria-label="{{ link.title }}" {{ mega_block.shopify_attributes }}>
                 <div class="hi-megapanel-inner">
 
-                  {%- comment -%} Sub-links from the main menu item {%- endcomment -%}
+                  {%- comment -%}
+                    Level 2 = column headers (top-level links in mega_linklist)
+                    Level 3 = items within each column (their children)
+                  {%- endcomment -%}
                   <div class="hi-megacols">
-                    {%- for sub in link.links -%}
+                    {%- for col in mega_list.links -%}
                       <div class="hi-megacol">
-                        <a href="{{ sub.url }}" class="hi-megacol-title hi-megacol-link">{{ sub.title }}</a>
+                        <div class="hi-megacol-title">{{ col.title }}</div>
+                        {%- for item in col.links -%}
+                          <a href="{{ item.url }}" class="hi-megalink">{{ item.title }}</a>
+                        {%- endfor -%}
                       </div>
                     {%- endfor -%}
                   </div>
@@ -156,13 +166,30 @@
   <a href="{{ routes.search_url }}" class="hi-drawer-row">{{ 'hi.general.search' | t }}</a>
 
   {%- for link in linklists[section.settings.menu].links -%}
-    {%- if link.links.size > 0 -%}
+    {%- comment -%} Find matching mega block for this nav link {%- endcomment -%}
+    {%- assign drawer_block = nil -%}
+    {%- for block in section.blocks -%}
+      {%- if block.settings.nav_title == link.title -%}
+        {%- assign drawer_block = block -%}
+        {%- break -%}
+      {%- endif -%}
+    {%- endfor -%}
+
+    {%- assign drawer_list = nil -%}
+    {%- if drawer_block != nil and drawer_block.settings.mega_linklist != blank -%}
+      {%- assign drawer_list = linklists[drawer_block.settings.mega_linklist] -%}
+    {%- endif -%}
+
+    {%- if drawer_list != nil and drawer_list.links.size > 0 -%}
       <button type="button" class="hi-drawer-row" data-hi-acc aria-expanded="false">
         {{ link.title }} <span class="hi-acc-plus" aria-hidden="true">+</span>
       </button>
       <div class="hi-acc-panel" role="region">
-        {%- for sub in link.links -%}
-          <a href="{{ sub.url }}" class="hi-acc-link">{{ sub.title }}</a>
+        {%- for col in drawer_list.links -%}
+          <div class="hi-acc-coltitle">{{ col.title }}</div>
+          {%- for item in col.links -%}
+            <a href="{{ item.url }}" class="hi-acc-link">{{ item.title }}</a>
+          {%- endfor -%}
         {%- endfor -%}
       </div>
     {%- else -%}
@@ -307,6 +334,7 @@
   align-items: flex-start;
 }
 .hi-megacol { min-width: 100px; }
+/* Level 2: column header */
 .hi-megacol-title {
   font-family: 'Oswald', sans-serif;
   font-weight: 600;
@@ -314,20 +342,19 @@
   letter-spacing: .18em;
   text-transform: uppercase;
   color: #16150F;
-  margin-bottom: 0;
-  text-decoration: none;
-  display: block;
+  margin-bottom: 14px;
 }
-.hi-megacol-link {
-  padding: 9px 0;
+/* Level 3: items within each column */
+.hi-megalink {
+  display: block;
   color: #54504A;
-  font-weight: 500;
+  text-decoration: none;
   font-size: 14.5px;
-  letter-spacing: .08em;
+  padding: 7px 0;
+  width: max-content;
   transition: color .2s ease, transform .2s ease;
-  display: block;
 }
-.hi-megacol-link:hover { color: #16150F; transform: translateX(5px); }
+.hi-megalink:hover { color: #16150F; transform: translateX(5px); }
 
 /* ─────────── Mega featured image (right panel) ─────────── */
 .hi-megafeat {
@@ -489,8 +516,14 @@
   background: #F1ECE1;
 }
 .hi-acc-panel[data-open="true"] { max-height: 1200px; }
+.hi-acc-coltitle {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600; font-size: 11px;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: #8A8479; padding: 16px 26px 6px;
+}
 .hi-acc-link {
-  display: block; padding: 12px 26px;
+  display: block; padding: 9px 26px;
   color: #54504A; text-decoration: none;
   font-family: 'Oswald', sans-serif;
   font-weight: 500; font-size: 14px;
@@ -585,7 +618,13 @@
           "type": "text",
           "id": "nav_title",
           "label": "Navigation item name",
-          "info": "Enter the exact name of the nav item in your menu (e.g. \"Men\"). The mega panel will show that item's sub-links."
+          "info": "Must match the exact nav link title (e.g. \"Men\"). This ties the block to that nav item."
+        },
+        {
+          "type": "link_list",
+          "id": "mega_linklist",
+          "label": "Mega menu links",
+          "info": "Create a navigation menu where top-level links are column headers (level 2) and their children are the links inside each column (level 3)."
         },
         {
           "type": "header",
