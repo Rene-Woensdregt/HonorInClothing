@@ -8,7 +8,38 @@
         "menu": "main-menu",
         "logo_text_line1": "HONOR IN",
         "logo_text_line2": "CLOTHING CO."
-      }
+      },
+      "blocks": {
+        "mega-pos-1": {
+          "type": "mega_menu",
+          "settings": {
+            "nav_position": "1",
+            "mega_cta_text": "Shop New Arrivals"
+          }
+        },
+        "mega-pos-2": {
+          "type": "mega_menu",
+          "settings": {
+            "nav_position": "2",
+            "mega_cta_text": "Shop Men's"
+          }
+        },
+        "mega-pos-3": {
+          "type": "mega_menu",
+          "settings": {
+            "nav_position": "3",
+            "mega_cta_text": "Shop Women's"
+          }
+        },
+        "mega-pos-4": {
+          "type": "mega_menu",
+          "settings": {
+            "nav_position": "4",
+            "mega_cta_text": "Shop Youth"
+          }
+        }
+      },
+      "blocks_order": ["mega-pos-1", "mega-pos-2", "mega-pos-3", "mega-pos-4"]
     },
     "hi-cart-drawer": {
       "type": "hi-cart-drawer",

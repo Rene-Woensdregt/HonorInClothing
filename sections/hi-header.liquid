@@ -1,11 +1,12 @@
 {% doc %}
   Hi Header — sticky nav with 3-level mega menus and mobile drawer accordion.
 
-  Main navigation driven by section.settings.menu (link_list).
-  Each nav position (1–5) can optionally link to a separate mega menu linklist:
-    - Top-level links in that linklist = column headers (level 2)
-    - Their child links = items inside each column (level 3)
-  A featured image + title + CTA can be set per mega position in section settings.
+  Main navigation: section.settings.menu (link_list) drives all top-level nav links.
+
+  Mega menus: add a "Mega menu" block per nav item that needs one.
+    - Block setting "nav_position" (1–8) ties the block to that position in the main menu.
+    - mega_linklist: column headers (level 2) → their children = items (level 3).
+    - Optional featured image + title + CTA shown as a right-panel card.
 {% enddoc %}
 
 <header class="hi-header" data-hi-header>
@@ -28,21 +29,22 @@
       <nav class="hi-desktop-nav" aria-label="{{ 'hi.general.main_nav' | t }}">
         {%- assign nav_links = linklists[section.settings.menu].links -%}
         {%- for link in nav_links -%}
-          {%- assign pos = forloop.index -%}
-          {%- assign mega_list_key  = 'mega_' | append: pos | append: '_linklist' -%}
-          {%- assign mega_img_key   = 'mega_' | append: pos | append: '_image' -%}
-          {%- assign mega_title_key = 'mega_' | append: pos | append: '_title' -%}
-          {%- assign mega_cta_key   = 'mega_' | append: pos | append: '_cta_text' -%}
-          {%- assign mega_url_key   = 'mega_' | append: pos | append: '_cta_url' -%}
+          {%- assign pos_str = forloop.index | append: '' -%}
 
-          {%- assign mega_list  = linklists[section.settings[mega_list_key]] -%}
-          {%- assign mega_img   = section.settings[mega_img_key] -%}
-          {%- assign mega_title = section.settings[mega_title_key] -%}
-          {%- assign mega_cta   = section.settings[mega_cta_key] -%}
-          {%- assign mega_url   = section.settings[mega_url_key] -%}
+          {%- comment -%} Find a mega_menu block assigned to this position {%- endcomment -%}
+          {%- assign mega_block = nil -%}
+          {%- for block in section.blocks -%}
+            {%- if block.settings.nav_position == pos_str -%}
+              {%- assign mega_block = block -%}
+              {%- break -%}
+            {%- endif -%}
+          {%- endfor -%}
 
           {%- assign has_mega = false -%}
-          {%- if mega_list.links.size > 0 -%}{%- assign has_mega = true -%}{%- endif -%}
+          {%- if mega_block != nil -%}
+            {%- assign mega_list = linklists[mega_block.settings.mega_linklist] -%}
+            {%- if mega_list.links.size > 0 -%}{%- assign has_mega = true -%}{%- endif -%}
+          {%- endif -%}
 
           <div class="hi-navitem">
             <a href="{{ link.url }}"
@@ -52,10 +54,10 @@
             </a>
 
             {%- if has_mega -%}
-              <div class="hi-megapanel" role="region" aria-label="{{ link.title }}">
+              <div class="hi-megapanel" role="region" aria-label="{{ link.title }}" {{ mega_block.shopify_attributes }}>
                 <div class="hi-megapanel-inner">
 
-                  {%- comment -%} Columns: level-2 headers + level-3 links {%- endcomment -%}
+                  {%- comment -%} Columns: level-2 headers → level-3 links {%- endcomment -%}
                   <div class="hi-megacols">
                     {%- for col in mega_list.links -%}
                       <div class="hi-megacol">
@@ -68,23 +70,27 @@
                   </div>
 
                   {%- comment -%} Featured image card (right panel) {%- endcomment -%}
-                  {%- if mega_img != blank or mega_title != blank -%}
-                    <a href="{{ mega_url | default: link.url }}" class="hi-megafeat">
+                  {%- assign feat_img   = mega_block.settings.mega_image -%}
+                  {%- assign feat_title = mega_block.settings.mega_title -%}
+                  {%- assign feat_cta   = mega_block.settings.mega_cta_text -%}
+                  {%- assign feat_url   = mega_block.settings.mega_cta_url | default: link.url -%}
+                  {%- if feat_img != blank or feat_title != blank -%}
+                    <a href="{{ feat_url }}" class="hi-megafeat">
                       <div class="hi-megafeat-img">
-                        {%- if mega_img != blank -%}
-                          {{ mega_img | image_url: width: 700 | image_tag:
+                        {%- if feat_img != blank -%}
+                          {{ feat_img | image_url: width: 700 | image_tag:
                               loading: 'lazy',
-                              alt: mega_title,
+                              alt: feat_title,
                               class: 'hi-megafeat-photo' }}
                         {%- endif -%}
                       </div>
                       <div class="hi-megafeat-grad"></div>
                       <div class="hi-megafeat-content">
                         <div class="hi-megafeat-label">{{ link.title }}</div>
-                        {%- if mega_title != blank -%}
-                          <div class="hi-megafeat-title">{{ mega_title }}</div>
+                        {%- if feat_title != blank -%}
+                          <div class="hi-megafeat-title">{{ feat_title }}</div>
                         {%- endif -%}
-                        <div class="hi-megafeat-cta">{{ mega_cta | default: 'Shop Now' }} →</div>
+                        <div class="hi-megafeat-cta">{{ feat_cta | default: 'Shop Now' }} →</div>
                       </div>
                     </a>
                   {%- endif -%}
@@ -149,16 +155,27 @@
   <a href="{{ routes.search_url }}" class="hi-drawer-row">{{ 'hi.general.search' | t }}</a>
 
   {%- for link in linklists[section.settings.menu].links -%}
-    {%- assign pos = forloop.index -%}
-    {%- assign mega_list_key = 'mega_' | append: pos | append: '_linklist' -%}
-    {%- assign mega_list     = linklists[section.settings[mega_list_key]] -%}
+    {%- assign pos_str = forloop.index | append: '' -%}
 
-    {%- if mega_list.links.size > 0 -%}
+    {%- assign drawer_block = nil -%}
+    {%- for block in section.blocks -%}
+      {%- if block.settings.nav_position == pos_str -%}
+        {%- assign drawer_block = block -%}
+        {%- break -%}
+      {%- endif -%}
+    {%- endfor -%}
+
+    {%- assign drawer_list = nil -%}
+    {%- if drawer_block != nil -%}
+      {%- assign drawer_list = linklists[drawer_block.settings.mega_linklist] -%}
+    {%- endif -%}
+
+    {%- if drawer_list != nil and drawer_list.links.size > 0 -%}
       <button type="button" class="hi-drawer-row" data-hi-acc aria-expanded="false">
         {{ link.title }} <span class="hi-acc-plus" aria-hidden="true">+</span>
       </button>
       <div class="hi-acc-panel" role="region">
-        {%- for col in mega_list.links -%}
+        {%- for col in drawer_list.links -%}
           <div class="hi-acc-coltitle">{{ col.title }}</div>
           {%- for child in col.links -%}
             <a href="{{ child.url }}" class="hi-acc-link">{{ child.title }}</a>
@@ -240,7 +257,6 @@
   align-items: center;
   gap: 26px;
 }
-/* hi-navitem must NOT have position:relative — megapanel is relative to the sticky header */
 .hi-navitem {
   display: flex;
   align-items: center;
@@ -309,7 +325,6 @@
   gap: 56px;
   align-items: flex-start;
 }
-/* Level-2 column wrappers */
 .hi-megacols {
   display: flex;
   gap: 56px;
@@ -317,7 +332,6 @@
   flex-wrap: wrap;
 }
 .hi-megacol { min-width: 100px; }
-/* Level-2: column header */
 .hi-megacol-title {
   font-family: 'Oswald', sans-serif;
   font-weight: 600;
@@ -327,7 +341,6 @@
   color: #16150F;
   margin-bottom: 14px;
 }
-/* Level-3: column items */
 .hi-megalink {
   display: block;
   color: #54504A;
@@ -409,7 +422,7 @@
   letter-spacing: .42em; color: var(--hi-accent, #5C6B47); margin-top: 3px;
 }
 
-/* ─────────── Right: search / account / cart ─────────── */
+/* ─────────── Right ─────────── */
 .hi-header-right {
   display: flex;
   align-items: center;
@@ -589,6 +602,62 @@
 {% schema %}
 {
   "name": "Header",
+  "blocks": [
+    {
+      "type": "mega_menu",
+      "name": "Mega menu",
+      "settings": [
+        {
+          "type": "select",
+          "id": "nav_position",
+          "label": "Navigation menu position",
+          "info": "Which position in your main menu this mega menu belongs to (1 = first link, 2 = second, etc.)",
+          "options": [
+            { "value": "1", "label": "Position 1" },
+            { "value": "2", "label": "Position 2" },
+            { "value": "3", "label": "Position 3" },
+            { "value": "4", "label": "Position 4" },
+            { "value": "5", "label": "Position 5" },
+            { "value": "6", "label": "Position 6" },
+            { "value": "7", "label": "Position 7" },
+            { "value": "8", "label": "Position 8" }
+          ],
+          "default": "1"
+        },
+        {
+          "type": "link_list",
+          "id": "mega_linklist",
+          "label": "Mega menu links",
+          "info": "Create a navigation menu where top-level links are column headers and their children are the items."
+        },
+        {
+          "type": "header",
+          "content": "Featured image card"
+        },
+        {
+          "type": "image_picker",
+          "id": "mega_image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "mega_title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "mega_cta_text",
+          "label": "Button label",
+          "default": "Shop Now"
+        },
+        {
+          "type": "url",
+          "id": "mega_cta_url",
+          "label": "Button URL"
+        }
+      ]
+    }
+  ],
   "settings": [
     {
       "type": "link_list",
@@ -616,190 +685,6 @@
       "id": "logo_text_line2",
       "label": "Logo line 2",
       "default": "CLOTHING CO."
-    },
-    {
-      "type": "header",
-      "content": "Mega Menu — Nav Position 1"
-    },
-    {
-      "type": "paragraph",
-      "content": "Matches the 1st link in your main menu. Create a navigation menu with column headers as top-level links and product links as their children."
-    },
-    {
-      "type": "link_list",
-      "id": "mega_1_linklist",
-      "label": "Mega menu for position 1"
-    },
-    {
-      "type": "image_picker",
-      "id": "mega_1_image",
-      "label": "Featured image"
-    },
-    {
-      "type": "text",
-      "id": "mega_1_title",
-      "label": "Featured title"
-    },
-    {
-      "type": "text",
-      "id": "mega_1_cta_text",
-      "label": "CTA label",
-      "default": "Shop Now"
-    },
-    {
-      "type": "url",
-      "id": "mega_1_cta_url",
-      "label": "CTA URL"
-    },
-    {
-      "type": "header",
-      "content": "Mega Menu — Nav Position 2"
-    },
-    {
-      "type": "link_list",
-      "id": "mega_2_linklist",
-      "label": "Mega menu for position 2"
-    },
-    {
-      "type": "image_picker",
-      "id": "mega_2_image",
-      "label": "Featured image"
-    },
-    {
-      "type": "text",
-      "id": "mega_2_title",
-      "label": "Featured title"
-    },
-    {
-      "type": "text",
-      "id": "mega_2_cta_text",
-      "label": "CTA label",
-      "default": "Shop Now"
-    },
-    {
-      "type": "url",
-      "id": "mega_2_cta_url",
-      "label": "CTA URL"
-    },
-    {
-      "type": "header",
-      "content": "Mega Menu — Nav Position 3"
-    },
-    {
-      "type": "link_list",
-      "id": "mega_3_linklist",
-      "label": "Mega menu for position 3"
-    },
-    {
-      "type": "image_picker",
-      "id": "mega_3_image",
-      "label": "Featured image"
-    },
-    {
-      "type": "text",
-      "id": "mega_3_title",
-      "label": "Featured title"
-    },
-    {
-      "type": "text",
-      "id": "mega_3_cta_text",
-      "label": "CTA label",
-      "default": "Shop Now"
-    },
-    {
-      "type": "url",
-      "id": "mega_3_cta_url",
-      "label": "CTA URL"
-    },
-    {
-      "type": "header",
-      "content": "Mega Menu — Nav Position 4"
-    },
-    {
-      "type": "link_list",
-      "id": "mega_4_linklist",
-      "label": "Mega menu for position 4"
-    },
-    {
-      "type": "image_picker",
-      "id": "mega_4_image",
-      "label": "Featured image"
-    },
-    {
-      "type": "text",
-      "id": "mega_4_title",
-      "label": "Featured title"
-    },
-    {
-      "type": "text",
-      "id": "mega_4_cta_text",
-      "label": "CTA label",
-      "default": "Shop Now"
-    },
-    {
-      "type": "url",
-      "id": "mega_4_cta_url",
-      "label": "CTA URL"
-    },
-    {
-      "type": "header",
-      "content": "Mega Menu — Nav Position 5"
-    },
-    {
-      "type": "link_list",
-      "id": "mega_5_linklist",
-      "label": "Mega menu for position 5"
-    },
-    {
-      "type": "image_picker",
-      "id": "mega_5_image",
-      "label": "Featured image"
-    },
-    {
-      "type": "text",
-      "id": "mega_5_title",
-      "label": "Featured title"
-    },
-    {
-      "type": "text",
-      "id": "mega_5_cta_text",
-      "label": "CTA label",
-      "default": "Shop Now"
-    },
-    {
-      "type": "url",
-      "id": "mega_5_cta_url",
-      "label": "CTA URL"
-    },
-    {
-      "type": "header",
-      "content": "Mega Menu — Nav Position 6"
-    },
-    {
-      "type": "link_list",
-      "id": "mega_6_linklist",
-      "label": "Mega menu for position 6"
-    },
-    {
-      "type": "image_picker",
-      "id": "mega_6_image",
-      "label": "Featured image"
-    },
-    {
-      "type": "text",
-      "id": "mega_6_title",
-      "label": "Featured title"
-    },
-    {
-      "type": "text",
-      "id": "mega_6_cta_text",
-      "label": "CTA label",
-      "default": "Shop Now"
-    },
-    {
-      "type": "url",
-      "id": "mega_6_cta_url",
-      "label": "CTA URL"
     }
   ],
   "presets": [
