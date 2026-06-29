@@ -83,14 +83,15 @@
                   {%- assign feat_url   = mega_block.settings.mega_cta_url | default: link.url -%}
                   {%- if feat_img != blank or feat_title != blank -%}
                     <a href="{{ feat_url }}" class="hi-megafeat">
-                      <div class="hi-megafeat-img">
-                        {%- if feat_img != blank -%}
+                      {%- if feat_img != blank -%}
+                        <div class="hi-megafeat-img">
                           {{ feat_img | image_url: width: 700 | image_tag:
                               loading: 'lazy',
                               alt: feat_title,
-                              class: 'hi-megafeat-photo' }}
-                        {%- endif -%}
-                      </div>
+                              class: 'hi-card-img',
+                              style: 'width:100%;height:100%;object-fit:cover;display:block;' }}
+                        </div>
+                      {%- endif -%}
                       <div class="hi-megafeat-grad"></div>
                       <div class="hi-megafeat-content">
                         <div class="hi-megafeat-label">{{ link.title }}</div>
@@ -316,14 +317,16 @@
 }
 .hi-megacols {
   display: flex;
-  gap: 40px;
+  gap: 56px;
   flex: 1;
   flex-wrap: wrap;
   align-items: flex-start;
 }
 .hi-megacol { min-width: 100px; }
-/* Level 2: column header */
+/* Level 2: column header (rendered as <a> so needs link-reset) */
 .hi-megacol-title {
+  display: block;
+  text-decoration: none;
   font-family: 'Oswald', sans-serif;
   font-weight: 600;
   font-size: 12px;
@@ -332,6 +335,7 @@
   color: #16150F;
   margin-bottom: 14px;
 }
+.hi-megacol-title:hover { color: #16150F; }
 /* Level 3: items within each column */
 .hi-megalink {
   display: block;
@@ -357,13 +361,8 @@
   transition: box-shadow .4s cubic-bezier(.2,.7,.3,1);
 }
 .hi-megafeat:hover { box-shadow: 0 18px 38px rgba(20,21,15,.2); }
+/* .hi-card-img hover scale is handled by hi-global-styles.liquid */
 .hi-megafeat-img { position: absolute; inset: 0; overflow: hidden; }
-.hi-megafeat-photo {
-  width: 100%; height: 100%;
-  object-fit: cover; display: block;
-  transition: transform .9s cubic-bezier(.2,.7,.3,1);
-}
-.hi-megafeat:hover .hi-megafeat-photo { transform: scale(1.07); }
 .hi-megafeat-grad {
   position: absolute; inset: 0;
   background: linear-gradient(180deg, rgba(12,12,9,0) 28%, rgba(12,12,9,.74) 100%);
@@ -511,11 +510,11 @@
   color: #8A8479; padding: 16px 26px 6px;
 }
 .hi-acc-link {
-  display: block; padding: 9px 26px;
-  color: #54504A; text-decoration: none;
-  font-family: 'Oswald', sans-serif;
-  font-weight: 500; font-size: 14px;
-  letter-spacing: .06em; text-transform: uppercase;
+  display: block;
+  padding: 9px 26px;
+  color: #54504A;
+  text-decoration: none;
+  font-size: 15px;
   transition: color .2s ease;
 }
 .hi-acc-link:hover { color: #16150F; }
