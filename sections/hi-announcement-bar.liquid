@@ -1,16 +1,12 @@
 {%- if section.blocks.size > 0 -%}
 <div class="hi-ann-bar" role="region" aria-label="{{ 'hi.announcement_bar.label' | t }}">
   <div class="hi-ann-track" style="--hi-ann-speed:{{ section.settings.speed }}s">
-    {%- comment -%}Set A — visible{%- endcomment -%}
-    {%- for block in section.blocks -%}
-      <span class="hi-ann-item" {{ block.shopify_attributes }}>{{ block.settings.text }}</span>
-      <span class="hi-ann-sep" aria-hidden="true">✦</span>
-    {%- endfor -%}
-    {%- comment -%}Set B — duplicate for seamless loop{%- endcomment -%}
-    {%- for block in section.blocks -%}
-      <span class="hi-ann-item" aria-hidden="true">{{ block.settings.text }}</span>
-      <span class="hi-ann-sep" aria-hidden="true">✦</span>
-    {%- endfor -%}
+    <div class="hi-ann-set">
+      {%- for block in section.blocks -%}
+        <span class="hi-ann-item" {{ block.shopify_attributes }}>{{ block.settings.text }}</span>
+        <span class="hi-ann-sep" aria-hidden="true">✦</span>
+      {%- endfor -%}
+    </div>
   </div>
 </div>
 {%- endif -%}
@@ -27,18 +23,25 @@
 
 @keyframes hi-ann-marquee {
   from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  to   { transform: translateX(var(--hi-ann-translate, -50%)); }
 }
 
 .hi-ann-track {
   display: flex;
   align-items: center;
   flex-shrink: 0;
-  white-space: nowrap;
+  /* paused until JS sets the correct translate and enables it */
   animation: hi-ann-marquee var(--hi-ann-speed, 40s) linear infinite;
+  animation-play-state: paused;
 }
 
-.hi-ann-track:hover { animation-play-state: paused; }
+.hi-ann-track:hover { animation-play-state: paused !important; }
+
+.hi-ann-set {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
 
 .hi-ann-item {
   font-family: 'Oswald', sans-serif;
@@ -56,6 +59,33 @@
   line-height: 1;
 }
 {% endstylesheet %}
+
+{% javascript %}
+(function(){
+  document.querySelectorAll('.hi-ann-bar').forEach(function(bar){
+    var track = bar.querySelector('.hi-ann-track');
+    var originalSet = bar.querySelector('.hi-ann-set');
+    if (!track || !originalSet) return;
+
+    // Clone sets until track is at least 2× the bar width (ensures no gap at any viewport)
+    var barWidth = bar.offsetWidth;
+    while (track.scrollWidth < barWidth * 2 + originalSet.offsetWidth) {
+      var clone = originalSet.cloneNode(true);
+      clone.setAttribute('aria-hidden', 'true');
+      track.appendChild(clone);
+    }
+
+    // Translate by exactly 1 set width (as % of total track width)
+    var setWidth = originalSet.offsetWidth;
+    var totalWidth = track.scrollWidth;
+    var pct = (setWidth / totalWidth * 100).toFixed(6);
+    track.style.setProperty('--hi-ann-translate', '-' + pct + '%');
+
+    // Now start the animation
+    track.style.animationPlayState = 'running';
+  });
+})();
+{% endjavascript %}
 
 {% schema %}
 {
