@@ -1,24 +1,19 @@
 <div class="hi-values-wrap">
   <div class="hi-values">
     <div class="hi-values-set">
-      {%- assign values = section.settings.value_1 | append: '|' | append: section.settings.value_2 | append: '|' | append: section.settings.value_3 | append: '|' | append: section.settings.value_4 | append: '|' | append: section.settings.value_5 | append: '|' | append: section.settings.value_6 | split: '|' -%}
-      {%- for val in values -%}
-        {%- if val != blank -%}
-          <span class="hi-value-item">
-            <span class="hi-value-dot" aria-hidden="true"></span>
-            <span class="hi-value-text">{{ val }}</span>
-          </span>
-        {%- endif -%}
+      {%- for block in section.blocks -%}
+        <span class="hi-value-item" {{ block.shopify_attributes }}>
+          <span class="hi-value-dot" aria-hidden="true"></span>
+          <span class="hi-value-text">{{ block.settings.label }}</span>
+        </span>
       {%- endfor -%}
     </div>
     <div class="hi-values-dup" aria-hidden="true">
-      {%- for val in values -%}
-        {%- if val != blank -%}
-          <span class="hi-value-item">
-            <span class="hi-value-dot"></span>
-            <span class="hi-value-text">{{ val }}</span>
-          </span>
-        {%- endif -%}
+      {%- for block in section.blocks -%}
+        <span class="hi-value-item">
+          <span class="hi-value-dot" aria-hidden="true"></span>
+          <span class="hi-value-text">{{ block.settings.label }}</span>
+        </span>
       {%- endfor -%}
     </div>
   </div>
@@ -49,47 +44,34 @@
 {% schema %}
 {
   "name": "Values Strip",
-  "settings": [
+  "max_blocks": 6,
+  "blocks": [
     {
-      "type": "text",
-      "id": "value_1",
-      "label": "Value 1",
-      "default": "Honor"
-    },
-    {
-      "type": "text",
-      "id": "value_2",
-      "label": "Value 2",
-      "default": "Character"
-    },
-    {
-      "type": "text",
-      "id": "value_3",
-      "label": "Value 3",
-      "default": "Integrity"
-    },
-    {
-      "type": "text",
-      "id": "value_4",
-      "label": "Value 4",
-      "default": "Hard Work"
-    },
-    {
-      "type": "text",
-      "id": "value_5",
-      "label": "Value 5",
-      "default": "Service"
-    },
-    {
-      "type": "text",
-      "id": "value_6",
-      "label": "Value 6",
-      "default": "Legacy"
+      "type": "value",
+      "name": "Value",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Value",
+          "placeholder": "e.g. Honor",
+          "default": "Honor",
+          "info": "Displayed in the scrolling strip. Keep it short — 1–3 words."
+        }
+      ]
     }
   ],
   "presets": [
     {
-      "name": "Values Strip"
+      "name": "Values Strip",
+      "blocks": [
+        { "type": "value", "settings": { "label": "Honor" } },
+        { "type": "value", "settings": { "label": "Character" } },
+        { "type": "value", "settings": { "label": "Integrity" } },
+        { "type": "value", "settings": { "label": "Hard Work" } },
+        { "type": "value", "settings": { "label": "Service" } },
+        { "type": "value", "settings": { "label": "Legacy" } }
+      ]
     }
   ]
 }

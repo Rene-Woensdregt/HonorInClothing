@@ -24,14 +24,16 @@
     },
     "hi-values-strip": {
       "type": "hi-values-strip",
-      "settings": {
-        "value_1": "Honor",
-        "value_2": "Character",
-        "value_3": "Integrity",
-        "value_4": "Hard Work",
-        "value_5": "Service",
-        "value_6": "Legacy"
-      }
+      "blocks": {
+        "value-1": { "type": "value", "settings": { "label": "Honor" } },
+        "value-2": { "type": "value", "settings": { "label": "Character" } },
+        "value-3": { "type": "value", "settings": { "label": "Integrity" } },
+        "value-4": { "type": "value", "settings": { "label": "Hard Work" } },
+        "value-5": { "type": "value", "settings": { "label": "Service" } },
+        "value-6": { "type": "value", "settings": { "label": "Legacy" } }
+      },
+      "block_order": ["value-1", "value-2", "value-3", "value-4", "value-5", "value-6"],
+      "settings": {}
     },
     "hi-new-arrivals": {
       "type": "hi-featured-collection",
