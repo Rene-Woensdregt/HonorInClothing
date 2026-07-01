@@ -147,49 +147,75 @@
   "name": "Hero Banner",
   "settings": [
     {
+      "type": "header",
+      "content": "Background"
+    },
+    {
       "type": "image_picker",
       "id": "image",
-      "label": "Background image"
+      "label": "Background image",
+      "info": "Recommended: 1800×1200px or wider. Landscape photos work best."
+    },
+    {
+      "type": "header",
+      "content": "Content"
     },
     {
       "type": "text",
       "id": "eyebrow",
-      "label": "Eyebrow text",
-      "default": "Premium Active Lifestyle Apparel"
+      "label": "Eyebrow",
+      "placeholder": "e.g. Premium Active Lifestyle Apparel",
+      "default": "Premium Active Lifestyle Apparel",
+      "info": "Small uppercase label shown above the heading with a sage green line"
     },
     {
       "type": "textarea",
       "id": "heading",
       "label": "Heading",
-      "default": "Live With Honor."
+      "placeholder": "e.g. Live With Honor.",
+      "default": "Live With Honor.",
+      "info": "Press Enter to split the heading across multiple lines"
     },
     {
       "type": "text",
       "id": "subheading",
       "label": "Subheading",
+      "placeholder": "e.g. Built for those who show up.",
       "default": "Built for those who show up."
+    },
+    {
+      "type": "header",
+      "content": "Primary button"
     },
     {
       "type": "text",
       "id": "cta_label",
-      "label": "Primary button label",
-      "default": "Shop New Arrivals"
+      "label": "Button label",
+      "placeholder": "e.g. Shop New Arrivals",
+      "default": "Shop New Arrivals",
+      "info": "Leave blank to hide this button"
     },
     {
       "type": "url",
       "id": "cta_url",
-      "label": "Primary button URL"
+      "label": "Button URL"
+    },
+    {
+      "type": "header",
+      "content": "Secondary button"
     },
     {
       "type": "text",
       "id": "cta2_label",
-      "label": "Secondary button label",
-      "default": "Our Story"
+      "label": "Button label",
+      "placeholder": "e.g. Our Story",
+      "default": "Our Story",
+      "info": "Leave blank to hide this button. Renders as an outline (ghost) style."
     },
     {
       "type": "url",
       "id": "cta2_url",
-      "label": "Secondary button URL"
+      "label": "Button URL"
     }
   ],
   "presets": [
