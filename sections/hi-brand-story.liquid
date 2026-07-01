@@ -95,34 +95,48 @@
   "name": "Brand Story",
   "settings": [
     {
+      "type": "header",
+      "content": "Content"
+    },
+    {
       "type": "text",
       "id": "eyebrow",
       "label": "Eyebrow",
-      "default": "The Honor In Story"
+      "placeholder": "e.g. The Honor In Story",
+      "default": "The Honor In Story",
+      "info": "Small uppercase label shown above the heading with a sage green accent line"
     },
     {
       "type": "text",
       "id": "heading",
       "label": "Heading",
+      "placeholder": "e.g. More than apparel — a way of living.",
       "default": "More than apparel — a way of living."
     },
     {
       "type": "richtext",
       "id": "body_1",
-      "label": "Body paragraph 1",
+      "label": "First paragraph",
       "default": "<p>Honor In Clothing was founded on a simple belief: the clothes you wear should reflect the values you live by. Built for those who chase purpose over comfort.</p>"
     },
     {
       "type": "richtext",
       "id": "body_2",
-      "label": "Body paragraph 2",
+      "label": "Second paragraph",
+      "info": "Leave blank to show only one paragraph",
       "default": "<p>Every piece we make is designed for movement, built for endurance, and worn with intention. This is apparel for people who show up — every single day.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Button"
     },
     {
       "type": "text",
       "id": "cta_label",
       "label": "Button label",
-      "default": "Our Full Story"
+      "placeholder": "e.g. Read Our Story",
+      "default": "Our Full Story",
+      "info": "Leave blank to hide the button"
     },
     {
       "type": "url",
@@ -130,9 +144,14 @@
       "label": "Button URL"
     },
     {
+      "type": "header",
+      "content": "Image"
+    },
+    {
       "type": "image_picker",
       "id": "image",
-      "label": "Right side image"
+      "label": "Right side image",
+      "info": "Fills the full right half of the section. Portrait or square images work best."
     }
   ],
   "presets": [

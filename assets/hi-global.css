@@ -75,7 +75,7 @@ section[class*="hi-"] div:empty { display: block; }
 
 /* ── About / brand story ────────────────────────────────── */
 .hi-about-grid { display:grid;grid-template-columns:1fr 1fr; }
-.hi-about-text { padding:92px 70px 92px 0; }
+.hi-about-text { padding:92px 70px 92px max(32px, calc((100vw - 1280px) / 2 + 32px)); }
 .hi-about-img { position:relative;overflow:hidden; }
 
 /* ── Values strip ───────────────────────────────────────── */
