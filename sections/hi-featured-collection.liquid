@@ -132,6 +132,8 @@
 .hi-fcol-card {
   flex: 0 0 calc((100% - 60px) / 4);
   scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
 }
 .hi-card-img-wrap {
   display: block;
@@ -174,7 +176,7 @@
   background: #5C6B47;
   color: #fff;
 }
-.hi-card-body { padding: 18px 16px 20px; }
+.hi-card-body { padding: 18px 16px 20px; display: flex; flex-direction: column; flex: 1; }
 .hi-card-category {
   font-family: 'Oswald', sans-serif;
   font-size: 11.5px;
@@ -198,7 +200,8 @@
   font-size: 15px;
   font-weight: 400;
   color: #6B675C;
-  margin-top: 4px;
+  margin-top: auto;
+  padding-top: 4px;
 }
 @media (max-width: 900px) {
   .hi-fcol { padding: 60px 20px 48px; }
@@ -228,41 +231,63 @@ document.querySelectorAll('[data-hi-carousel]').forEach(function(sec){
   "name": "Featured Collection",
   "settings": [
     {
+      "type": "header",
+      "content": "Section heading"
+    },
+    {
       "type": "text",
       "id": "eyebrow",
-      "label": "Eyebrow label",
-      "default": "Just Dropped"
+      "label": "Eyebrow",
+      "placeholder": "e.g. Just Dropped",
+      "default": "Just Dropped",
+      "info": "Small label above the heading — displayed in sage green"
     },
     {
       "type": "text",
       "id": "title",
       "label": "Heading",
+      "placeholder": "e.g. New Arrivals",
       "default": "New Arrivals"
+    },
+    {
+      "type": "header",
+      "content": "Collection"
     },
     {
       "type": "collection",
       "id": "collection",
-      "label": "Collection"
+      "label": "Collection to display"
     },
     {
       "type": "range",
       "id": "products_limit",
-      "label": "Products to show",
+      "label": "Max products to show",
       "min": 4,
       "max": 12,
       "step": 1,
-      "default": 8
+      "default": 8,
+      "info": "Products scroll horizontally — all are visible via the carousel"
+    },
+    {
+      "type": "header",
+      "content": "\"View all\" link"
     },
     {
       "type": "text",
       "id": "view_all_label",
-      "label": "View all label",
+      "label": "Link label",
+      "placeholder": "e.g. Shop All New",
       "default": "Shop All New"
     },
     {
       "type": "url",
       "id": "view_all_url",
-      "label": "View all URL"
+      "label": "Link URL",
+      "info": "Leave blank to hide the link"
+    },
+    {
+      "type": "header",
+      "content": "Product cards"
     },
     {
       "type": "checkbox",
@@ -273,15 +298,17 @@ document.querySelectorAll('[data-hi-carousel]').forEach(function(sec){
     {
       "type": "text",
       "id": "badge_label",
-      "label": "Badge label (e.g. NEW, BEST SELLER)"
+      "label": "Badge text",
+      "placeholder": "e.g. NEW, SALE, BEST SELLER",
+      "info": "Appears on every card in this section. Leave blank for no badge."
     },
     {
       "type": "select",
       "id": "badge_style",
-      "label": "Badge style",
+      "label": "Badge color",
       "options": [
-        { "value": "light", "label": "Light (linen)" },
-        { "value": "accent", "label": "Sage (accent)" }
+        { "value": "light", "label": "Light — linen background, dark text" },
+        { "value": "accent", "label": "Sage — green background, white text" }
       ],
       "default": "light"
     }
