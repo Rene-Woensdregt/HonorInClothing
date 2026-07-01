@@ -24,8 +24,8 @@
         {%- assign col = section.settings.collection -%}
         {%- if col != blank -%}
           {%- for product in col.products limit: section.settings.products_limit -%}
-            <div class="hi-card hi-fcol-card">
-              <a href="{{ product.url }}" class="hi-card-img-wrap" aria-label="{{ product.title }}">
+            <a href="{{ product.url }}" class="hi-card hi-fcol-card" aria-label="{{ product.title }}">
+              <div class="hi-card-img-wrap">
                 <div class="hi-card-img-inner">
                   {%- if product.featured_image != blank -%}
                     {{ product.featured_image | image_url: width: 600 | image_tag: class: 'hi-card-img-el', loading: 'lazy', alt: product.title }}
@@ -38,20 +38,20 @@
                     <div class="hi-card-badge">{{ 'hi.featured_collection.sold_out' | t }}</div>
                   {%- endif -%}
                 </div>
-              </a>
+              </div>
               <div class="hi-card-body">
                 {%- if product.type != blank -%}
                   <div class="hi-card-category">{{ product.type }}</div>
                 {%- endif -%}
-                <a href="{{ product.url }}" class="hi-card-name">{{ product.title }}</a>
+                <div class="hi-card-name">{{ product.title }}</div>
                 {%- if section.settings.show_price -%}
                   <div class="hi-card-price">{{ product.price | money }}</div>
                 {%- endif -%}
               </div>
-            </div>
+            </a>
           {%- else -%}
             {%- for i in (1..4) -%}
-              <div class="hi-card hi-fcol-card">
+              <a href="#" class="hi-card hi-fcol-card" aria-hidden="true">
                 <div class="hi-card-img-wrap">
                   <div class="hi-card-img-inner hi-card-img-placeholder"></div>
                 </div>
@@ -59,12 +59,12 @@
                   <div class="hi-card-name">Sample Product</div>
                   <div class="hi-card-price">$0.00</div>
                 </div>
-              </div>
+              </a>
             {%- endfor -%}
           {%- endfor -%}
         {%- else -%}
           {%- for i in (1..4) -%}
-            <div class="hi-card hi-fcol-card">
+            <a href="#" class="hi-card hi-fcol-card" aria-hidden="true">
               <div class="hi-card-img-wrap">
                 <div class="hi-card-img-inner hi-card-img-placeholder"></div>
               </div>
@@ -72,7 +72,7 @@
                 <div class="hi-card-name">Sample Product</div>
                 <div class="hi-card-price">$0.00</div>
               </div>
-            </div>
+            </a>
           {%- endfor -%}
         {%- endif -%}
       </div>
@@ -90,6 +90,7 @@
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
+  gap: 16px;
   margin-bottom: 40px;
 }
 .hi-fcol-eyebrow {
@@ -137,7 +138,7 @@
   aspect-ratio: 3 / 4;
   position: relative;
   overflow: hidden;
-  background: #F0EBE1;
+  background: #E9E4DA;
 }
 .hi-card-img-inner {
   position: absolute;
@@ -160,14 +161,18 @@
   position: absolute;
   top: 10px;
   left: 10px;
-  background: #16150F;
-  color: #fff;
+  background: #FBF9F5;
+  color: #16150F;
   font-family: 'Oswald', sans-serif;
-  font-size: 10px;
+  font-size: 10.5px;
   font-weight: 600;
   letter-spacing: .12em;
   text-transform: uppercase;
-  padding: 4px 10px;
+  padding: 5px 10px;
+}
+.hi-card-badge--accent {
+  background: #5C6B47;
+  color: #fff;
 }
 .hi-card-body { padding: 18px 16px 20px; }
 .hi-card-category {
@@ -185,20 +190,15 @@
   font-size: 16px;
   font-weight: 600;
   color: #16150F;
-  text-decoration: none;
   margin-top: 5px;
   transition: color .2s;
 }
-.hi-card-name:hover { color: #5C6B47; }
 .hi-card-price {
   font-family: 'Hanken Grotesk', sans-serif;
   font-size: 15px;
   font-weight: 400;
   color: #6B675C;
   margin-top: 4px;
-}
-.hi-card-badge--accent {
-  background: #5C6B47;
 }
 @media (max-width: 900px) {
   .hi-fcol { padding: 60px 20px 48px; }
@@ -231,13 +231,13 @@ document.querySelectorAll('[data-hi-carousel]').forEach(function(sec){
       "type": "text",
       "id": "eyebrow",
       "label": "Eyebrow label",
-      "default": "New Arrivals"
+      "default": "Just Dropped"
     },
     {
       "type": "text",
       "id": "title",
       "label": "Heading",
-      "default": "Just Landed"
+      "default": "New Arrivals"
     },
     {
       "type": "collection",
@@ -257,7 +257,7 @@ document.querySelectorAll('[data-hi-carousel]').forEach(function(sec){
       "type": "text",
       "id": "view_all_label",
       "label": "View all label",
-      "default": "Shop All"
+      "default": "Shop All New"
     },
     {
       "type": "url",
@@ -280,10 +280,10 @@ document.querySelectorAll('[data-hi-carousel]').forEach(function(sec){
       "id": "badge_style",
       "label": "Badge style",
       "options": [
-        { "value": "dark", "label": "Dark" },
+        { "value": "light", "label": "Light (linen)" },
         { "value": "accent", "label": "Sage (accent)" }
       ],
-      "default": "dark"
+      "default": "light"
     }
   ],
   "presets": [
