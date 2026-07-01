@@ -51,7 +51,8 @@
         margin:0;padding:0;
       }
     </style>
-    {%- render 'hi-global-styles' -%}
+    {{ 'hi-global.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'hi-global.js' | asset_url }}" defer="defer"></script>
 
     {%- liquid
       assign body_font_bold = settings.type_body_font | font_modify: 'weight', 'bold'
