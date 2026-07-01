@@ -88,21 +88,39 @@
     },
     "hi-shop-by-activity": {
       "type": "hi-shop-by-activity",
+      "blocks": {
+        "activity-1": {
+          "type": "activity",
+          "settings": {
+            "sublabel": "Hiking & Outdoors",
+            "label": "On The Trail",
+            "image": "shopify://shop_images/activewear-minimal-4.jpg",
+            "url": ""
+          }
+        },
+        "activity-2": {
+          "type": "activity",
+          "settings": {
+            "sublabel": "Fitness & Performance",
+            "label": "In Training",
+            "image": "shopify://shop_images/activewear-minimal-2.jpg",
+            "url": ""
+          }
+        },
+        "activity-3": {
+          "type": "activity",
+          "settings": {
+            "sublabel": "Work & Life",
+            "label": "Everyday Carry",
+            "image": "shopify://shop_images/activewear-minimal-5.jpg",
+            "url": ""
+          }
+        }
+      },
+      "block_order": ["activity-1", "activity-2", "activity-3"],
       "settings": {
         "eyebrow": "Find Your Fit",
-        "title": "Shop By Activity",
-        "activity_1_sublabel": "Hiking & Outdoors",
-        "activity_1_label": "On The Trail",
-        "activity_1_image": "shopify://shop_images/activewear-minimal-4.jpg",
-        "activity_1_url": "",
-        "activity_2_sublabel": "Fitness & Performance",
-        "activity_2_label": "In Training",
-        "activity_2_image": "shopify://shop_images/activewear-minimal-2.jpg",
-        "activity_2_url": "",
-        "activity_3_sublabel": "Work & Life",
-        "activity_3_label": "Everyday Carry",
-        "activity_3_image": "shopify://shop_images/activewear-minimal-5.jpg",
-        "activity_3_url": ""
+        "title": "Shop By Activity"
       }
     },
     "hi-veteran-support": {
