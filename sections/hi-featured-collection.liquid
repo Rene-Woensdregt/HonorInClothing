@@ -20,7 +20,7 @@
       <button class="hi-arrow hi-arrow--left" data-prev aria-label="{{ 'hi.general.prev' | t | default: 'Previous' }}">
         <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
-      <div class="hi-track" data-track>
+      <div class="hi-track" data-track style="padding-bottom:4px">
         {%- assign col = section.settings.collection -%}
         {%- if col != blank -%}
           {%- for product in col.products limit: section.settings.products_limit -%}
@@ -220,6 +220,15 @@ document.querySelectorAll('[data-hi-carousel]').forEach(function(sec){
   var next=sec.querySelector('[data-next]');
   if(!track||!prev||!next)return;
   var card=track.querySelector('.hi-card');
+
+  // Pin arrows to vertical center of card image
+  var imgWrap=card&&card.querySelector('.hi-card-img-wrap');
+  if(imgWrap){
+    var arrowTop=imgWrap.offsetTop+Math.round(imgWrap.offsetHeight/2);
+    [prev,next].forEach(function(btn){btn.style.top=arrowTop+'px';});
+  }
+
+  // Scroll navigation
   function scrollBy(dir){var w=card?card.offsetWidth+20:280;track.scrollBy({left:dir*w*2,behavior:'smooth'});}
   prev.addEventListener('click',function(){scrollBy(-1);});
   next.addEventListener('click',function(){scrollBy(1);});
