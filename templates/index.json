@@ -167,6 +167,7 @@
           "type": "testimonial",
           "settings": {
             "author": "James R.",
+            "subtitle": "Veteran",
             "location": "Colorado",
             "rating": 5,
             "quote": "This brand represents everything I believe in. The quality is outstanding and I wear it with pride every day."
@@ -176,6 +177,7 @@
           "type": "testimonial",
           "settings": {
             "author": "Sarah M.",
+            "subtitle": "Runner",
             "location": "Tennessee",
             "rating": 5,
             "quote": "Finally a brand that stands for something real. Honor In Clothing is more than apparel — it's a mindset."
@@ -185,6 +187,7 @@
           "type": "testimonial",
           "settings": {
             "author": "Mike D.",
+            "subtitle": "Rancher",
             "location": "Texas",
             "rating": 5,
             "quote": "Incredible quality and fast shipping. The fit is perfect and the mission behind the brand is what sold me."

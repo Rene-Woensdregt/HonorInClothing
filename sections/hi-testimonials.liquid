@@ -18,14 +18,22 @@
               {%- endfor -%}
             </div>
             {%- if block.settings.quote != blank -%}
-              <blockquote class="hi-tcard-quote">"{{ block.settings.quote }}"</blockquote>
+              <blockquote class="hi-tcard-quote">&ldquo;{{ block.settings.quote }}&rdquo;</blockquote>
             {%- endif -%}
             <div class="hi-tcard-meta">
               {%- if block.settings.author != blank -%}
                 <span class="hi-tcard-author">{{ block.settings.author }}</span>
               {%- endif -%}
-              {%- if block.settings.location != blank -%}
-                <span class="hi-tcard-loc">{{ block.settings.location }}</span>
+              {%- assign loc_line = '' -%}
+              {%- if block.settings.subtitle != blank and block.settings.location != blank -%}
+                {%- assign loc_line = block.settings.subtitle | append: ' · ' | append: block.settings.location -%}
+              {%- elsif block.settings.subtitle != blank -%}
+                {%- assign loc_line = block.settings.subtitle -%}
+              {%- elsif block.settings.location != blank -%}
+                {%- assign loc_line = block.settings.location -%}
+              {%- endif -%}
+              {%- if loc_line != '' -%}
+                <span class="hi-tcard-loc">{{ loc_line }}</span>
               {%- endif -%}
             </div>
           </div>
@@ -66,27 +74,39 @@
   color: #16150F;
   margin: 0 0 48px !important;
 }
-.hi-testi-track { position: relative; }
-.hi-tcard { display: none; }
+.hi-testi-track {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.hi-testi-track::-webkit-scrollbar { display: none; }
+.hi-tcard {
+  flex: 0 0 100%;
+  scroll-snap-align: center;
+}
 .hi-tcard-stars {
   display: flex;
   justify-content: center;
   gap: 4px;
-  margin-bottom: 24px;
+  margin-bottom: 32px;
 }
 .hi-tcard-star {
   color: #C9A227;
-  font-size: 16px;
+  font-size: 18px;
 }
 .hi-tcard-star--empty { color: #D3CCBE; }
 .hi-tcard-quote {
-  font-family: 'Oswald', sans-serif;
-  font-size: clamp(20px, 2.1vw, 27px);
-  font-weight: 500;
-  line-height: 1.5;
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: clamp(18px, 1.7vw, 23px);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.65;
   color: #16150F;
-  margin: 0 0 30px;
-  font-style: normal;
+  margin: 0 0 28px;
+  border: none !important;
+  padding: 0 !important;
 }
 .hi-tcard-meta {
   display: flex;
@@ -123,20 +143,29 @@
 (function(){
   document.querySelectorAll('[data-hi-testimonials]').forEach(function(sec){
     var track=sec.querySelector('[data-track]');
-    var dots=sec.querySelectorAll('.hi-dot');
+    var dots=Array.from(sec.querySelectorAll('.hi-dot'));
     if(!track||!dots.length)return;
-    var cards=track.querySelectorAll('.hi-tcard');
-    var cur=0;
-    var timer;
-    function go(i){
-      cur=i;
-      cards.forEach(function(c,j){c.style.display=j===i?'block':'none';});
-      dots.forEach(function(d,j){d.setAttribute('data-active',j===i?'true':'false');d.setAttribute('aria-selected',j===i?'true':'false');});
+    var count=track.children.length;
+    function go(i){track.scrollTo({left:i*track.clientWidth,behavior:'smooth'});}
+    function updateDots(){
+      var i=Math.round(track.scrollLeft/Math.max(1,track.clientWidth));
+      dots.forEach(function(d,j){
+        d.setAttribute('data-active',j===i?'true':'false');
+        d.setAttribute('aria-selected',j===i?'true':'false');
+      });
     }
-    dots.forEach(function(d,i){d.addEventListener('click',function(){clearInterval(timer);go(i);startTimer();});});
-    function startTimer(){timer=setInterval(function(){go((cur+1)%cards.length);},5000);}
-    go(0);
-    startTimer();
+    dots.forEach(function(d,i){d.addEventListener('click',function(){go(i);});});
+    track.addEventListener('scroll',updateDots,{passive:true});
+    if(dots[0])dots[0].setAttribute('data-active','true');
+    var auto=null;
+    function stop(){if(auto){clearInterval(auto);auto=null;}}
+    function tick(){var cur=Math.round(track.scrollLeft/Math.max(1,track.clientWidth));go((cur+1)%count);}
+    function start(){stop();auto=setInterval(tick,5000);}
+    start();
+    sec.addEventListener('mouseenter',stop);
+    sec.addEventListener('mouseleave',start);
+    track.addEventListener('pointerdown',stop);
+    window.addEventListener('pointerup',function(){if(!auto)start();});
   });
 })();
 {% endjavascript %}
@@ -146,34 +175,37 @@
   "name": "Testimonials",
   "settings": [
     {
+      "type": "header",
+      "content": "Section heading"
+    },
+    {
       "type": "text",
       "id": "eyebrow",
       "label": "Eyebrow",
-      "default": "Trusted By Many"
+      "placeholder": "e.g. Worn With Purpose",
+      "default": "Trusted By Many",
+      "info": "Small uppercase label above the heading — displayed in sage green"
     },
     {
       "type": "text",
       "id": "title",
       "label": "Heading",
+      "placeholder": "e.g. What People Are Saying",
       "default": "What Our Community Says"
     }
   ],
+  "max_blocks": 8,
   "blocks": [
     {
       "type": "testimonial",
       "name": "Testimonial",
       "settings": [
         {
-          "type": "text",
-          "id": "author",
-          "label": "Customer name",
-          "default": "James R."
-        },
-        {
-          "type": "text",
-          "id": "location",
-          "label": "Location",
-          "default": "Colorado"
+          "type": "textarea",
+          "id": "quote",
+          "label": "Review text",
+          "placeholder": "e.g. Finally a brand that stands for something real.",
+          "default": "This brand represents everything I believe in. The quality is outstanding and I wear it with pride every day."
         },
         {
           "type": "range",
@@ -185,10 +217,25 @@
           "default": 5
         },
         {
-          "type": "textarea",
-          "id": "quote",
-          "label": "Review text",
-          "default": "This brand represents everything I believe in. The quality is outstanding and I wear it with pride every day."
+          "type": "text",
+          "id": "author",
+          "label": "Customer name",
+          "placeholder": "e.g. James R.",
+          "default": "James R."
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Occupation / role",
+          "placeholder": "e.g. Veteran, Rancher, Runner",
+          "info": "Optional — shown before the location: \"Veteran · Texas\""
+        },
+        {
+          "type": "text",
+          "id": "location",
+          "label": "Location",
+          "placeholder": "e.g. Colorado",
+          "default": "Colorado"
         }
       ]
     }
