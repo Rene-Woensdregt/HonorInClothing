@@ -71,8 +71,12 @@
   line-height: 1.6;
   margin: 0;
 }
-.hi-news-form { gap: 10px !important; }
-.hi-news-input { background: rgba(255,255,255,.06) !important; }
+.hi-news-form-wrap { margin-top: 32px; }
+.hi-news-form { display: flex; gap: 10px !important; }
+.hi-news-input {
+  background: rgba(255,255,255,.06) !important;
+  border: 1px solid rgba(255,255,255,.22) !important;
+}
 .hi-news-success {
   font-family: 'Hanken Grotesk', sans-serif;
   font-size: 15px;
@@ -95,34 +99,53 @@
   "name": "Email Signup",
   "settings": [
     {
+      "type": "header",
+      "content": "Content"
+    },
+    {
       "type": "text",
       "id": "eyebrow",
       "label": "Eyebrow",
-      "default": "Join The Community"
+      "placeholder": "e.g. Join The Community",
+      "default": "Join The Community",
+      "info": "Small uppercase label above the heading — displayed in sage green"
     },
     {
       "type": "text",
       "id": "heading",
       "label": "Heading",
+      "placeholder": "e.g. Earn Your Honor — And 10% Off.",
       "default": "Earn your honor — and 10% off."
     },
     {
       "type": "text",
       "id": "subtext",
       "label": "Subtext",
+      "placeholder": "e.g. Sign up for first access to new drops...",
       "default": "Sign up for first access to new drops, the brand story, and exclusive offers for the Honor In community."
+    },
+    {
+      "type": "header",
+      "content": "Form"
     },
     {
       "type": "text",
       "id": "button_label",
       "label": "Button label",
-      "default": "Join Now"
+      "placeholder": "e.g. Sign Up",
+      "default": "Sign Up"
+    },
+    {
+      "type": "header",
+      "content": "Messages"
     },
     {
       "type": "text",
       "id": "success_message",
       "label": "Success message",
-      "default": "You're in. Welcome to the Honor In community."
+      "placeholder": "e.g. You're in. Welcome to the community.",
+      "default": "You're in. Welcome to the Honor In community.",
+      "info": "Shown after a successful email submission"
     }
   ],
   "presets": [
