@@ -13,28 +13,49 @@
   "sections": {
     "hi-footer": {
       "type": "hi-footer",
+      "blocks": {
+        "nav-shop": {
+          "type": "nav_column",
+          "settings": {
+            "title": "Shop",
+            "menu": "footer"
+          }
+        },
+        "nav-activity": {
+          "type": "nav_column",
+          "settings": {
+            "title": "Activity",
+            "menu": ""
+          }
+        },
+        "nav-company": {
+          "type": "nav_column",
+          "settings": {
+            "title": "Company",
+            "menu": ""
+          }
+        },
+        "nav-support": {
+          "type": "nav_column",
+          "settings": {
+            "title": "Support",
+            "menu": ""
+          }
+        }
+      },
+      "block_order": [
+        "nav-shop",
+        "nav-activity",
+        "nav-company",
+        "nav-support"
+      ],
       "settings": {
         "tagline": "Honor in everything you do. Premium active lifestyle apparel for people who live with purpose.",
-        "col_1_title": "Shop",
-        "col_1_link_1_label": "New Arrivals",
-        "col_1_link_2_label": "Best Sellers",
-        "col_1_link_3_label": "All Products",
-        "col_2_title": "Company",
-        "col_2_link_1_label": "Our Story",
-        "col_2_link_2_label": "Veteran Support",
-        "col_2_link_3_label": "Blog",
-        "col_3_title": "Support",
-        "col_3_link_1_label": "Contact Us",
-        "col_3_link_2_label": "FAQ",
-        "col_3_link_3_label": "Shipping & Returns",
-        "col_4_title": "Legal",
-        "col_4_link_1_label": "Privacy Policy",
-        "col_4_link_2_label": "Terms of Service",
-        "col_4_link_3_label": "Accessibility",
-        "copyright": "© 2026 Honor In Clothing Co. All rights reserved.",
-        "payments_text": "Visa · Mastercard · Amex · PayPal · Apple Pay"
+        "copyright": "© 2026 Honor In Clothing Co. All rights reserved."
       }
     }
   },
-  "order": ["hi-footer"]
+  "order": [
+    "hi-footer"
+  ]
 }

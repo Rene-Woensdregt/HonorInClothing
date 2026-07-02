@@ -1,72 +1,100 @@
 <footer class="hi-footer">
-  <div class="hi-foot-grid">
-    <!-- Brand column -->
-    <div class="hi-foot-brand">
-      <div>
-        <div class="hi-foot-brand-name-1">HONOR IN</div>
-        <div class="hi-foot-brand-name-2">CLOTHING CO.</div>
-      </div>
-      {%- if section.settings.tagline != blank -%}
-        <p class="hi-foot-tagline">{{ section.settings.tagline }}</p>
-      {%- endif -%}
-      <div class="hi-foot-socials">
-        {%- if section.settings.instagram_url != blank -%}
-          <a href="{{ section.settings.instagram_url }}" class="hi-social" target="_blank" rel="noopener" aria-label="Instagram">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
-          </a>
-        {%- endif -%}
-        {%- if section.settings.facebook_url != blank -%}
-          <a href="{{ section.settings.facebook_url }}" class="hi-social" target="_blank" rel="noopener" aria-label="Facebook">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </a>
-        {%- endif -%}
-        {%- if section.settings.twitter_url != blank -%}
-          <a href="{{ section.settings.twitter_url }}" class="hi-social" target="_blank" rel="noopener" aria-label="X (Twitter)">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M17.5 3H21l-7 8.5L22 21h-5l-4.5-5.8L7 21H3l7.5-8.8L2 3h5.1L11.5 8.4z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </a>
-        {%- endif -%}
-        {%- if section.settings.youtube_url != blank -%}
-          <a href="{{ section.settings.youtube_url }}" class="hi-social" target="_blank" rel="noopener" aria-label="YouTube">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M10 9l5 3-5 3V9z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
-          </a>
-        {%- endif -%}
-      </div>
-    </div>
+  <div class="hi-foot-inner">
+    <div class="hi-foot-grid">
 
-    <!-- Nav columns -->
-    {%- for col in (1..4) -%}
-      {%- assign title_key = 'col_' | append: col | append: '_title' -%}
-      <div class="hi-foot-col">
-        <div class="hi-foot-col-title">{{ section.settings[title_key] }}</div>
-        {%- for link in (1..4) -%}
-          {%- assign label_key = 'col_' | append: col | append: '_link_' | append: link | append: '_label' -%}
-          {%- assign url_key = 'col_' | append: col | append: '_link_' | append: link | append: '_url' -%}
-          {%- assign link_label = section.settings[label_key] -%}
-          {%- assign link_url = section.settings[url_key] -%}
-          {%- if link_label != blank -%}
-            <a href="{{ link_url }}" class="hi-foot-link">{{ link_label }}</a>
-          {%- endif -%}
-        {%- endfor -%}
+      <div class="hi-foot-brand">
+        <div>
+          <div class="hi-foot-brand-name-1">HONOR IN</div>
+          <div class="hi-foot-brand-name-2">CLOTHING CO.</div>
+        </div>
+        {%- if section.settings.tagline != blank -%}
+          <p class="hi-foot-tagline">{{ section.settings.tagline }}</p>
+        {%- endif -%}
+        {%- assign has_social = false -%}
+        {%- if settings.social_instagram_link != blank or settings.social_facebook_link != blank or settings.social_twitter_link != blank or settings.social_youtube_link != blank or settings.social_tiktok_link != blank -%}
+          {%- assign has_social = true -%}
+        {%- endif -%}
+        {%- if has_social -%}
+          <div class="hi-foot-socials">
+            {%- if settings.social_instagram_link != blank -%}
+              <a href="{{ settings.social_instagram_link }}" class="hi-social" target="_blank" rel="noopener" aria-label="Instagram">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+              </a>
+            {%- endif -%}
+            {%- if settings.social_facebook_link != blank -%}
+              <a href="{{ settings.social_facebook_link }}" class="hi-social" target="_blank" rel="noopener" aria-label="Facebook">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+            {%- endif -%}
+            {%- if settings.social_twitter_link != blank -%}
+              <a href="{{ settings.social_twitter_link }}" class="hi-social" target="_blank" rel="noopener" aria-label="X (Twitter)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M17.5 3H21l-7 8.5L22 21h-5l-4.5-5.8L7 21H3l7.5-8.8L2 3h5.1L11.5 8.4z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+            {%- endif -%}
+            {%- if settings.social_youtube_link != blank -%}
+              <a href="{{ settings.social_youtube_link }}" class="hi-social" target="_blank" rel="noopener" aria-label="YouTube">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M10 9l5 3-5 3V9z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+              </a>
+            {%- endif -%}
+            {%- if settings.social_tiktok_link != blank -%}
+              <a href="{{ settings.social_tiktok_link }}" class="hi-social" target="_blank" rel="noopener" aria-label="TikTok">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
       </div>
-    {%- endfor -%}
+
+      {%- for block in section.blocks -%}
+        <div class="hi-foot-col" {{ block.shopify_attributes }}>
+          {%- if block.settings.title != blank -%}
+            <div class="hi-foot-col-title">{{ block.settings.title }}</div>
+          {%- endif -%}
+          {%- if block.settings.menu != blank -%}
+            <nav>
+              {%- for link in block.settings.menu.links -%}
+                <a href="{{ link.url }}" class="hi-foot-link">{{ link.title }}</a>
+              {%- endfor -%}
+            </nav>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+
+    </div>
   </div>
 
-  <div class="hi-foot-legal">
-    <span>{{ section.settings.copyright }}</span>
-    {%- if section.settings.payments_text != blank -%}
-      <span class="hi-foot-payments">{{ section.settings.payments_text }}</span>
-    {%- endif -%}
+  <div class="hi-foot-legal-wrap">
+    <div class="hi-foot-legal">
+      {%- if section.settings.copyright != blank -%}
+        <span>{{ section.settings.copyright }}</span>
+      {%- endif -%}
+      {%- unless shop.enabled_payment_types == empty -%}
+        <div class="hi-foot-payments">
+          {%- for type in shop.enabled_payment_types -%}
+            {{ type | payment_type_svg_tag: class: 'hi-payment-icon' }}
+          {%- endfor -%}
+        </div>
+      {%- endunless -%}
+    </div>
   </div>
 </footer>
 
 {% stylesheet %}
 .hi-footer { background: #16150F; color: #CFC9BC; }
+.hi-foot-inner { max-width: 1280px; margin: 0 auto; }
+.hi-foot-grid {
+  display: grid;
+  grid-template-columns: 182px repeat(4, 1fr);
+  gap: 40px;
+  padding: 72px 32px 36px;
+}
+.hi-foot-brand { display: flex; flex-direction: column; gap: 20px; }
 .hi-foot-brand-name-1 {
   font-family: 'Oswald', sans-serif;
   font-size: 22px;
   font-weight: 700;
   letter-spacing: .18em;
-  color: #fff;
+  color: #FBF9F5;
 }
 .hi-foot-brand-name-2 {
   font-family: 'Oswald', sans-serif;
@@ -79,17 +107,72 @@
 .hi-foot-tagline {
   font-family: 'Hanken Grotesk', sans-serif;
   font-size: 14.5px;
-  font-weight: 400;
   line-height: 1.7;
   color: #9A958A;
   margin: 0;
-  max-width: 244px;
+  max-width: 200px;
 }
-.hi-foot-socials { display: flex; gap: 10px; flex-wrap: wrap; }
+.hi-foot-socials { display: flex; gap: 8px; flex-wrap: wrap; }
+.hi-social {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 4px;
+  color: #FBF9F5;
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: border-color .2s;
+}
+.hi-social:hover { border-color: rgba(255,255,255,.42); }
 .hi-foot-col { display: flex; flex-direction: column; }
-.hi-foot-payments { color: #54504A; }
+.hi-foot-col-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: #FBF9F5;
+  margin-bottom: 22px;
+}
+.hi-foot-col nav { display: flex; flex-direction: column; gap: 11px; }
+.hi-foot-link {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 14.5px;
+  color: #9A958A;
+  text-decoration: none;
+  display: inline-block;
+  width: max-content;
+  transition: color .2s, transform .2s;
+}
+.hi-foot-link:hover { color: #fff; transform: translateX(5px); }
+.hi-foot-legal-wrap { border-top: 1px solid rgba(255,255,255,.08); }
+.hi-foot-legal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 32px;
+  max-width: 1280px;
+  margin: 0 auto;
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 13px;
+  color: #54504A;
+}
+.hi-foot-payments { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+.hi-payment-icon { height: 24px; width: auto; border-radius: 3px; }
+@media (max-width: 900px) {
+  .hi-foot-grid { grid-template-columns: 1fr 1fr; gap: 36px; padding: 48px 32px 40px; }
+  .hi-foot-brand { grid-column: 1 / -1; flex-direction: row; flex-wrap: wrap; gap: 24px; }
+  .hi-foot-tagline { max-width: 100%; }
+}
 @media (max-width: 560px) {
-  .hi-foot-grid { grid-template-columns: 1fr 1fr; }
+  .hi-foot-grid { gap: 28px; padding: 40px 24px 32px; }
+  .hi-foot-brand { flex-direction: column; gap: 18px; }
+  .hi-foot-tagline { max-width: 260px; }
+  .hi-foot-legal { flex-direction: column; gap: 8px; text-align: center; padding: 16px 24px; }
+  .hi-foot-payments { justify-content: center; }
 }
 {% endstylesheet %}
 
@@ -98,249 +181,20 @@
   "name": "Footer",
   "settings": [
     {
+      "type": "header",
+      "content": "Brand"
+    },
+    {
       "type": "text",
       "id": "tagline",
-      "label": "Brand tagline",
-      "default": "Honor in everything you do. Premium active lifestyle apparel for people who live with purpose."
+      "label": "Tagline",
+      "placeholder": "e.g. Honor in everything you do.",
+      "default": "Honor in everything you do. Premium active lifestyle apparel for people who live with purpose.",
+      "info": "Shown below the logo in the brand column"
     },
     {
-      "type": "header",
-      "content": "Column 1"
-    },
-    {
-      "type": "text",
-      "id": "col_1_title",
-      "label": "Column 1 title",
-      "default": "Shop"
-    },
-    {
-      "type": "text",
-      "id": "col_1_link_1_label",
-      "label": "Link 1 label",
-      "default": "New Arrivals"
-    },
-    {
-      "type": "url",
-      "id": "col_1_link_1_url",
-      "label": "Link 1 URL"
-    },
-    {
-      "type": "text",
-      "id": "col_1_link_2_label",
-      "label": "Link 2 label",
-      "default": "Best Sellers"
-    },
-    {
-      "type": "url",
-      "id": "col_1_link_2_url",
-      "label": "Link 2 URL"
-    },
-    {
-      "type": "text",
-      "id": "col_1_link_3_label",
-      "label": "Link 3 label",
-      "default": "All Products"
-    },
-    {
-      "type": "url",
-      "id": "col_1_link_3_url",
-      "label": "Link 3 URL"
-    },
-    {
-      "type": "text",
-      "id": "col_1_link_4_label",
-      "label": "Link 4 label",
-      "default": "Sale"
-    },
-    {
-      "type": "url",
-      "id": "col_1_link_4_url",
-      "label": "Link 4 URL"
-    },
-    {
-      "type": "header",
-      "content": "Column 2"
-    },
-    {
-      "type": "text",
-      "id": "col_2_title",
-      "label": "Column 2 title",
-      "default": "Company"
-    },
-    {
-      "type": "text",
-      "id": "col_2_link_1_label",
-      "label": "Link 1 label",
-      "default": "Our Story"
-    },
-    {
-      "type": "url",
-      "id": "col_2_link_1_url",
-      "label": "Link 1 URL"
-    },
-    {
-      "type": "text",
-      "id": "col_2_link_2_label",
-      "label": "Link 2 label",
-      "default": "Veteran Support"
-    },
-    {
-      "type": "url",
-      "id": "col_2_link_2_url",
-      "label": "Link 2 URL"
-    },
-    {
-      "type": "text",
-      "id": "col_2_link_3_label",
-      "label": "Link 3 label",
-      "default": "Blog"
-    },
-    {
-      "type": "url",
-      "id": "col_2_link_3_url",
-      "label": "Link 3 URL"
-    },
-    {
-      "type": "text",
-      "id": "col_2_link_4_label",
-      "label": "Link 4 label",
-      "default": "Press"
-    },
-    {
-      "type": "url",
-      "id": "col_2_link_4_url",
-      "label": "Link 4 URL"
-    },
-    {
-      "type": "header",
-      "content": "Column 3"
-    },
-    {
-      "type": "text",
-      "id": "col_3_title",
-      "label": "Column 3 title",
-      "default": "Support"
-    },
-    {
-      "type": "text",
-      "id": "col_3_link_1_label",
-      "label": "Link 1 label",
-      "default": "Contact Us"
-    },
-    {
-      "type": "url",
-      "id": "col_3_link_1_url",
-      "label": "Link 1 URL"
-    },
-    {
-      "type": "text",
-      "id": "col_3_link_2_label",
-      "label": "Link 2 label",
-      "default": "FAQ"
-    },
-    {
-      "type": "url",
-      "id": "col_3_link_2_url",
-      "label": "Link 2 URL"
-    },
-    {
-      "type": "text",
-      "id": "col_3_link_3_label",
-      "label": "Link 3 label",
-      "default": "Shipping & Returns"
-    },
-    {
-      "type": "url",
-      "id": "col_3_link_3_url",
-      "label": "Link 3 URL"
-    },
-    {
-      "type": "text",
-      "id": "col_3_link_4_label",
-      "label": "Link 4 label",
-      "default": "Size Guide"
-    },
-    {
-      "type": "url",
-      "id": "col_3_link_4_url",
-      "label": "Link 4 URL"
-    },
-    {
-      "type": "header",
-      "content": "Column 4"
-    },
-    {
-      "type": "text",
-      "id": "col_4_title",
-      "label": "Column 4 title",
-      "default": "Legal"
-    },
-    {
-      "type": "text",
-      "id": "col_4_link_1_label",
-      "label": "Link 1 label",
-      "default": "Privacy Policy"
-    },
-    {
-      "type": "url",
-      "id": "col_4_link_1_url",
-      "label": "Link 1 URL"
-    },
-    {
-      "type": "text",
-      "id": "col_4_link_2_label",
-      "label": "Link 2 label",
-      "default": "Terms of Service"
-    },
-    {
-      "type": "url",
-      "id": "col_4_link_2_url",
-      "label": "Link 2 URL"
-    },
-    {
-      "type": "text",
-      "id": "col_4_link_3_label",
-      "label": "Link 3 label",
-      "default": "Accessibility"
-    },
-    {
-      "type": "url",
-      "id": "col_4_link_3_url",
-      "label": "Link 3 URL"
-    },
-    {
-      "type": "text",
-      "id": "col_4_link_4_label",
-      "label": "Link 4 label"
-    },
-    {
-      "type": "url",
-      "id": "col_4_link_4_url",
-      "label": "Link 4 URL"
-    },
-    {
-      "type": "header",
-      "content": "Social Media"
-    },
-    {
-      "type": "url",
-      "id": "instagram_url",
-      "label": "Instagram URL"
-    },
-    {
-      "type": "url",
-      "id": "facebook_url",
-      "label": "Facebook URL"
-    },
-    {
-      "type": "url",
-      "id": "twitter_url",
-      "label": "X (Twitter) URL"
-    },
-    {
-      "type": "url",
-      "id": "youtube_url",
-      "label": "YouTube URL"
+      "type": "paragraph",
+      "content": "Social media icons are pulled from Theme settings → Social media. Add your links there."
     },
     {
       "type": "header",
@@ -350,13 +204,34 @@
       "type": "text",
       "id": "copyright",
       "label": "Copyright text",
+      "placeholder": "e.g. © 2026 Honor In Clothing Co. All rights reserved.",
       "default": "© 2026 Honor In Clothing Co. All rights reserved."
     },
     {
-      "type": "text",
-      "id": "payments_text",
-      "label": "Payment methods text",
-      "default": "Visa · Mastercard · Amex · PayPal · Apple Pay"
+      "type": "paragraph",
+      "content": "Payment method logos are pulled automatically from your enabled payment providers in Shopify Payments settings."
+    }
+  ],
+  "max_blocks": 6,
+  "blocks": [
+    {
+      "type": "nav_column",
+      "name": "Nav column",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Column heading",
+          "placeholder": "e.g. Shop",
+          "info": "Displayed in small uppercase (Oswald)"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Navigation menu",
+          "info": "Create or edit menus in Shopify Admin → Online Store → Navigation"
+        }
+      ]
     }
   ],
   "presets": [

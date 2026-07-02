@@ -127,8 +127,9 @@ section[class*="hi-"] div:empty { display: block; }
 .hi-foot-grid { display:grid;grid-template-columns:1.4fr repeat(4,1fr);gap:40px;max-width:1280px;margin:0 auto;padding:72px 32px 36px; }
 .hi-foot-brand { display:flex;flex-direction:column;gap:14px; }
 .hi-foot-col-title { font-family:'Oswald',sans-serif;font-size:12.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#fff;margin-bottom:16px; }
-.hi-foot-link { display:block;font-family:'Hanken Grotesk',sans-serif;font-size:14.5px;color:#9A958A;text-decoration:none;padding:4px 0;transition:color .2s; }
-.hi-foot-link:hover { color:#CFC9BC; }
+.hi-foot-col nav { display:flex;flex-direction:column;gap:11px; }
+.hi-foot-link { display:inline-block;width:max-content;font-family:'Hanken Grotesk',sans-serif;font-size:14.5px;color:#9A958A;text-decoration:none;transition:color .2s,transform .2s; }
+.hi-foot-link:hover { color:#fff;transform:translateX(5px); }
 .hi-foot-legal { display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;max-width:1280px;margin:0 auto;padding:20px 32px;border-top:1px solid rgba(255,255,255,.1);font-family:'Hanken Grotesk',sans-serif;font-size:12px;color:#54504A; }
 
 /* ── Responsive ─────────────────────────────────────────── */
