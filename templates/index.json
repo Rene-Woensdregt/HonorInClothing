@@ -216,16 +216,49 @@
     },
     "hi-instagram": {
       "type": "hi-instagram",
+      "blocks": {
+        "photo-1": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/activewear-minimal-1.jpg"
+          }
+        },
+        "photo-2": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/activewear-minimal-3.jpg"
+          }
+        },
+        "photo-3": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/activewear-minimal-7.jpg"
+          }
+        },
+        "photo-4": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/activewear-minimal-6.jpg"
+          }
+        },
+        "photo-5": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/activewear-minimal-4.jpg"
+          }
+        },
+        "photo-6": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/activewear-minimal-5.jpg"
+          }
+        }
+      },
+      "block_order": ["photo-1", "photo-2", "photo-3", "photo-4", "photo-5", "photo-6"],
       "settings": {
         "eyebrow": "@honorinclothing",
         "title": "Follow The Journey",
-        "instagram_url": "",
-        "image_1": "shopify://shop_images/activewear-minimal-1.jpg",
-        "image_2": "shopify://shop_images/activewear-minimal-3.jpg",
-        "image_3": "shopify://shop_images/activewear-minimal-7.jpg",
-        "image_4": "shopify://shop_images/activewear-minimal-6.jpg",
-        "image_5": "shopify://shop_images/activewear-minimal-4.jpg",
-        "image_6": "shopify://shop_images/activewear-minimal-5.jpg"
+        "instagram_url": ""
       }
     }
   },

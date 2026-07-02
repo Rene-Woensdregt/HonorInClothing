@@ -8,26 +8,27 @@
         <h2 class="hi-ig-title">{{ section.settings.title }}</h2>
       {%- endif -%}
     </div>
-    <div class="hi-ig-grid">
-      {%- for i in (1..6) -%}
-        {%- assign img_key = 'image_' | append: i -%}
-        {%- assign img = section.settings[img_key] -%}
-        <a href="{{ section.settings.instagram_url }}" class="hi-ig" target="_blank" rel="noopener" aria-label="{{ 'hi.instagram.name' | t }}">
-          {%- if img != blank -%}
-            {{ img | image_url: width: 500 | image_tag: class: 'hi-ig-img', loading: 'lazy', alt: 'Instagram post' }}
-          {%- else -%}
-            <div class="hi-ig-placeholder"></div>
-          {%- endif -%}
-        </a>
-      {%- endfor -%}
-    </div>
+    {%- if section.blocks.size > 0 -%}
+      <div class="hi-ig-grid">
+        {%- for block in section.blocks -%}
+          {%- assign link = block.settings.url | default: section.settings.instagram_url -%}
+          <a href="{{ link }}" class="hi-ig" target="_blank" rel="noopener" aria-label="{{ 'hi.instagram.name' | t }}" {{ block.shopify_attributes }}>
+            {%- if block.settings.image != blank -%}
+              {{ block.settings.image | image_url: width: 600 | image_tag: class: 'hi-ig-img', loading: 'lazy', alt: block.settings.image.alt | default: section.settings.title }}
+            {%- else -%}
+              <div class="hi-ig-placeholder"></div>
+            {%- endif -%}
+          </a>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
   </div>
 </section>
 
 {% stylesheet %}
-.hi-ig-section { padding: 80px 0 70px; background: #FBF9F5; }
+.hi-ig-section { padding: 80px 32px 70px; background: #FBF9F5; }
 .hi-ig-wrap { max-width: 1280px; margin: 0 auto; }
-.hi-ig-header { text-align: center; padding: 0 32px; margin-bottom: 34px; }
+.hi-ig-header { text-align: center; margin-bottom: 34px; }
 .hi-ig-eyebrow {
   font-family: 'Oswald', sans-serif;
   font-size: 13px;
@@ -39,12 +40,12 @@
 }
 .hi-ig-title {
   font-family: 'Oswald', sans-serif;
-  font-size: clamp(26px, 2.8vw, 40px);
+  font-size: clamp(26px, 3.2vw, 42px);
   font-weight: 600;
   letter-spacing: 0;
   text-transform: uppercase;
   color: #16150F;
-  margin: 0;
+  margin: 0 !important;
 }
 .hi-ig-grid { gap: 12px; }
 .hi-ig {
@@ -71,7 +72,7 @@
   .hi-ig-grid { grid-template-columns: repeat(3,1fr) !important; }
 }
 @media (max-width: 560px) {
-  .hi-ig-section { padding: 56px 0; }
+  .hi-ig-section { padding: 56px 20px; }
 }
 {% endstylesheet %}
 
@@ -80,56 +81,68 @@
   "name": "Instagram Feed",
   "settings": [
     {
+      "type": "header",
+      "content": "Section heading"
+    },
+    {
       "type": "text",
       "id": "eyebrow",
-      "label": "Handle / eyebrow",
-      "default": "@honorinclothing"
+      "label": "Eyebrow",
+      "placeholder": "e.g. @honorinclothing",
+      "default": "@honorinclothing",
+      "info": "Small uppercase label above the heading — displayed in sage green. Use your Instagram handle."
     },
     {
       "type": "text",
       "id": "title",
       "label": "Heading",
-      "default": "Follow The Journey"
+      "placeholder": "e.g. Follow The Journey",
+      "default": "Follow The Journey",
+      "info": "Displayed in large bold uppercase (Oswald)"
+    },
+    {
+      "type": "header",
+      "content": "Instagram link"
     },
     {
       "type": "url",
       "id": "instagram_url",
-      "label": "Instagram URL"
-    },
+      "label": "Instagram profile URL",
+      "info": "Default link for all photos — set to your Instagram profile page. Each photo block can override this with its own URL."
+    }
+  ],
+  "max_blocks": 12,
+  "blocks": [
     {
-      "type": "image_picker",
-      "id": "image_1",
-      "label": "Photo 1"
-    },
-    {
-      "type": "image_picker",
-      "id": "image_2",
-      "label": "Photo 2"
-    },
-    {
-      "type": "image_picker",
-      "id": "image_3",
-      "label": "Photo 3"
-    },
-    {
-      "type": "image_picker",
-      "id": "image_4",
-      "label": "Photo 4"
-    },
-    {
-      "type": "image_picker",
-      "id": "image_5",
-      "label": "Photo 5"
-    },
-    {
-      "type": "image_picker",
-      "id": "image_6",
-      "label": "Photo 6"
+      "type": "photo",
+      "name": "Photo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "Square (1:1) recommended — 600×600px or larger"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link URL",
+          "info": "Optional — links to a specific Instagram post. Leave blank to use the section Instagram URL."
+        }
+      ]
     }
   ],
   "presets": [
     {
-      "name": "Instagram Feed"
+      "name": "Instagram Feed",
+      "blocks": [
+        { "type": "photo" },
+        { "type": "photo" },
+        { "type": "photo" },
+        { "type": "photo" },
+        { "type": "photo" },
+        { "type": "photo" }
+      ]
     }
   ]
 }
