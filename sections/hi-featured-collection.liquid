@@ -229,7 +229,7 @@ document.querySelectorAll('[data-hi-carousel]').forEach(function(sec){
   }
 
   // Scroll navigation
-  function scrollBy(dir){var w=card?card.offsetWidth+20:280;track.scrollBy({left:dir*w*2,behavior:'smooth'});}
+  function scrollBy(dir){var w=card?card.offsetWidth+20:280;track.scrollBy({left:dir*w,behavior:'smooth'});}
   prev.addEventListener('click',function(){scrollBy(-1);});
   next.addEventListener('click',function(){scrollBy(1);});
 });
