@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(shopify theme check *)",
+      "Bash(shopify theme list *)",
+      "mcp__plugin_playwright_playwright__browser_take_screenshot",
+      "mcp__plugin_playwright_playwright__browser_navigate",
+      "mcp__plugin_playwright_playwright__browser_resize",
+      "mcp__plugin_playwright_playwright__browser_hover",
+      "mcp__plugin_playwright_playwright__browser_wait_for",
+      "mcp__plugin_playwright_playwright__browser_console_messages",
+      "mcp__plugin_playwright_playwright__browser_snapshot",
+      "mcp__claude-in-chrome__tabs_context_mcp",
+      "mcp__claude_ai_Shopify__graphql_query",
+      "mcp__claude-in-chrome__navigate",
+      "mcp__claude_ai_Shopify__get-shop-info"
+    ]
+  }
+}

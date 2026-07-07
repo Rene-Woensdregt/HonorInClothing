@@ -1,0 +1,994 @@
+{{ 'component-facets.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign sort_by = collection.sort_by | default: collection.default_sort_by
+  assign mobile_id_suffix = section.id | append: '-mob'
+-%}
+
+{%- paginate collection.products by section.settings.products_per_page -%}
+
+<!-- ============================================================
+     MOBILE FILTER DRAWER
+     Must come before the sort/filter forms in the DOM so it can
+     be found by document.getElementById('FacetFiltersFormMobile').
+     Uses custom element name 'menu-drawer' — required by facets.js
+     renderAdditionalElements() which calls .closest('menu-drawer').bindEvents()
+     ============================================================ -->
+<!-- Outer div owns the slide transform — isolated from Dawn's menu-drawer JS.
+     menu-drawer inside uses display:contents so it has no layout box but
+     still satisfies FacetFiltersFormMobile.closest('menu-drawer'). -->
+<div class="hi-fdrawer" id="hi-filter-drawer" aria-hidden="true">
+  <menu-drawer class="hi-fdrawer-inner">
+    <div class="hi-drawer-head">
+      <span class="hi-drawer-title">{{ 'hi.collection.filters' | t }}</span>
+      <button type="button" class="hi-drawer-close" data-hi-drawer-close aria-label="{{ 'accessibility.close' | t }}">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <facet-filters-form>
+      <form id="FacetFiltersFormMobile" action="{{ collection.url }}" method="get">
+        <input type="hidden" name="sort_by" value="{{ sort_by }}">
+        <div class="hi-drawer-filters">
+          {%- render 'hi-facets',
+              results: collection,
+              enable_filtering: section.settings.enable_filtering,
+              id_suffix: mobile_id_suffix -%}
+        </div>
+      </form>
+    </facet-filters-form>
+    <div class="hi-drawer-foot">
+      <a href="{{ collection.url }}" class="hi-btn hi-btn--outline hi-drawer-btn-clear">
+        {{ 'hi.collection.clear_all' | t }}
+      </a>
+      <button type="button" class="hi-btn hi-btn--primary hi-drawer-btn-apply" data-hi-drawer-close>
+        {{ 'hi.collection.show_results' | t }}
+      </button>
+    </div>
+  </menu-drawer>
+</div>
+<div class="hi-drawer-backdrop" id="hi-filter-backdrop" aria-hidden="true"></div>
+
+<!-- ============================================================
+     SORT FORM — hidden shell; facets.js finds #FacetSortForm here.
+     The visible sort <select> lives in the toolbar below (inside the
+     tall FacetFiltersForm) so position:sticky has a real containing block.
+     The select uses form="FacetSortForm" for serialization; JS bridges
+     the change event so facets.js picks it up on this form too.
+     ============================================================ -->
+<facet-filters-form>
+  <form id="FacetSortForm" action="{{ collection.url }}" method="get" class="hi-hidden-form" aria-hidden="true">
+  </form>
+</facet-filters-form>
+
+<!-- ============================================================
+     FILTER + GRID BODY — toolbar lives here so sticky works.
+     FacetFiltersForm is tall (sidebar + grid), giving .hi-toolbar-bar
+     enough scroll range to actually stick.
+     ============================================================ -->
+<facet-filters-form>
+  <form id="FacetFiltersForm" action="{{ collection.url }}" method="get">
+
+    <!-- Sticky toolbar (inside the tall form = sticky actually works) -->
+    <div class="hi-toolbar-bar">
+      <div class="hi-toolbar hi-x">
+        <div class="hi-toolbar-left">
+          {%- if section.settings.enable_filtering -%}
+            <button type="button" class="hi-toolbtn hi-mobile-toolbtns" data-hi-drawer-open aria-label="{{ 'hi.collection.filters' | t }}">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/>
+              </svg>
+              {{ 'hi.collection.filters' | t }}
+            </button>
+          {%- endif -%}
+          <div class="hi-count-wrap">
+            <span id="ProductCount" class="visually-hidden"><strong>{{ collection.products_count }}</strong>&nbsp;{{ 'hi.collection.products_found' | t }}</span>
+            <span id="ProductCountDesktop" class="hi-prod-count">
+              <strong>{{ collection.products_count }}</strong>&nbsp;{{ 'hi.collection.products_found' | t }}
+            </span>
+          </div>
+        </div>
+        {%- if section.settings.enable_sorting -%}
+          <div class="hi-toolbar-right">
+            <label class="hi-sort-label hi-desk-only" for="SortBy">{{ 'hi.collection.sort' | t }}</label>
+            <div class="hi-select-wrap">
+              <select id="SortBy" name="sort_by" form="FacetSortForm" class="hi-select" aria-label="{{ 'hi.collection.sort' | t }}">
+                {%- for option in collection.sort_options -%}
+                  <option value="{{ option.value | escape }}"{% if option.value == sort_by %} selected{% endif %}>
+                    {{ option.name | escape }}
+                  </option>
+                {%- endfor -%}
+              </select>
+              <svg class="hi-select-chev" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                   aria-hidden="true">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </div>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="hi-colbody hi-x">
+      <div class="hi-collection-grid">
+
+        <!-- Filter sidebar (desktop only) -->
+        {%- if section.settings.enable_filtering -%}
+          <aside class="hi-desk-filters" id="main-collection-filters" data-id="{{ section.id }}">
+            <div class="hi-filters-head">
+              <span class="hi-filters-head-title">{{ 'hi.collection.filters' | t }}</span>
+              {%- assign has_active = false -%}
+              {%- for f in collection.filters -%}
+                {%- if f.active_values.size > 0 -%}{%- assign has_active = true -%}{%- endif -%}
+                {%- if f.type == 'price_range' -%}
+                  {%- if f.min_value.value != nil or f.max_value.value != nil -%}{%- assign has_active = true -%}{%- endif -%}
+                {%- endif -%}
+              {%- endfor -%}
+              {%- if has_active -%}
+                <a href="{{ collection.url }}" class="hi-clear-all-link">{{ 'hi.collection.clear_all' | t }}</a>
+              {%- endif -%}
+            </div>
+            {%- render 'hi-facets',
+                results: collection,
+                enable_filtering: section.settings.enable_filtering -%}
+          </aside>
+        {%- endif -%}
+
+        <!-- Product grid column -->
+        <div id="ProductGridContainer">
+          <div class="collection" id="product-grid" data-id="{{ section.id }}">
+
+            <!-- Active filter chips -->
+            {%- liquid
+              assign has_active_chips = false
+              for f in collection.filters
+                if f.active_values.size > 0
+                  assign has_active_chips = true
+                endif
+                if f.type == 'price_range'
+                  if f.min_value.value != nil or f.max_value.value != nil
+                    assign has_active_chips = true
+                  endif
+                endif
+              endfor
+            -%}
+            {%- if has_active_chips -%}
+              <div class="hi-chips-bar">
+                {%- for f in collection.filters -%}
+                  {%- for v in f.active_values -%}
+                    <a href="{{ v.url_to_remove }}" class="hi-chip" aria-label="{{ 'accessibility.remove_filter' | t: filter: v.label }}">
+                      {{ v.label | escape }}
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none"
+                           stroke="currentColor" stroke-width="2.5"
+                           stroke-linecap="round" aria-hidden="true">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                      </svg>
+                    </a>
+                  {%- endfor -%}
+                  {%- if f.type == 'price_range' -%}
+                    {%- if f.min_value.value != nil or f.max_value.value != nil -%}
+                      <a href="{{ collection.url }}{% if sort_by != collection.default_sort_by %}?sort_by={{ sort_by }}{% endif %}"
+                         class="hi-chip"
+                         aria-label="{{ 'hi.collection.clear_all' | t }}">
+                        {{ 'hi.collection.price_range' | t }}:
+                        {{ f.min_value.value | default: 0 | money_without_trailing_zeros }} — {{ f.max_value.value | default: f.range_max | money_without_trailing_zeros }}
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2.5"
+                             stroke-linecap="round" aria-hidden="true">
+                          <line x1="18" y1="6" x2="6" y2="18"/>
+                          <line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                      </a>
+                    {%- endif -%}
+                  {%- endif -%}
+                {%- endfor -%}
+                <a href="{{ collection.url }}" class="hi-chip hi-chip--clear">
+                  {{ 'hi.collection.clear_all' | t }}
+                </a>
+              </div>
+            {%- endif -%}
+
+            <!-- Products grid or empty state -->
+            {%- if collection.products.size == 0 -%}
+              <div class="hi-empty-state">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#C4C0B8"
+                     stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                  <line x1="8" y1="11" x2="14" y2="11"/>
+                </svg>
+                <h2 class="hi-empty-title">{{ 'hi.collection.no_results_title' | t }}</h2>
+                <p class="hi-empty-body">{{ 'hi.collection.no_results_body' | t }}</p>
+                <a href="{{ collection.url }}" class="hi-btn hi-btn--outline">
+                  {{ 'hi.collection.clear_filters' | t }}
+                </a>
+              </div>
+            {%- else -%}
+              <div class="hi-prod-grid" style="--cols: {{ section.settings.columns_desktop }};">
+                {%- for product in collection.products -%}
+                  {%- liquid
+                    assign badge_text = ''
+                    if product.tags contains 'new' or product.tags contains 'new-arrival' or product.tags contains 'New Arrival'
+                      assign badge_text = 'NEW'
+                    elsif product.tags contains 'best-seller' or product.tags contains 'Best Seller'
+                      assign badge_text = 'BEST SELLER'
+                    elsif product.tags contains 'sale' or product.tags contains 'Sale'
+                      assign badge_text = 'SALE'
+                    endif
+
+                  -%}
+                  <a href="{{ product.url }}" class="hi-card" aria-label="{{ product.title | escape }}">
+                    <div class="hi-card-img-wrap">
+                      {%- if product.featured_image -%}
+                        {{ product.featured_image | image_url: width: 900 | image_tag:
+                           loading: 'lazy',
+                           class: 'hi-card-img-el',
+                           alt: product.featured_image.alt | default: product.title,
+                           width: product.featured_image.width,
+                           height: product.featured_image.height }}
+                      {%- else -%}
+                        <div class="hi-card-img-placeholder">
+                          {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                        </div>
+                      {%- endif -%}
+                      {%- if badge_text != '' -%}
+                        <span class="hi-card-badge">{{ badge_text }}</span>
+                      {%- elsif product.available == false -%}
+                        <span class="hi-card-badge hi-card-badge--sold">{{ 'products.product.sold_out' | t }}</span>
+                      {%- endif -%}
+                      <div class="hi-quickadd" aria-hidden="true">
+                        <span class="hi-btn hi-btn--outline hi-btn--qa">{{ 'hi.collection.view_product' | t }}</span>
+                      </div>
+                    </div>
+                    <div class="hi-card-body">
+                      {%- if product.type != blank -%}
+                        <div class="hi-card-cat">{{ product.type }}</div>
+                      {%- endif -%}
+                      <div class="hi-card-name">{{ product.title }}</div>
+                      <div class="hi-card-price-row">
+                        {%- if product.compare_at_price > product.price -%}
+                          <span class="hi-card-price hi-card-price--sale">{{ product.price | money }}</span>
+                          <span class="hi-card-price-compare">{{ product.compare_at_price | money }}</span>
+                        {%- else -%}
+                          <span class="hi-card-price">{{ product.price | money }}</span>
+                        {%- endif -%}
+                      </div>
+                    </div>
+                  </a>
+                {%- endfor -%}
+              </div>
+
+              <!-- Pagination -->
+              {%- if paginate.pages > 1 -%}
+                <div class="hi-pagination">
+                  <div class="hi-pagination-progress">
+                    <div class="hi-pagination-bar">
+                      {%- assign _shown = paginate.current_offset | plus: collection.products.size -%}
+                      <div class="hi-pagination-fill"
+                           style="display:block;width: {{ _shown | times: 100 | divided_by: paginate.items }}%;"></div>
+                    </div>
+                    <p class="hi-pagination-label">
+                      {%- assign shown_count = paginate.current_offset | plus: collection.products.size -%}
+                      {{ 'hi.collection.showing_count' | t: shown: shown_count, total: paginate.items }}
+                    </p>
+                  </div>
+                  {%- if paginate.next -%}
+                    <button type="button" class="hi-btn hi-btn--outline hi-loadmore"
+                            data-url="{{ paginate.next.url }}">
+                      {{ 'hi.collection.load_more' | t }}
+                    </button>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+            {%- endif -%}
+
+          </div><!-- /.collection -->
+        </div><!-- /#ProductGridContainer -->
+
+      </div><!-- /.hi-collection-grid -->
+    </div><!-- /.hi-colbody -->
+  </form>
+</facet-filters-form>
+
+{%- endpaginate -%}
+
+{% stylesheet %}
+/* ---- Layout heights (CSS vars so sidebar top matches toolbar) ---- */
+:root {
+  --hi-header-h: 75px;   /* updated dynamically by JS scroll-header */
+  --hi-toolbar-h: 77px;  /* 16+16px padding + ~45px content + 1px border */
+}
+
+/* ---- Hidden sort form shell ---- */
+.hi-hidden-form { display: none !important; }
+
+/* ---- Toolbar ---- */
+.hi-toolbar-bar {
+  border-bottom: 1px solid #E7E2D7;
+  background: #FBF9F5;
+  position: sticky;
+  top: var(--hi-header-h);  /* JS overrides style.top directly via rAF sync */
+  z-index: 30;
+}
+.hi-toolbar {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+.hi-toolbar-left { display: flex; align-items: center; gap: 18px; }
+.hi-toolbar-right { display: flex; align-items: center; gap: 12px; }
+.hi-prod-count { font-family: 'Hanken Grotesk', sans-serif; font-size: 14px; color: #6B675C; }
+.hi-prod-count strong { color: #16150F; }
+.hi-sort-label { font-family: 'Hanken Grotesk', sans-serif; font-size: 13px; color: #6B675C; white-space: nowrap; }
+.hi-select-wrap { position: relative; display: inline-flex; align-items: center; }
+.hi-select {
+  appearance: none;
+  -webkit-appearance: none;
+  background: white;
+  border: 1px solid #D7D0C2;
+  border-radius: 0;
+  padding: 12px 40px 12px 16px;
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 14px;
+  color: #16150F;
+  cursor: pointer;
+  outline: none;
+  transition: border-color .2s;
+  min-width: 170px;
+}
+.hi-select:focus { border-color: #5C6B47; outline: none; box-shadow: none; }
+.hi-select-chev { position: absolute; right: 10px; pointer-events: none; color: #6B675C; }
+.hi-mobile-toolbtns { display: none; }
+
+/* ---- Collection body ---- */
+.hi-colbody { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+.hi-collection-grid { display: grid; grid-template-columns: 250px 1fr; gap: 44px; padding: 36px 0 96px; }
+
+/* Sidebar sticky — sticks below header + toolbar; align-self:start is required
+   so grid doesn't stretch it to full height (which would break sticky scroll).
+   padding-top gives breathing room between toolbar bottom and first filter group. */
+.hi-desk-filters {
+  display: block;
+  position: sticky;
+  top: calc(var(--hi-header-h) + var(--hi-toolbar-h) + 12px);
+  max-height: calc(100vh - var(--hi-header-h) - var(--hi-toolbar-h) - 12px);
+  overflow-y: auto;
+  align-self: start;
+  padding-top: 4px;
+}
+
+/* ---- Sidebar header ---- */
+.hi-filters-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #E7E2D7;
+  margin-bottom: 4px;
+}
+.hi-filters-head-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: #16150F;
+}
+.hi-clear-all-link {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 12.5px;
+  color: #8A8479;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  transition: color .2s;
+}
+.hi-clear-all-link:hover { color: #16150F; }
+
+/* ---- Filter accordion ---- */
+.hi-filter-group { border-bottom: 1px solid #E7E2D7; padding: 22px 0; }
+.hi-filter-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: 'Oswald', sans-serif;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: #16150F;
+  gap: 8px;
+}
+.hi-filter-head-label { display: flex; align-items: center; gap: 8px; }
+.hi-filter-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  background: #5C6B47;
+  color: #fff;
+  font-size: 10px;
+  border-radius: 50%;
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-weight: 700;
+}
+.hi-filter-chev { transition: transform .28s ease; color: #8A8479; flex-shrink: 0; }
+.hi-filter-head[aria-expanded="false"] .hi-filter-chev { transform: rotate(-90deg); }
+.hi-filter-body {
+  overflow: hidden;
+  transition: max-height .3s cubic-bezier(.2,.7,.3,1), opacity .3s ease, margin-top .3s ease;
+  padding-top: 4px;
+}
+.hi-filter-head[aria-expanded="false"] + .hi-filter-body { max-height: 0 !important; padding-top: 0; }
+
+/* ---- Filter inputs ---- */
+.hi-filter-checks { display: flex; flex-direction: column; gap: 2px; padding-top: 10px; }
+.hi-check {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 7px 0;
+  cursor: pointer;
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 14.5px;
+  color: #54504A;
+  transition: color .2s;
+}
+.hi-check:hover { color: #16150F; }
+.hi-check--disabled { opacity: .38; cursor: not-allowed; }
+.hi-box {
+  flex-shrink: 0;
+  width: 17px;
+  height: 17px;
+  border: 1.5px solid #C4C0B8;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color .2s, background .2s;
+}
+.hi-box svg { opacity: 0; transition: opacity .15s; }
+.hi-check input:checked ~ .hi-box {
+  background: #5C6B47;
+  border-color: #5C6B47;
+}
+.hi-check input:checked ~ .hi-box svg { opacity: 1; }
+.hi-check-count { color: #9A958A; font-size: 12px; margin-left: 3px; }
+
+.hi-filter-sizes { display: flex; flex-wrap: wrap; gap: 8px; padding-top: 12px; }
+.hi-size {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  border: 1px solid #D6D1C7;
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #16150F;
+  cursor: pointer;
+  transition: border-color .2s, background .2s, color .2s;
+  user-select: none;
+}
+.hi-size:hover { border-color: #16150F; }
+.hi-size[data-on="true"],
+.hi-size input:checked ~ * { border-color: #16150F; background: #16150F; color: #FBF9F5; }
+.hi-size--disabled { opacity: .38; cursor: not-allowed; }
+
+.hi-filter-swatches { display: flex; flex-wrap: wrap; gap: 10px; padding-top: 12px; }
+.hi-colorswatch {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+.hi-colorswatch .dot {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  box-shadow: inset 0 0 0 1px rgba(22,21,15,.18);
+  position: relative;
+  overflow: hidden;
+  transition: border-color .2s, box-shadow .2s;
+}
+.hi-colorswatch--active .dot { border-color: #16150F; box-shadow: inset 0 0 0 1px rgba(22,21,15,.18), 0 0 0 2px #fff, 0 0 0 4px #16150F; }
+.hi-colorswatch--disabled { opacity: .35; cursor: not-allowed; }
+.hi-swatch-label { font-size: 10.5px; color: #6B675C; text-align: center; white-space: nowrap; }
+
+/* Price range */
+.hi-price-range { display: block; padding-top: 12px; }
+.hi-price-range-inputs { display: flex; align-items: flex-end; gap: 10px; }
+.hi-price-label { display: block; font-size: 11px; color: #8A8479; margin-bottom: 5px; font-family: 'Hanken Grotesk', sans-serif; }
+.hi-price-input-wrap { position: relative; }
+.hi-price-symbol { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: #8A8479; font-size: 13px; font-family: 'Hanken Grotesk', sans-serif; }
+.hi-price-input {
+  width: 104px;
+  padding: 8px 8px 8px 22px;
+  border: 1px solid #D6D1C7;
+  border-radius: 0;
+  -webkit-appearance: textfield;
+  appearance: textfield;
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 13.5px;
+  color: #16150F;
+  background: transparent;
+  outline: none;
+  transition: border-color .2s;
+}
+.hi-price-input:focus { border-color: #5C6B47; outline: none; border-radius: 0; box-shadow: none; }
+.hi-price-sep { font-size: 13px; color: #8A8479; padding-bottom: 9px; flex-shrink: 0; }
+
+/* ---- Active chips ---- */
+.hi-chips-bar { display: flex; flex-wrap: wrap; gap: 9px; margin-bottom: 24px; padding-top: 4px; }
+.hi-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  background: #F1ECE1;
+  border: 1px solid #E2DBCD;
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 13px;
+  color: #3A372F;
+  text-decoration: none;
+  transition: border-color .2s, background .2s;
+}
+.hi-chip:hover { background: #F3EFE6; border-color: #C4C0B8; }
+.hi-chip--clear { color: #5C6B47; border-color: #5C6B47; }
+.hi-chip--clear:hover { background: #5C6B47; color: #fff; }
+
+/* ---- Product grid ---- */
+.hi-prod-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 3), 1fr);
+  gap: 30px 24px;
+}
+.hi-card-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(251,249,245,.94);
+  color: #16150F;
+  font-family: 'Oswald', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  padding: 5px 10px;
+}
+.hi-card-badge--sold { background: #16150F; color: #FBF9F5; }
+.hi-quickadd {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity .3s cubic-bezier(.2,.7,.3,1), transform .3s cubic-bezier(.2,.7,.3,1);
+  pointer-events: none;
+}
+.hi-card:hover .hi-quickadd { opacity: 1; transform: none; pointer-events: auto; }
+.hi-btn--qa {
+  display: block;
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 12px;
+  text-align: center;
+  background: #fff !important;
+}
+.hi-btn--qa:hover { background: #16150F !important; }
+/* Image zoom: overflow hidden is on the wrap; transform is on the img */
+.hi-card-img-wrap {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: #E9E4DA;
+}
+.hi-card-img-el {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .9s cubic-bezier(.2,.7,.3,1);
+  will-change: transform;
+}
+.hi-card:hover .hi-card-img-el { transform: scale(1.07); }
+.hi-card-body { padding: 15px 4px 6px; }
+.hi-card-cat {
+  font-family: 'Oswald', sans-serif;
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: #5C6B47;
+  margin-bottom: 3px;
+}
+.hi-card-name {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #16150F;
+  line-height: 1.35;
+  margin-top: 5px;
+  margin-bottom: 0;
+  transition: color .2s;
+}
+.hi-card:hover .hi-card-name { color: #5C6B47; }
+.hi-card-price-row { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin-top: 9px; }
+.hi-card-price { font-family: 'Hanken Grotesk', sans-serif; font-size: 15px; font-weight: 600; color: #16150F; }
+.hi-card-price--sale { color: #A23B27; }
+.hi-card-price-compare { font-size: 13px; color: #9A958A; text-decoration: line-through; }
+/* ---- Loading state ---- */
+.collection.loading { opacity: .5; pointer-events: none; transition: opacity .3s; }
+
+/* ---- Empty state ---- */
+.hi-empty-state { padding: 80px 20px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.hi-empty-title { font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: #16150F; margin: 4px 0 0; }
+.hi-empty-body { font-family: 'Hanken Grotesk', sans-serif; font-size: 15px; color: #6B675C; max-width: 40ch; margin: 0; line-height: 1.5; }
+
+/* ---- Pagination ---- */
+.hi-pagination { padding: 56px 0 0; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.hi-pagination-progress { width: 220px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.hi-pagination-bar { position: relative; width: 100%; height: 5px; background: #E7E2D7; overflow: hidden; border-radius: 3px; }
+.hi-pagination-fill { position: absolute; left: 0; top: 0; height: 100%; background: #5C6B47; border-radius: 3px; transition: width .5s cubic-bezier(.4,0,.2,1); display: block; }
+.hi-pagination-label { font-family: 'Hanken Grotesk', sans-serif; font-size: 13px; color: #8A8479; margin: 0; }
+.hi-loadmore { min-width: 180px; }
+
+/* ---- Mobile drawer ---- */
+.hi-fdrawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 90%;
+  max-width: 380px;
+  z-index: 200;
+  transform: translateX(-100%);
+  transition: transform .34s cubic-bezier(.2,.7,.3,1);
+  overflow: hidden;
+}
+#hi-filter-drawer[data-open="true"] { transform: none !important; box-shadow: 0 0 60px rgba(12,12,9,.3); }
+
+/* menu-drawer inner: fills the outer panel, handles flex column layout */
+.hi-fdrawer-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #FBF9F5;
+  overflow: hidden;
+}
+.hi-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(12,12,9,.42);
+  z-index: 190;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .34s, visibility .34s;
+}
+#hi-filter-backdrop[data-open="true"] { opacity: 1; visibility: visible; pointer-events: auto; }
+.hi-drawer-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 22px;
+  border-bottom: 1px solid #E7E2D7;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  background: #FBF9F5;
+  z-index: 1;
+}
+.hi-drawer-title { font-family: 'Oswald', sans-serif; font-size: 17px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: #16150F; }
+.hi-drawer-close {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #16150F;
+  padding: 0;
+}
+.hi-drawer-filters { flex: 1; overflow-y: auto; padding: 0 24px; }
+.hi-drawer-foot { padding: 18px 24px; border-top: 1px solid #E7E2D7; display: flex; gap: 12px; flex-shrink: 0; }
+.hi-drawer-btn-clear { flex: 1; text-align: center; }
+.hi-drawer-btn-apply { flex: 2; text-align: center; }
+
+/* ---- Toolbar filter button (mobile only) ---- */
+.hi-toolbtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 12px 18px;
+  border: 1px solid #D7D0C2;
+  background: white;
+  font-family: 'Oswald', sans-serif;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #16150F;
+  cursor: pointer;
+  transition: border-color .2s, background .2s;
+}
+.hi-toolbtn:hover { border-color: #16150F; }
+
+/* ---- Buttons (shared) ---- */
+/* !important is required — Dawn's base CSS includes button { border: none; } and
+   component-facets.css applies scheme-aware border overrides, both of which would
+   defeat our class selectors without it. */
+.hi-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 36px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  border: 2px solid transparent !important;
+  transition: background .28s cubic-bezier(.2,.7,.3,1), color .28s cubic-bezier(.2,.7,.3,1), border-color .28s cubic-bezier(.2,.7,.3,1);
+}
+.hi-btn--dark { background: #16150F !important; color: #FBF9F5 !important; border-color: #16150F !important; }
+.hi-btn--dark:hover { background: #5C6B47 !important; border-color: #5C6B47 !important; }
+.hi-btn--primary { background: #16150F !important; color: #FBF9F5 !important; border-color: #16150F !important; }
+.hi-btn--primary:hover { background: #5C6B47 !important; border-color: #5C6B47 !important; }
+.hi-btn--outline { background: transparent !important; color: #16150F !important; border: 1.5px solid #16150F !important; }
+.hi-btn--outline:hover { background: #16150F !important; color: #FBF9F5 !important; }
+.hi-btn--ghost { background: transparent !important; color: #6B675C !important; border: 1px solid #D6D1C7 !important; }
+.hi-btn--ghost:hover { background: #F3EFE6 !important; border-color: #C4C0B8 !important; color: #16150F !important; }
+/* Drawer footer buttons: tighter padding prevents text wrapping in narrow flex layout */
+.hi-drawer-foot .hi-btn { padding: 13px 20px !important; white-space: nowrap; }
+
+/* ---- Responsive ---- */
+@media (max-width: 1000px) {
+  .hi-mobile-toolbtns { display: inline-flex !important; }
+  .hi-desk-filters { display: none !important; }
+  .hi-collection-grid { grid-template-columns: 1fr; gap: 0; padding-top: 28px; }
+  .hi-desk-only { display: none; }
+  .hi-toolbar { padding: 12px 20px; }
+  .hi-colbody { padding: 0 20px; }
+  /* Hide product count on mobile — toolbar is too narrow for filter + count + sort */
+  .hi-count-wrap { display: none; }
+  /* Let sort select shrink/grow to fill available space */
+  .hi-toolbar-right { flex: 1; justify-content: flex-end; min-width: 0; }
+  .hi-select-wrap { flex: 1; max-width: 200px; }
+  .hi-select { width: 100%; min-width: 0; }
+}
+@media (max-width: 640px) {
+  .hi-prod-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 18px 14px; }
+  .hi-card-body { padding: 9px 2px 4px; }
+  .hi-card-cat { font-size: 9px; letter-spacing: .12em; margin-bottom: 2px; }
+  .hi-card-name { font-size: 11.5px; line-height: 1.25; margin-top: 3px; }
+  .hi-card-price { font-size: 11.5px; }
+  .hi-card-price-compare { font-size: 10.5px; }
+  .hi-card-price-row { margin-top: 5px; gap: 4px; }
+}
+{% endstylesheet %}
+
+{% javascript %}
+(function() {
+  /* Toolbar sticky positioning — exact logic from the approved design HTML.
+     Scroll DOWN past 200px → toolbar at top:0 (header hides, toolbar takes its place).
+     Any scroll UP          → toolbar at sticky-nav height (tucks under the header).
+     CSS transition on toolbar.style.top gives the same smooth .35s slide as the design.
+
+     NOTE: Dawn wraps each header section in its own .shopify-section-group-header-group div.
+     querySelector() returns the FIRST match — the announcement bar (40px, position:static).
+     We need the STICKY nav section specifically, so filter for position:sticky. */
+  function initToolbarPositioner() {
+    var hg = Array.from(document.querySelectorAll('.shopify-section-group-header-group'))
+      .find(function(el) { return getComputedStyle(el).position === 'sticky'; });
+    var toolbar = document.querySelector('.hi-toolbar-bar');
+    if (!toolbar) return;
+
+    toolbar.style.transition = 'top .35s cubic-bezier(.2,.7,.3,1)';
+
+    var headerH = hg ? hg.offsetHeight : 75;
+    var lastY = window.scrollY || 0;
+    var hidden = false;
+
+    function apply(isHidden) {
+      hidden = isHidden;
+      toolbar.style.top = (isHidden ? 0 : headerH) + 'px';
+      document.documentElement.style.setProperty('--hi-header-h', (isHidden ? 0 : headerH) + 'px');
+      document.documentElement.style.setProperty('--hi-toolbar-h', toolbar.offsetHeight + 'px');
+    }
+
+    apply(false);
+
+    window.addEventListener('scroll', function() {
+      var y = window.scrollY || 0;
+      apply(y > lastY && y > 200);
+      lastY = y;
+    }, { passive: true });
+
+    window.addEventListener('resize', function() {
+      headerH = hg ? hg.offsetHeight : 75;
+      apply(hidden);
+    });
+  }
+  initToolbarPositioner();
+
+  /* Stub menu-drawer custom element so facets.js renderAdditionalElements()
+     doesn't throw when calling .closest('menu-drawer').bindEvents() */
+  if (!customElements.get('menu-drawer')) {
+    customElements.define('menu-drawer', class extends HTMLElement {
+      bindEvents() {}
+    });
+  }
+
+  /* Event delegation — accordion toggle */
+  document.addEventListener('click', function(e) {
+    var btn = e.target.closest('[data-hi-filter-toggle]');
+    if (!btn) return;
+    var group = btn.closest('.hi-filter-group');
+    var body = group && group.querySelector('.hi-filter-body');
+    var expanded = btn.getAttribute('aria-expanded') !== 'false';
+    btn.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+    if (body) {
+      body.style.maxHeight = expanded ? '0' : '600px';
+    }
+  });
+
+  /* Mobile filter drawer open */
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('[data-hi-drawer-open]')) return;
+    var drawer = document.getElementById('hi-filter-drawer');
+    var backdrop = document.getElementById('hi-filter-backdrop');
+    if (drawer) { drawer.setAttribute('data-open', 'true'); drawer.removeAttribute('aria-hidden'); }
+    if (backdrop) backdrop.setAttribute('data-open', 'true');
+    document.body.style.overflow = 'hidden';
+  });
+
+  /* Mobile filter drawer close */
+  document.addEventListener('click', function(e) {
+    var isCloseBtn = !!e.target.closest('[data-hi-drawer-close]');
+    var isBackdrop = e.target.id === 'hi-filter-backdrop';
+    if (!isCloseBtn && !isBackdrop) return;
+    var drawer = document.getElementById('hi-filter-drawer');
+    var backdrop = document.getElementById('hi-filter-backdrop');
+    if (drawer) { drawer.setAttribute('data-open', 'false'); drawer.setAttribute('aria-hidden', 'true'); }
+    if (backdrop) backdrop.setAttribute('data-open', 'false');
+    document.body.style.overflow = '';
+  });
+
+  /* Sort bridge: #SortBy lives inside FacetFiltersForm (DOM) but is form-
+     associated with FacetSortForm via form="FacetSortForm". FormData picks it
+     up for FacetSortForm (once), not FacetFiltersForm — no duplicate sort_by.
+     Change events bubble via DOM so facets.js picks them up via FacetFiltersForm.
+     We only need to keep the mobile hidden input in sync. */
+  var sortSelect = document.getElementById('SortBy');
+  if (sortSelect) {
+    sortSelect.addEventListener('change', function() {
+      var mobileInputs = document.querySelectorAll('#FacetFiltersFormMobile input[name="sort_by"]');
+      mobileInputs.forEach(function(inp) { inp.value = sortSelect.value; });
+    });
+  }
+
+  /* AJAX Load More — fetches next page and appends cards to the current grid */
+  document.addEventListener('click', function(e) {
+    var btn = e.target.closest('.hi-loadmore');
+    if (!btn || !btn.dataset.url) return;
+
+    var url = btn.dataset.url;
+    var originalText = btn.textContent.trim();
+    btn.textContent = '...';
+    btn.disabled = true;
+
+    fetch(url)
+      .then(function(res) { return res.text(); })
+      .then(function(html) {
+        var doc = new DOMParser().parseFromString(html, 'text/html');
+
+        /* Append new product cards */
+        var newCards = doc.querySelectorAll('.hi-prod-grid .hi-card');
+        var currentGrid = document.querySelector('.hi-prod-grid');
+        if (currentGrid && newCards.length) {
+          newCards.forEach(function(card) { currentGrid.appendChild(card); });
+        }
+
+        /* Swap pagination section (or remove if last page) */
+        var currentPagination = document.querySelector('.hi-pagination');
+        var newPagination = doc.querySelector('.hi-pagination');
+        if (currentPagination) {
+          if (newPagination) {
+            var oldFill = currentPagination.querySelector('.hi-pagination-fill');
+            var oldWidth = oldFill ? oldFill.style.width : '0%';
+            currentPagination.outerHTML = newPagination.outerHTML;
+            /* Animate the fill from old width to new width */
+            var newFill = document.querySelector('.hi-pagination-fill');
+            if (newFill) {
+              var targetWidth = newFill.style.width;
+              newFill.style.transition = 'none';
+              newFill.style.width = oldWidth;
+              requestAnimationFrame(function() {
+                requestAnimationFrame(function() {
+                  newFill.style.transition = '';
+                  newFill.style.width = targetWidth;
+                });
+              });
+            }
+          } else {
+            currentPagination.remove();
+          }
+        }
+      })
+      .catch(function() {
+        btn.textContent = originalText;
+        btn.disabled = false;
+      });
+  });
+})();
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Collection Product Grid",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "Products per page",
+      "min": 8,
+      "max": 36,
+      "step": 4,
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns on desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "header",
+      "content": "Filtering & sorting"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_filtering",
+      "label": "Enable filtering",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sorting",
+      "label": "Enable sorting",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Product Grid"
+    }
+  ]
+}
+{% endschema %}

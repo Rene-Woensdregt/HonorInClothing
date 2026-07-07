@@ -571,6 +571,12 @@
   outline: none;
   box-shadow: none;
 }
+
+/* Smooth slide-up/down when scroll-aware JS changes style.top */
+.shopify-section-group-header-group .shopify-section[style] {
+  transition: top .35s cubic-bezier(.2,.7,.3,1);
+  will-change: top;
+}
 {% endstylesheet %}
 
 {% javascript %}

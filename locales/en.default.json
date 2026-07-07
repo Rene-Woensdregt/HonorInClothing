@@ -64,6 +64,9 @@
       "next_slide": "Slide right",
       "previous_slide": "Slide left",
       "name": "Slider"
+    },
+    "breadcrumbs": {
+      "home": "Home"
     }
   },
   "newsletter": {
@@ -75,6 +78,7 @@
     "skip_to_text": "Skip to content",
     "skip_to_product_info": "Skip to product information",
     "close": "Close",
+    "remove_filter": "Remove filter: {{ filter }}",
     "unit_price_separator": "per",
     "vendor": "Vendor:",
     "error": "Error",
@@ -556,6 +560,21 @@
       "increase_qty": "Increase quantity",
       "remove": "Remove"
     },
+    "collection": {
+      "filters": "Filters",
+      "sort": "Sort by",
+      "clear_all": "Clear all",
+      "products_found": "Products",
+      "colors": "Colors",
+      "price_range": "Price",
+      "show_results": "Show Results",
+      "load_more": "Load More",
+      "showing_count": "Showing {{ shown }} of {{ total }}",
+      "no_results_title": "No products found",
+      "no_results_body": "Try removing a filter or two to see more of this collection.",
+      "clear_filters": "Clear All Filters",
+      "view_product": "View Product"
+    },
     "announcement_bar": {
       "name": "Announcement Bar",
       "label": "Announcement bar",
@@ -590,6 +609,8 @@
       "success": "You're in. Welcome to the community."
     },
     "instagram": { "name": "Instagram Feed" },
+    "collection_banner": { "name": "Collection Banner" },
+    "collection_product_grid": { "name": "Collection Product Grid" },
     "header": { "name": "Header" },
     "cart_drawer": {
       "name": "Cart Drawer",
@@ -603,6 +624,50 @@
       "empty_body": "Looks like you haven't added anything yet. Find something worth honoring.",
       "start_shopping": "Start Shopping"
     },
-    "footer": { "name": "Footer" }
+    "footer": { "name": "Footer" },
+    "hi_collection_banner": {
+      "name": "Collection Banner",
+      "settings": {
+        "image": {
+          "label": "Background image",
+          "info": "Used when the collection has no image set. Recommended: 2000×600px."
+        },
+        "show_description": {
+          "label": "Show collection description"
+        }
+      }
+    },
+    "hi_collection_product_grid": {
+      "name": "Collection Product Grid",
+      "filters": "Filters",
+      "sort": "Sort by",
+      "clear_all": "Clear all",
+      "products_found": "Products",
+      "colors": "Colors",
+      "price_range": "Price",
+      "show_results": "Show Results",
+      "load_more": "Load More",
+      "showing_count": "Showing {{ shown }} of {{ total }}",
+      "no_results_title": "No products found",
+      "no_results_body": "Try removing a filter or two to see more of this collection.",
+      "clear_filters": "Clear All Filters",
+      "settings": {
+        "products_per_page": {
+          "label": "Products per page"
+        },
+        "columns_desktop": {
+          "label": "Columns on desktop"
+        },
+        "header_filter": {
+          "content": "Filtering & sorting"
+        },
+        "enable_filtering": {
+          "label": "Enable filtering"
+        },
+        "enable_sorting": {
+          "label": "Enable sorting"
+        }
+      }
+    }
   }
 }

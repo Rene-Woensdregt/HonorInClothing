@@ -1,0 +1,205 @@
+{% doc %}
+  Renders collection filter groups with hi-* classes.
+  Compatible with Dawn's facets.js — filter groups use .js-filter class
+  and IDs matching Details-{param_name}-{id_suffix} so renderFilters() can
+  swap them on AJAX without full-page reload.
+
+  @param {Object} results - Collection object (passes results.filters)
+  @param {Boolean} enable_filtering - Whether to render filters at all
+  @param {String} [id_suffix] - Suffix for filter group IDs. Defaults to section.id.
+    Pass a different value for mobile drawer to avoid duplicate IDs.
+{% enddoc %}
+
+{%- assign _id_suffix = id_suffix | default: section.id -%}
+
+{%- if enable_filtering and results.filters != empty -%}
+  {%- for filter in results.filters -%}
+    {%- liquid
+      assign active_count = filter.active_values.size
+      if filter.type == 'price_range'
+        if filter.min_value.value != null or filter.max_value.value != null
+          assign active_count = 1
+        endif
+      endif
+      assign presentation = filter.presentation | default: 'text'
+    -%}
+    <div class="hi-filter-group js-filter"
+         id="Details-{{ filter.param_name | escape }}-{{ _id_suffix }}"
+         data-index="{{ forloop.index }}">
+
+      <button type="button" class="hi-filter-head" aria-expanded="true" data-hi-filter-toggle>
+        <span class="hi-filter-head-label">
+          {{ filter.label | escape }}
+          {%- if active_count > 0 -%}
+            <span class="hi-filter-badge">{{ active_count }}</span>
+          {%- endif -%}
+        </span>
+        <svg class="hi-filter-chev" viewBox="0 0 24 24" width="14" height="14"
+             fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </button>
+
+      <div class="hi-filter-body" style="max-height:600px;">
+        {%- case filter.type -%}
+
+          {%- when 'boolean', 'list' -%}
+            {%- if presentation == 'swatch' -%}
+              <div class="hi-filter-swatches">
+                {%- for value in filter.values -%}
+                  {%- liquid
+                    assign input_id = 'HiFilter-' | append: filter.param_name | escape | append: '-' | append: forloop.index | append: '-' | append: _id_suffix
+                    assign is_disabled = false
+                    if value.count == 0 and value.active == false
+                      assign is_disabled = true
+                    endif
+                  -%}
+                  <label class="hi-colorswatch{% if value.active %} hi-colorswatch--active{% endif %}{% if is_disabled %} hi-colorswatch--disabled{% endif %}"
+                         for="{{ input_id }}"
+                         title="{{ value.label | escape }} ({{ value.count }})">
+                    <input type="checkbox"
+                           name="{{ value.param_name }}"
+                           value="{{ value.value }}"
+                           id="{{ input_id }}"
+                           {% if value.active %}checked{% endif %}
+                           {% if is_disabled %}disabled{% endif %}
+                           class="visually-hidden">
+                    <span class="dot">
+                      {%- if value.swatch.image -%}
+                        {{ value.swatch.image | image_url: width: 40 | image_tag: loading: 'lazy', style: 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%;' }}
+                      {%- elsif value.swatch.color -%}
+                        <span style="display:block;width:100%;height:100%;background:{{ value.swatch.color }};border-radius:50%;"></span>
+                      {%- else -%}
+                        <span style="display:block;width:100%;height:100%;background:{{ value.value | downcase }};border-radius:50%;"></span>
+                      {%- endif -%}
+                    </span>
+                    <span class="hi-swatch-label">{{ value.label | escape }}</span>
+                  </label>
+                {%- endfor -%}
+              </div>
+
+            {%- else -%}
+              {%- liquid
+                assign is_size = false
+                assign first_val = filter.values | first
+                if first_val
+                  assign fl = first_val.label | upcase
+                  if fl == 'XS' or fl == 'S' or fl == 'M' or fl == 'L' or fl == 'XL' or fl == 'XXL' or fl == '2XL' or fl == '3XL' or fl == 'OS' or fl == 'ONE SIZE'
+                    assign is_size = true
+                  endif
+                  assign check_num = first_val.label | plus: 0
+                  if check_num >= 26 and check_num <= 46
+                    assign is_size = true
+                  endif
+                endif
+              -%}
+
+              {%- if is_size -%}
+                <div class="hi-filter-sizes">
+                  {%- for value in filter.values -%}
+                    {%- liquid
+                      assign input_id = 'HiFilter-' | append: filter.param_name | escape | append: '-' | append: forloop.index | append: '-' | append: _id_suffix
+                      assign is_disabled = false
+                      if value.count == 0 and value.active == false
+                        assign is_disabled = true
+                      endif
+                    -%}
+                    <label class="hi-size{% if is_disabled %} hi-size--disabled{% endif %}"
+                           for="{{ input_id }}"
+                           data-on="{{ value.active }}">
+                      <input type="checkbox"
+                             name="{{ value.param_name }}"
+                             value="{{ value.value }}"
+                             id="{{ input_id }}"
+                             {% if value.active %}checked{% endif %}
+                             {% if is_disabled %}disabled{% endif %}
+                             class="visually-hidden">
+                      {{ value.label | escape }}
+                    </label>
+                  {%- endfor -%}
+                </div>
+
+              {%- else -%}
+                <div class="hi-filter-checks">
+                  {%- for value in filter.values -%}
+                    {%- liquid
+                      assign input_id = 'HiFilter-' | append: filter.param_name | escape | append: '-' | append: forloop.index | append: '-' | append: _id_suffix
+                      assign is_disabled = false
+                      if value.count == 0 and value.active == false
+                        assign is_disabled = true
+                      endif
+                    -%}
+                    <label class="hi-check{% if is_disabled %} hi-check--disabled{% endif %}"
+                           for="{{ input_id }}"
+                           data-on="{{ value.active }}">
+                      <input type="checkbox"
+                             name="{{ value.param_name }}"
+                             value="{{ value.value }}"
+                             id="{{ input_id }}"
+                             {% if value.active %}checked{% endif %}
+                             {% if is_disabled %}disabled{% endif %}
+                             class="visually-hidden">
+                      <span class="hi-box">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+                             width="11" height="11" aria-hidden="true">
+                          <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                      </span>
+                      <span>{{ value.label | escape }}
+                        {%- if value.count > 0 -%}
+                          <span class="hi-check-count">({{ value.count }})</span>
+                        {%- endif -%}
+                      </span>
+                    </label>
+                  {%- endfor -%}
+                </div>
+              {%- endif -%}
+            {%- endif -%}
+
+          {%- when 'price_range' -%}
+            <price-range class="hi-price-range">
+              <div class="hi-price-range-inputs">
+                <div>
+                  <label class="hi-price-label" for="HiFilterPriceMin-{{ _id_suffix }}">Min</label>
+                  <div class="hi-price-input-wrap">
+                    <span class="hi-price-symbol">$</span>
+                    {%- assign price_max = filter.range_max | money_without_trailing_zeros | remove: '$' | strip -%}
+                    <input type="number"
+                           id="HiFilterPriceMin-{{ _id_suffix }}"
+                           name="{{ filter.min_value.param_name }}"
+                           class="hi-price-input"
+                           placeholder="0"
+                           min="0"
+                           max="{{ price_max }}"
+                           data-min="0"
+                           data-max="{{ price_max }}"
+                           {% if filter.min_value.value %}value="{{ filter.min_value.value | money_without_trailing_zeros | remove: '$' | strip }}"{% endif %}>
+                  </div>
+                </div>
+                <span class="hi-price-sep">—</span>
+                <div>
+                  <label class="hi-price-label" for="HiFilterPriceMax-{{ _id_suffix }}">Max</label>
+                  <div class="hi-price-input-wrap">
+                    <span class="hi-price-symbol">$</span>
+                    <input type="number"
+                           id="HiFilterPriceMax-{{ _id_suffix }}"
+                           name="{{ filter.max_value.param_name }}"
+                           class="hi-price-input"
+                           placeholder="{{ price_max }}"
+                           min="0"
+                           max="{{ price_max }}"
+                           data-min="0"
+                           data-max="{{ price_max }}"
+                           {% if filter.max_value.value %}value="{{ filter.max_value.value | money_without_trailing_zeros | remove: '$' | strip }}"{% endif %}>
+                  </div>
+                </div>
+              </div>
+            </price-range>
+
+        {%- endcase -%}
+      </div>
+    </div>
+  {%- endfor -%}
+{%- endif -%}
