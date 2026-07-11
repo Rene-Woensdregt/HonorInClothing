@@ -45,11 +45,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-      .hi-hero h1,.hi-hero h2,.hi-hero p,.hi-ann-bar p,
-      section[class*="hi-"] h1,section[class*="hi-"] h2,section[class*="hi-"] h3,
-      section[class*="hi-"] h4,section[class*="hi-"] p{
-        margin:0;padding:0;
-      }
+      .hi-hero h1,.hi-hero h2,.hi-hero p,.hi-ann-bar p{margin:0;padding:0;}
     </style>
     {{ 'hi-global.css' | asset_url | stylesheet_tag }}
     <script src="{{ 'hi-global.js' | asset_url }}" defer="defer"></script>

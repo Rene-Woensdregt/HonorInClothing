@@ -1,0 +1,1157 @@
+{%- liquid
+  assign selected_variant = product.selected_or_first_available_variant
+  assign color_option_index = nil
+  assign size_option_index = nil
+  for option in product.options_with_values
+    assign opt_name = option.name | downcase
+    if opt_name == 'color' or opt_name == 'colour'
+      assign color_option_index = forloop.index0
+    endif
+    if opt_name == 'size'
+      assign size_option_index = forloop.index0
+    endif
+  endfor
+  assign current_collection = collection
+  if current_collection == blank
+    assign current_collection = product.collections.first
+  endif
+  assign badge = nil
+  for tag in product.tags
+    if tag == 'New' or tag == 'Best Seller' or tag == 'Sale'
+      assign badge = tag
+      break
+    endif
+  endfor
+  assign first_image = product.featured_image
+-%}
+
+<script>
+window.hiI18n = window.hiI18n || {
+  add_to_cart: {{ 'hi.pdp.add_to_cart' | t | json }},
+  sold_out: {{ 'hi.pdp.sold_out' | t | json }},
+  adding: {{ 'hi.pdp.adding' | t | json }},
+  added: {{ 'hi.pdp.added' | t | json }}
+};
+</script>
+
+<script type="application/json" id="hi-pdp-json-{{ section.id }}">
+{
+  "variants": [
+    {%- for variant in product.variants -%}
+    {
+      "id": {{ variant.id }},
+      "available": {{ variant.available }},
+      "price_formatted": {{ variant.price | money | json }},
+      "compare_at_price_formatted": {{ variant.compare_at_price | money | default: null | json }},
+      "compare_at_price": {{ variant.compare_at_price | default: 0 }},
+      "price": {{ variant.price }},
+      "option1": {{ variant.option1 | json }},
+      "option2": {{ variant.option2 | json }},
+      "option3": {{ variant.option3 | json }},
+      "featured_media_id": {{ variant.featured_media.id | default: 'null' }},
+      "title": {{ variant.title | json }}
+    }{% unless forloop.last %},{% endunless %}
+    {%- endfor -%}
+  ]
+}
+</script>
+
+<div class="hi-pdp-section" data-hi-pdp-section="{{ section.id }}">
+
+  <!-- Breadcrumb -->
+  {%- if section.settings.show_breadcrumb -%}
+  <div class="hi-x hi-pdp-breadcrumb-wrap">
+    <nav class="hi-breadcrumb" aria-label="{{ 'hi.pdp.breadcrumb' | t }}">
+      <a href="/" class="hi-breadcrumb-link">{{ 'hi.pdp.home' | t }}</a>
+      <span>/</span>
+      {%- if current_collection != blank -%}
+        <a href="{{ current_collection.url }}" class="hi-breadcrumb-link">{{ current_collection.title }}</a>
+        <span>/</span>
+      {%- endif -%}
+      <span class="hi-breadcrumb-current">{{ product.title }}</span>
+    </nav>
+  </div>
+  {%- endif -%}
+
+  <!-- Product main -->
+  <section class="hi-x hi-pdp-main">
+    <div class="hi-pdp-grid">
+
+      <!-- Gallery -->
+      <div class="hi-gallery" id="hi-gallery-{{ section.id }}">
+        <div class="hi-thumbs">
+          {%- if product.media.size > 0 -%}
+            {%- for media in product.media -%}
+              <div class="hi-thumb{% if forloop.first %} hi-thumb--active{% endif %}"
+                   data-media-id="{{ media.id }}"
+                   onclick="hiPdpSelectMedia('{{ section.id }}', {{ media.id }})"
+                   aria-label="{{ media.alt | default: product.title | escape }}">
+                <div class="img" style="background-image:url('{{ media | image_url: width: 200 }}');"></div>
+              </div>
+            {%- endfor -%}
+          {%- else -%}
+            <div class="hi-thumb hi-thumb--active">
+              <div class="img" style="background:#E9E4DA;"></div>
+            </div>
+          {%- endif -%}
+        </div>
+
+        <div class="hi-gallery-main" id="hi-gallery-main-{{ section.id }}">
+          {%- if product.media.size > 0 -%}
+            {%- for media in product.media -%}
+              <div class="hi-gallery-slide{% if forloop.first %} hi-gallery-slide--active{% endif %}"
+                   data-media-id="{{ media.id }}">
+                <div class="img" style="background-image:url('{{ media | image_url: width: 900 }}');"></div>
+              </div>
+            {%- endfor -%}
+          {%- else -%}
+            <div class="hi-gallery-slide hi-gallery-slide--active">
+              <div class="img" style="background:#E9E4DA;"></div>
+            </div>
+          {%- endif -%}
+          {%- if badge != blank -%}
+            <span class="hi-badge">{{ badge }}</span>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <!-- Buy box -->
+      <div class="hi-buybox" id="hi-buybox-{{ section.id }}">
+
+        {%- if product.type != blank -%}
+          <div class="hi-buybox-cat">{{ product.type }}</div>
+        {%- endif -%}
+        <h1 class="hi-buybox-title">{{ product.title }}</h1>
+
+        <!-- Price -->
+        <div class="hi-buybox-price" id="hi-price-{{ section.id }}">
+          <span class="hi-price-main">{{ selected_variant.price | money }}</span>
+          {%- if selected_variant.compare_at_price > selected_variant.price -%}
+            <span class="hi-price-compare">{{ selected_variant.compare_at_price | money }}</span>
+          {%- endif -%}
+        </div>
+
+        <!-- Blurb -->
+        {%- if product.description != blank -%}
+          <p class="hi-buybox-blurb">{{ product.description | strip_html | truncate: 200 }}</p>
+        {%- endif -%}
+
+        {%- assign pdp_form_id = 'hi-pdp-form-' | append: section.id -%}
+        {%- form 'product', product, id: pdp_form_id, novalidate: 'novalidate' -%}
+          <input type="hidden" name="id" id="hi-variant-id-{{ section.id }}" value="{{ selected_variant.id }}">
+          <input type="hidden" name="quantity" id="hi-qty-input-{{ section.id }}" value="1">
+
+          <!-- Color option -->
+          {%- if color_option_index != nil -%}
+            {%- assign color_option = product.options_with_values[color_option_index] -%}
+            <div class="hi-option-group">
+              <div class="hi-option-label">
+                {{ 'hi.pdp.color' | t }} — <span id="hi-color-name-{{ section.id }}">{{ selected_variant.options[color_option_index] }}</span>
+              </div>
+              <div class="hi-colors">
+                {%- for value in color_option.values -%}
+                  {%- assign swatch_key = value | downcase | replace: ' ', '-' -%}
+                  <div class="hi-color{% if selected_variant.options[color_option_index] == value %} hi-color--active{% endif %}"
+                       data-section-id="{{ section.id }}"
+                       data-option-index="{{ color_option_index }}"
+                       data-value="{{ value | escape }}"
+                       title="{{ value | escape }}"
+                       onclick="hiPdpSelectOption('{{ section.id }}', {{ color_option_index }}, this.dataset.value)">
+                    <span class="dot" style="background:var(--hi-swatch-{{ swatch_key }}, #C4B9A8);"></span>
+                  </div>
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- endif -%}
+
+          <!-- Size option -->
+          {%- if size_option_index != nil -%}
+            {%- assign size_option = product.options_with_values[size_option_index] -%}
+            <div class="hi-option-group">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+                <span class="hi-option-label" style="margin-bottom:0;">{{ 'hi.pdp.size' | t }}</span>
+                <button type="button" onclick="hiToggleSizeGuide('{{ section.id }}')" class="hi-sizeguide-btn" aria-label="{{ 'hi.pdp.size_guide' | t }}">
+                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="10" rx="1"></rect><line x1="8" y1="7" x2="8" y2="12"></line><line x1="12" y1="7" x2="12" y2="14"></line><line x1="16" y1="7" x2="16" y2="12"></line></svg>
+                  {{ 'hi.pdp.size_guide' | t }}
+                </button>
+              </div>
+              <div class="hi-sizes">
+                {%- for value in size_option.values -%}
+                  {%- assign size_available = false -%}
+                  {%- for variant in product.variants -%}
+                    {%- if variant.options[size_option_index] == value and variant.available -%}
+                      {%- assign size_available = true -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+                  <button type="button"
+                          class="hi-size{% if selected_variant.options[size_option_index] == value %} hi-size--active{% endif %}{% unless size_available %} hi-size--soldout{% endunless %}"
+                          data-section-id="{{ section.id }}"
+                          data-option-index="{{ size_option_index }}"
+                          data-value="{{ value | escape }}"
+                          {% unless size_available %}disabled{% endunless %}
+                          onclick="hiPdpSelectOption('{{ section.id }}', {{ size_option_index }}, this.dataset.value)">
+                    {{ value }}
+                  </button>
+                {%- endfor -%}
+              </div>
+              <div id="hi-size-error-{{ section.id }}" class="hi-size-error" style="display:none;">
+                {{ 'hi.pdp.select_size' | t }}
+              </div>
+            </div>
+          {%- endif -%}
+
+          <!-- Qty + ATC + Wishlist -->
+          <div class="hi-buyrow" id="hi-buyrow-{{ section.id }}">
+            <div class="hi-qty" id="hi-qty-{{ section.id }}">
+              <button type="button" onclick="hiPdpDecQty('{{ section.id }}')" aria-label="{{ 'hi.pdp.decrease_qty' | t }}">−</button>
+              <span id="hi-qty-display-{{ section.id }}">1</span>
+              <button type="button" onclick="hiPdpIncQty('{{ section.id }}')" aria-label="{{ 'hi.pdp.increase_qty' | t }}">+</button>
+            </div>
+            <button type="submit"
+                    id="hi-atc-btn-{{ section.id }}"
+                    class="hi-btn hi-btn--primary hi-addbtn"
+                    {%- unless selected_variant.available -%}disabled{%- endunless -%}>
+              {%- if selected_variant.available -%}
+                {{ 'hi.pdp.add_to_cart' | t }}
+              {%- else -%}
+                {{ 'hi.pdp.sold_out' | t }}
+              {%- endif -%}
+            </button>
+            <button type="button"
+                    class="hi-wishbtn"
+                    id="hi-wish-{{ section.id }}"
+                    onclick="hiToggleWishlist('{{ section.id }}')"
+                    aria-label="{{ 'hi.pdp.save' | t }}">
+              <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="#16150F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"></path></svg>
+            </button>
+          </div>
+        {%- endform -%}
+
+        <!-- Trust signals -->
+        <div class="hi-trust-box">
+          <div class="hi-trust">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="6" width="15" height="12" rx="1"></rect><path d="M16 9h4l3 3v6h-7z"></path><circle cx="6" cy="19" r="2"></circle><circle cx="19" cy="19" r="2"></circle></svg>
+            <div>
+              <div class="hi-trust-title">{{ 'hi.pdp.trust_ship_title' | t }}</div>
+              <div class="hi-trust-desc">{{ 'hi.pdp.trust_ship_desc' | t }}</div>
+            </div>
+          </div>
+          <div class="hi-trust">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"></path><polyline points="3 3 3 8 8 8"></polyline></svg>
+            <div>
+              <div class="hi-trust-title">{{ 'hi.pdp.trust_return_title' | t }}</div>
+              <div class="hi-trust-desc">{{ 'hi.pdp.trust_return_desc' | t }}</div>
+            </div>
+          </div>
+          <div class="hi-trust">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 6 6 .5-4.5 4 1.5 6.5L12 16l-6 3 1.5-6.5L3 8.5 9 8z"></path></svg>
+            <div>
+              <div class="hi-trust-title">{{ 'hi.pdp.trust_give_title' | t }}</div>
+              <div class="hi-trust-desc">{{ 'hi.pdp.trust_give_desc' | t }}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Accordions -->
+        <div class="hi-accs">
+          {%- if product.description != blank -%}
+            <div class="hi-acc">
+              <button type="button" class="hi-acc-btn" data-open="false" onclick="hiToggleAcc(this)">
+                {{ 'hi.pdp.description' | t }} <span class="hi-acc-icon">+</span>
+              </button>
+              <div class="hi-acc-panel" data-open="false">
+                <div class="hi-acc-content hi-rte">{{ product.description }}</div>
+              </div>
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.materials_content != blank -%}
+            <div class="hi-acc">
+              <button type="button" class="hi-acc-btn" data-open="false" onclick="hiToggleAcc(this)">
+                {{ 'hi.pdp.materials' | t }} <span class="hi-acc-icon">+</span>
+              </button>
+              <div class="hi-acc-panel" data-open="false">
+                <div class="hi-acc-content">{{ section.settings.materials_content }}</div>
+              </div>
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.shipping_content != blank -%}
+            <div class="hi-acc">
+              <button type="button" class="hi-acc-btn" data-open="false" onclick="hiToggleAcc(this)">
+                {{ 'hi.pdp.shipping' | t }} <span class="hi-acc-icon">+</span>
+              </button>
+              <div class="hi-acc-panel" data-open="false">
+                <div class="hi-acc-content">{{ section.settings.shipping_content }}</div>
+              </div>
+            </div>
+          {%- endif -%}
+        </div>
+
+      </div><!-- /hi-buybox -->
+    </div><!-- /hi-pdp-grid -->
+  </section>
+
+</div><!-- /hi-pdp-section -->
+
+<!-- Size Guide Modal -->
+<div id="hi-size-guide-{{ section.id }}"
+     class="hi-size-guide-overlay"
+     style="display:none;"
+     onclick="hiToggleSizeGuide('{{ section.id }}')">
+  <div class="hi-size-guide-modal" onclick="event.stopPropagation()">
+    <div class="hi-size-guide-head">
+      <div class="hi-size-guide-title">{{ 'hi.pdp.size_guide' | t }}</div>
+      <button type="button" class="hi-drawer-close" onclick="hiToggleSizeGuide('{{ section.id }}')" aria-label="{{ 'hi.pdp.close' | t }}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"></line><line x1="18" y1="6" x2="6" y2="18"></line></svg>
+      </button>
+    </div>
+    <div class="hi-size-guide-body">
+      {%- if section.settings.size_guide_content != blank -%}
+        {{ section.settings.size_guide_content }}
+      {%- else -%}
+        <p style="font-size:14.5px;line-height:1.6;color:#54504A;margin:0 0 20px;">{{ 'hi.pdp.size_guide_note' | t }}</p>
+        <div class="hi-size-table">
+          <div class="hi-size-table-head">
+            <div>{{ 'hi.pdp.size_col_size' | t }}</div>
+            <div>{{ 'hi.pdp.size_col_chest' | t }}</div>
+            <div>{{ 'hi.pdp.size_col_waist' | t }}</div>
+            <div>{{ 'hi.pdp.size_col_length' | t }}</div>
+          </div>
+          <div class="hi-size-table-row"><div>XS</div><div>32–34"</div><div>26–28"</div><div>27"</div></div>
+          <div class="hi-size-table-row"><div>S</div><div>35–37"</div><div>29–31"</div><div>28"</div></div>
+          <div class="hi-size-table-row"><div>M</div><div>38–40"</div><div>32–34"</div><div>29"</div></div>
+          <div class="hi-size-table-row"><div>L</div><div>41–43"</div><div>35–37"</div><div>30"</div></div>
+          <div class="hi-size-table-row"><div>XL</div><div>44–46"</div><div>38–40"</div><div>31"</div></div>
+          <div class="hi-size-table-row"><div>XXL</div><div>47–49"</div><div>41–43"</div><div>32"</div></div>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+<!-- Sticky Add Bar -->
+<div class="hi-stickybar" id="hi-stickybar-{{ section.id }}" aria-hidden="true">
+  <div class="hi-stickybar-inner">
+    {%- if first_image -%}
+      <div class="hi-stickybar-thumb" style="background-image:url('{{ first_image | image_url: width: 200 }}');"></div>
+    {%- endif -%}
+    <div class="hi-stickybar-info">
+      <div class="hi-stickybar-name">{{ product.title }}</div>
+      <div class="hi-stickybar-variant" id="hi-sticky-variant-{{ section.id }}">{{ selected_variant.title }}</div>
+    </div>
+    <div class="hi-stickybar-actions">
+      <div class="hi-qty hi-sticky-qty" id="hi-sticky-qty-{{ section.id }}">
+        <button type="button" onclick="hiPdpDecQty('{{ section.id }}')" aria-label="{{ 'hi.pdp.decrease_qty' | t }}">−</button>
+        <span id="hi-sticky-qty-display-{{ section.id }}">1</span>
+        <button type="button" onclick="hiPdpIncQty('{{ section.id }}')" aria-label="{{ 'hi.pdp.increase_qty' | t }}">+</button>
+      </div>
+      <button type="button"
+              id="hi-sticky-atc-{{ section.id }}"
+              class="hi-btn hi-btn--primary hi-stickybar-addbtn"
+              onclick="hiStickyAddToCart('{{ section.id }}')"
+              {%- unless selected_variant.available -%}disabled{%- endunless -%}>
+        {%- if selected_variant.available -%}
+          {{ 'hi.pdp.add_to_cart' | t }}
+        {%- else -%}
+          {{ 'hi.pdp.sold_out' | t }}
+        {%- endif -%}
+      </button>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+/* ======= PDP Section ======= */
+:root {
+  /* Color swatches */
+  --hi-swatch-black: #16150F;
+  --hi-swatch-obsidian: #16150F;
+  --hi-swatch-white: #FFFFFF;
+  --hi-swatch-cream: #E8DFD0;
+  --hi-swatch-sand: #C4B9A8;
+  --hi-swatch-navy: #26384C;
+  --hi-swatch-sage: #5C6B47;
+  --hi-swatch-olive: #5B5B3A;
+  --hi-swatch-dark-olive: #3A372F;
+  --hi-swatch-stone: #8A8479;
+  --hi-swatch-tan: #8A6F4B;
+  --hi-swatch-brown: #6B4C2E;
+  --hi-swatch-gray: #8A8479;
+  --hi-swatch-grey: #8A8479;
+  --hi-swatch-charcoal: #3C3A35;
+  --hi-swatch-vintage-black: #2A2825;
+  --hi-swatch-vintage-white: #EDE9E2;
+  --hi-swatch-vintage-grey: #8A8479;
+  --hi-swatch-vintage-navy: #1E2F41;
+  --hi-swatch-vintage-green: #4A5C38;
+  --hi-swatch-red: #8B2020;
+  --hi-swatch-burgundy: #6B2737;
+  --hi-swatch-green: #5C6B47;
+  --hi-swatch-khaki: #A49872;
+}
+
+.hi-pdp-breadcrumb-wrap {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 22px 32px 0;
+}
+.hi-breadcrumb {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #8A8479;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.hi-breadcrumb-link {
+  color: #8A8479;
+  text-decoration: none;
+  transition: color .2s ease;
+}
+.hi-breadcrumb-link:hover { color: #16150F; }
+.hi-breadcrumb-current { color: #16150F; }
+
+.hi-pdp-main {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 30px 32px 70px;
+}
+.hi-pdp-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 56px;
+  align-items: start;
+}
+
+/* Gallery */
+.hi-gallery {
+  display: grid;
+  grid-template-columns: 84px 1fr;
+  gap: 16px;
+  align-items: start;
+}
+.hi-thumbs {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.hi-thumb {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: #E9E4DA;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  transition: border-color .2s ease;
+}
+.hi-thumb--active { border-color: #16150F; }
+.hi-thumb .img {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: opacity .2s ease;
+}
+.hi-thumb:hover .img { opacity: .82; }
+
+.hi-gallery-main {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: #E9E4DA;
+  cursor: zoom-in;
+}
+.hi-gallery-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity .35s ease;
+}
+.hi-gallery-slide--active { opacity: 1; }
+.hi-gallery-slide .img {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+}
+
+.hi-badge {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  background: #5C6B47;
+  color: #fff;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Buy box */
+.hi-buybox { position: sticky; top: 100px; }
+.hi-buybox-cat {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: #5C6B47;
+}
+.hi-buybox-title {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: clamp(28px, 3.4vw, 42px);
+  line-height: 1.02;
+  letter-spacing: .01em;
+  margin: 10px 0 0;
+  color: #16150F;
+}
+.hi-buybox-price {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-top: 20px;
+}
+.hi-price-main {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  font-size: 28px;
+  color: #16150F;
+}
+.hi-price-compare {
+  font-size: 17px;
+  color: #A39E92;
+  text-decoration: line-through;
+}
+.hi-buybox-blurb {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #54504A;
+  margin: 20px 0 0;
+  max-width: 52ch;
+}
+
+/* Option groups */
+.hi-option-group { margin-top: 28px; }
+.hi-option-label {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #16150F;
+  margin-bottom: 14px;
+  display: block;
+}
+.hi-colors { display: flex; gap: 16px; flex-wrap: wrap; }
+.hi-color {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+}
+.hi-color .dot {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(0,0,0,.15);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.hi-color:hover .dot { transform: scale(1.08); }
+.hi-color--active .dot { box-shadow: 0 0 0 2px #FBF9F5, 0 0 0 3.5px #16150F; }
+
+.hi-sizes { display: flex; flex-wrap: wrap; gap: 10px; }
+.hi-size {
+  min-width: 52px;
+  height: 48px;
+  padding: 0 12px;
+  border: 1px solid #D7D0C2;
+  background: #fff;
+  cursor: pointer;
+  font-family: 'Oswald', sans-serif;
+  font-size: 14px;
+  letter-spacing: .04em;
+  color: #3A372F;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .18s ease;
+}
+.hi-size:hover:not(:disabled) { border-color: #16150F; }
+.hi-size--active { background: #16150F; border-color: #16150F; color: #fff; }
+.hi-size--soldout { opacity: .4; cursor: not-allowed; text-decoration: line-through; }
+
+.hi-sizeguide-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  color: #6B675C;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Hanken Grotesk', sans-serif;
+  transition: color .2s ease;
+}
+.hi-sizeguide-btn:hover { color: #16150F; }
+.hi-size-error { color: #A6552F; font-size: 13px; margin-top: 10px; }
+
+/* Buy row */
+.hi-buyrow {
+  display: flex;
+  gap: 12px;
+  margin-top: 30px;
+  align-items: stretch;
+}
+.hi-qty {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #D7D0C2;
+  height: 56px;
+}
+.hi-qty button {
+  width: 52px;
+  height: 100%;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 20px;
+  color: #16150F;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .2s ease;
+}
+.hi-qty button:hover { background: #F1ECE1; }
+.hi-qty span {
+  min-width: 46px;
+  text-align: center;
+  font-size: 16px;
+  font-family: 'Oswald', sans-serif;
+}
+.hi-addbtn { flex: 1; white-space: nowrap; }
+.hi-wishbtn {
+  width: 56px;
+  border: 1.5px solid #16150F;
+  background: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .2s ease;
+  flex-shrink: 0;
+}
+.hi-wishbtn:hover { background: #F1ECE1; }
+.hi-wishbtn--active { background: #16150F; }
+.hi-wishbtn--active svg { stroke: #fff; }
+
+/* Trust box */
+.hi-trust-box {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 32px;
+  padding: 24px;
+  background: #F1ECE1;
+}
+.hi-trust { display: flex; align-items: flex-start; gap: 12px; }
+.hi-trust svg {
+  width: 22px;
+  height: 22px;
+  color: #5C6B47;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.hi-trust-title { font-weight: 600; font-size: 14px; color: #16150F; }
+.hi-trust-desc { font-size: 13px; color: #8A8479; margin-top: 2px; }
+
+/* Accordions */
+.hi-accs { margin-top: 34px; }
+.hi-acc { border-top: 1px solid #E7E2D7; }
+.hi-acc:last-child { border-bottom: 1px solid #E7E2D7; }
+.hi-acc-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 20px 0;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #16150F;
+  text-align: left;
+}
+.hi-acc-icon {
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 1;
+  color: #5C6B47;
+  transition: transform .3s ease;
+  flex-shrink: 0;
+}
+.hi-acc-btn[data-open="true"] .hi-acc-icon { transform: rotate(45deg); }
+.hi-acc-panel {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height .34s cubic-bezier(.2,.7,.3,1);
+}
+.hi-acc-panel[data-open="true"] { max-height: 1200px; }
+.hi-acc-content {
+  padding: 0 0 22px;
+  font-size: 15px;
+  line-height: 1.75;
+  color: #54504A;
+}
+.hi-rte p { margin: 0 0 12px; }
+.hi-rte ul, .hi-rte ol { margin: 0 0 12px; padding-left: 20px; }
+.hi-rte li { margin-bottom: 4px; }
+
+/* Size guide modal */
+.hi-size-guide-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(12,12,9,.55);
+  z-index: 210;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.hi-size-guide-overlay[style*="flex"] { display: flex !important; }
+.hi-size-guide-modal {
+  background: #FBF9F5;
+  max-width: 640px;
+  width: 100%;
+  max-height: 86vh;
+  overflow-y: auto;
+}
+.hi-size-guide-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 26px;
+  border-bottom: 1px solid #E7E2D7;
+  position: sticky;
+  top: 0;
+  background: #FBF9F5;
+}
+.hi-size-guide-title {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #16150F;
+}
+.hi-size-guide-body { padding: 26px; }
+.hi-size-table { border: 1px solid #E7E2D7; }
+.hi-size-table-head {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  background: #16150F;
+  color: #fff;
+  font-family: 'Oswald', sans-serif;
+  font-size: 12px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.hi-size-table-head div { padding: 12px 14px; }
+.hi-size-table-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  border-top: 1px solid #ECE7DC;
+  font-size: 14px;
+}
+.hi-size-table-row div { padding: 12px 14px; color: #54504A; }
+.hi-size-table-row div:first-child {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  color: #16150F;
+}
+
+/* Sticky add bar */
+.hi-stickybar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 60;
+  background: rgba(251,249,245,.97);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-top: 1px solid #E7E2D7;
+  box-shadow: 0 -10px 34px rgba(20,21,15,.09);
+  transform: translateY(110%);
+  transition: transform .34s cubic-bezier(.2,.7,.3,1);
+}
+.hi-stickybar--show { transform: none; }
+.hi-stickybar-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 12px 32px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.hi-stickybar-thumb {
+  width: 52px;
+  height: 64px;
+  background-size: cover;
+  background-position: center;
+  background-color: #E9E4DA;
+  flex-shrink: 0;
+}
+.hi-stickybar-info { min-width: 0; flex: 1; }
+.hi-stickybar-name {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: #16150F;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.hi-stickybar-variant { font-size: 13px; color: #8A8479; margin-top: 2px; }
+.hi-stickybar-actions { display: flex; align-items: center; gap: 12px; margin-left: auto; flex-shrink: 0; }
+.hi-sticky-qty { height: 50px; }
+.hi-sticky-qty button { width: 44px; }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .hi-pdp-grid { grid-template-columns: 1fr; gap: 34px; }
+  .hi-buybox { position: static; }
+}
+@media (max-width: 640px) {
+  .hi-pdp-breadcrumb-wrap { padding: 16px 20px 0; }
+  .hi-pdp-main { padding: 20px 20px 50px; }
+  .hi-gallery { grid-template-columns: 1fr; }
+  .hi-thumbs { display: grid !important; grid-template-columns: repeat(5,1fr); order: 2; gap: 10px; flex-direction: row; }
+  .hi-gallery-main { order: 1; }
+  .hi-buyrow { flex-wrap: wrap; }
+  .hi-buyrow .hi-qty { order: 1; }
+  .hi-buyrow .hi-wishbtn { order: 2; margin-left: auto; }
+  .hi-buyrow .hi-addbtn { order: 3; flex: 1 1 100% !important; }
+  .hi-stickybar-inner { padding: 10px 20px; gap: 14px; }
+  .hi-sticky-qty { display: none !important; }
+  .hi-stickybar-addbtn { padding: 13px 16px !important; font-size: 12px !important; letter-spacing: .08em !important; }
+}
+
+/* drawer close button reuse */
+.hi-drawer-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #16150F;
+  padding: 4px;
+  line-height: 0;
+}
+.hi-drawer-close svg { width: 22px; height: 22px; }
+{% endstylesheet %}
+
+{% javascript %}
+(function() {
+  'use strict';
+
+  var pdpState = {};
+
+  function initPdp(sectionId) {
+    var el = document.getElementById('hi-pdp-json-' + sectionId);
+    if (!el) return;
+
+    var data;
+    try { data = JSON.parse(el.textContent); } catch(e) { return; }
+
+    var idInput = document.getElementById('hi-variant-id-' + sectionId);
+    var initialVariantId = idInput ? parseInt(idInput.value, 10) : null;
+    var initialVariant = data.variants.find(function(v) { return v.id === initialVariantId; }) || data.variants[0];
+
+    pdpState[sectionId] = {
+      data: data,
+      selectedOptions: initialVariant ? [initialVariant.option1, initialVariant.option2, initialVariant.option3] : [null, null, null],
+      qty: 1
+    };
+
+    // Form submit handler
+    var form = document.getElementById('hi-pdp-form-' + sectionId);
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        hiAddToCart(sectionId);
+      });
+    }
+
+    // Sticky bar observer — show only when buy row is off-screen AND footer is not yet in view
+    var buyrow = document.getElementById('hi-buyrow-' + sectionId);
+    var stickybar = document.getElementById('hi-stickybar-' + sectionId);
+    if (buyrow && stickybar && window.IntersectionObserver) {
+      var buyrowVisible = true;
+      var footerVisible = false;
+
+      function updateStickyBar() {
+        var show = !buyrowVisible && !footerVisible;
+        stickybar.classList.toggle('hi-stickybar--show', show);
+        stickybar.setAttribute('aria-hidden', show ? 'false' : 'true');
+      }
+
+      new IntersectionObserver(function(entries) {
+        buyrowVisible = entries[0].isIntersecting;
+        updateStickyBar();
+      }, { threshold: 0 }).observe(buyrow);
+
+      var footer = document.querySelector('footer, .hi-footer, [class*="hi-foot"]');
+      if (footer) {
+        new IntersectionObserver(function(entries) {
+          footerVisible = entries[0].isIntersecting;
+          updateStickyBar();
+        }, { threshold: 0 }).observe(footer);
+      }
+    }
+  }
+
+  window.hiPdpSelectMedia = function(sectionId, mediaId) {
+    document.querySelectorAll('#hi-gallery-' + sectionId + ' .hi-gallery-slide').forEach(function(s) {
+      s.classList.toggle('hi-gallery-slide--active', s.dataset.mediaId == mediaId);
+    });
+    document.querySelectorAll('#hi-gallery-' + sectionId + ' .hi-thumb').forEach(function(t) {
+      t.classList.toggle('hi-thumb--active', t.dataset.mediaId == mediaId);
+    });
+  };
+
+  window.hiPdpSelectOption = function(sectionId, optionIndex, value) {
+    var state = pdpState[sectionId];
+    if (!state) return;
+
+    state.selectedOptions[optionIndex] = value;
+
+    // Update active classes
+    document.querySelectorAll('[data-section-id="' + sectionId + '"][data-option-index="' + optionIndex + '"]').forEach(function(el) {
+      var isActive = el.dataset.value === value;
+      el.classList.toggle('hi-color--active', isActive);
+      el.classList.toggle('hi-size--active', isActive);
+    });
+
+    var variant = findVariant(state);
+    if (!variant) return;
+
+    // Update hidden input
+    var idInput = document.getElementById('hi-variant-id-' + sectionId);
+    if (idInput) idInput.value = variant.id;
+
+    // Update URL with variant ID (matching standard Shopify behavior)
+    if (history && history.replaceState) {
+      var url = new URL(window.location.href);
+      url.searchParams.set('variant', variant.id);
+      history.replaceState({}, '', url.toString());
+    }
+
+    // Update price
+    var priceMain = document.querySelector('#hi-price-' + sectionId + ' .hi-price-main');
+    if (priceMain) priceMain.textContent = variant.price_formatted;
+    var compareEl = document.querySelector('#hi-price-' + sectionId + ' .hi-price-compare');
+    if (variant.compare_at_price > variant.price) {
+      if (!compareEl) {
+        compareEl = document.createElement('span');
+        compareEl.className = 'hi-price-compare';
+        document.getElementById('hi-price-' + sectionId).appendChild(compareEl);
+      }
+      compareEl.textContent = variant.compare_at_price_formatted;
+      compareEl.style.display = '';
+    } else if (compareEl) {
+      compareEl.style.display = 'none';
+    }
+
+    // Update ATC buttons
+    var atcText = variant.available ? window.hiI18n.add_to_cart : window.hiI18n.sold_out;
+    ['hi-atc-btn-' + sectionId, 'hi-sticky-atc-' + sectionId].forEach(function(id) {
+      var btn = document.getElementById(id);
+      if (btn) { btn.disabled = !variant.available; btn.textContent = atcText; }
+    });
+
+    // Update variant display in sticky bar
+    var variantEl = document.getElementById('hi-sticky-variant-' + sectionId);
+    if (variantEl) variantEl.textContent = variant.title;
+
+    // Switch gallery to variant media
+    if (variant.featured_media_id) {
+      hiPdpSelectMedia(sectionId, variant.featured_media_id);
+    }
+
+    // Update color name
+    if (optionIndex === 0) {
+      var colorName = document.getElementById('hi-color-name-' + sectionId);
+      if (colorName) colorName.textContent = value;
+    }
+
+    // Update size availability based on selected color
+    updateSizeAvailability(sectionId, state);
+  };
+
+  function findVariant(state) {
+    var opts = state.selectedOptions;
+    return state.data.variants.find(function(v) {
+      return (opts[0] === null || v.option1 === opts[0]) &&
+             (opts[1] === null || v.option2 === opts[1]) &&
+             (opts[2] === null || v.option3 === opts[2]);
+    });
+  }
+
+  function updateSizeAvailability(sectionId, state) {
+    document.querySelectorAll('[data-section-id="' + sectionId + '"][data-option-index="1"]').forEach(function(btn) {
+      var sizeVal = btn.dataset.value;
+      var avail = state.data.variants.some(function(v) {
+        return v.available &&
+               (state.selectedOptions[0] === null || v.option1 === state.selectedOptions[0]) &&
+               v.option2 === sizeVal;
+      });
+      btn.disabled = !avail;
+      btn.classList.toggle('hi-size--soldout', !avail);
+    });
+  }
+
+  window.hiPdpDecQty = function(sectionId) {
+    var state = pdpState[sectionId];
+    if (!state || state.qty <= 1) return;
+    state.qty--;
+    updateQtyDisplays(sectionId, state.qty);
+  };
+
+  window.hiPdpIncQty = function(sectionId) {
+    var state = pdpState[sectionId];
+    if (!state) return;
+    state.qty++;
+    updateQtyDisplays(sectionId, state.qty);
+  };
+
+  function updateQtyDisplays(sectionId, qty) {
+    ['hi-qty-display-' + sectionId, 'hi-sticky-qty-display-' + sectionId].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) el.textContent = qty;
+    });
+    var qtyInput = document.getElementById('hi-qty-input-' + sectionId);
+    if (qtyInput) qtyInput.value = qty;
+  }
+
+  window.hiToggleSizeGuide = function(sectionId) {
+    var modal = document.getElementById('hi-size-guide-' + sectionId);
+    if (!modal) return;
+    var isOpen = modal.style.display === 'flex';
+    modal.style.display = isOpen ? 'none' : 'flex';
+    document.body.style.overflow = isOpen ? '' : 'hidden';
+  };
+
+  window.hiToggleAcc = function(btn) {
+    var isOpen = btn.getAttribute('data-open') === 'true';
+    btn.setAttribute('data-open', String(!isOpen));
+    var panel = btn.nextElementSibling;
+    if (panel) panel.setAttribute('data-open', String(!isOpen));
+  };
+
+  window.hiToggleWishlist = function(sectionId) {
+    var btn = document.getElementById('hi-wish-' + sectionId);
+    if (btn) btn.classList.toggle('hi-wishbtn--active');
+  };
+
+  function doAddToCart(sectionId) {
+    var state = pdpState[sectionId];
+    if (!state) return;
+    var variantId = document.getElementById('hi-variant-id-' + sectionId);
+    if (!variantId || !variantId.value) return;
+
+    var btns = [
+      document.getElementById('hi-atc-btn-' + sectionId),
+      document.getElementById('hi-sticky-atc-' + sectionId)
+    ].filter(Boolean);
+
+    btns.forEach(function(b) { b.disabled = true; b.textContent = window.hiI18n.adding; });
+
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+      body: JSON.stringify({ id: parseInt(variantId.value, 10), quantity: state.qty })
+    })
+    .then(function(r) { return r.ok ? r.json() : Promise.reject(r); })
+    .then(function() {
+      btns.forEach(function(b) { b.textContent = window.hiI18n.added; });
+      if (typeof window.hiRefreshCart === 'function') {
+        window.hiRefreshCart();
+      }
+      setTimeout(function() {
+        btns.forEach(function(b) {
+          b.disabled = false;
+          b.textContent = window.hiI18n.add_to_cart;
+        });
+      }, 2200);
+    })
+    .catch(function() {
+      btns.forEach(function(b) { b.disabled = false; b.textContent = window.hiI18n.add_to_cart; });
+    });
+  }
+
+  window.hiAddToCart = function(sectionId) { doAddToCart(sectionId); };
+  window.hiStickyAddToCart = function(sectionId) { doAddToCart(sectionId); };
+
+  // Initialize all PDP sections
+  document.querySelectorAll('[data-hi-pdp-section]').forEach(function(el) {
+    initPdp(el.dataset.hiPdpSection);
+  });
+})();
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:sections.hi_product_main.name",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_breadcrumb",
+      "label": "t:sections.hi_product_main.settings.show_breadcrumb.label",
+      "default": true
+    },
+    {
+      "type": "richtext",
+      "id": "materials_content",
+      "label": "t:sections.hi_product_main.settings.materials_content.label",
+      "info": "t:sections.hi_product_main.settings.materials_content.info"
+    },
+    {
+      "type": "richtext",
+      "id": "shipping_content",
+      "label": "t:sections.hi_product_main.settings.shipping_content.label"
+    },
+    {
+      "type": "html",
+      "id": "size_guide_content",
+      "label": "t:sections.hi_product_main.settings.size_guide_content.label",
+      "info": "t:sections.hi_product_main.settings.size_guide_content.info"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.hi_product_main.name"
+    }
+  ]
+}
+{% endschema %}

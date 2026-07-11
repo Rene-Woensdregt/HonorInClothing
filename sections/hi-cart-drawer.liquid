@@ -61,7 +61,7 @@
               <div class="hi-cart-item-meta">{{ item.variant.title }}</div>
             {%- endunless -%}
             <div class="hi-cart-item-bottom">
-              <div class="hi-qty">
+              <div class="hi-cqty">
                 <button type="button" data-qty-change="-" aria-label="{{ 'hi.general.decrease_qty' | t }}">−</button>
                 <span data-qty-val>{{ item.quantity }}</span>
                 <button type="button" data-qty-change="+" aria-label="{{ 'hi.general.increase_qty' | t }}">+</button>
@@ -197,19 +197,19 @@
 }
 
 /* ─────────── Qty control ─────────── */
-.hi-qty {
+.hi-cqty {
   display: inline-flex; align-items: center;
   border: 1px solid #D7D0C2;
 }
-.hi-qty button {
+.hi-cqty button {
   width: 30px; height: 30px;
   border: none; background: none; cursor: pointer;
   font-size: 17px; color: #16150F; line-height: 1;
   display: flex; align-items: center; justify-content: center;
   transition: background .2s ease;
 }
-.hi-qty button:hover { background: #F1ECE1; }
-.hi-qty span {
+.hi-cqty button:hover { background: #F1ECE1; }
+.hi-cqty span {
   min-width: 32px; text-align: center;
   font-family: 'Oswald', sans-serif;
   font-size: 14px; line-height: 1; letter-spacing: 0;
@@ -336,6 +336,10 @@
         if (badge) badge.textContent = cart.item_count;
       });
   }
+
+  /* Expose for PDP and other sections to trigger after add-to-cart */
+  window.hiRefreshCart = refreshCart;
+  window.hiOpenCart = open;
 
   /* Open on cart icon click */
   document.addEventListener('click', function (e) {
