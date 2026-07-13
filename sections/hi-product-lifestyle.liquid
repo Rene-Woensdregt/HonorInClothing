@@ -1,0 +1,150 @@
+<section class="hi-lifestyle-section">
+  {%- if section.settings.image != blank -%}
+    <div class="hi-lifestyle-bg" style="background-image:url('{{ section.settings.image | image_url: width: 2000 }}');"></div>
+  {%- else -%}
+    <div class="hi-lifestyle-bg" style="background:#3A372F;"></div>
+  {%- endif -%}
+  <div class="hi-lifestyle-overlay"></div>
+  <div class="hi-x hi-lifestyle-content">
+    <div class="hi-lifestyle-inner">
+      {%- if section.settings.eyebrow != blank -%}
+        <div class="hi-lifestyle-eyebrow">
+          <span class="hi-lifestyle-rule"></span>
+          {{ section.settings.eyebrow }}
+        </div>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="hi-lifestyle-heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.text != blank -%}
+        <p class="hi-lifestyle-text">{{ section.settings.text }}</p>
+      {%- endif -%}
+      {%- if section.settings.button_label != blank and section.settings.button_url != blank -%}
+        <a href="{{ section.settings.button_url }}" class="hi-btn hi-btn--accent">{{ section.settings.button_label }}</a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+.hi-lifestyle-section {
+  position: relative;
+  min-height: 560px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+.hi-lifestyle-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform .6s cubic-bezier(.2,.7,.3,1);
+  will-change: transform;
+}
+.hi-lifestyle-section:hover .hi-lifestyle-bg { transform: scale(1.03); }
+.hi-lifestyle-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(12,12,9,.86) 0%, rgba(12,12,9,.55) 46%, rgba(12,12,9,.12) 100%);
+}
+.hi-lifestyle-content {
+  position: relative;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 80px 32px;
+  width: 100%;
+}
+.hi-lifestyle-inner {
+  max-width: 540px;
+  color: #F3EFE6;
+}
+.hi-lifestyle-eyebrow {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  font-size: 12.5px;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: #9AA585;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.hi-lifestyle-rule {
+  width: 34px;
+  height: 1px;
+  background: #5C6B47;
+  display: inline-block;
+  flex-shrink: 0;
+}
+.hi-lifestyle-heading {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: clamp(28px, 3.6vw, 46px);
+  line-height: 1.04;
+  margin: 0 0 20px;
+  color: #F3EFE6;
+}
+.hi-lifestyle-text {
+  font-size: 17px;
+  line-height: 1.75;
+  color: rgba(243,239,230,.9);
+  margin: 0 0 30px;
+}
+@media (max-width: 640px) {
+  .hi-lifestyle-section { min-height: 440px; }
+  .hi-lifestyle-content { padding: 60px 20px; }
+  .hi-lifestyle-overlay {
+    background: linear-gradient(180deg, rgba(12,12,9,.3) 0%, rgba(12,12,9,.78) 100%);
+  }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:hi.hi_product_lifestyle.name",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:hi.hi_product_lifestyle.settings.image.label"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:hi.hi_product_lifestyle.settings.eyebrow.label",
+      "default": "Field Tested"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:hi.hi_product_lifestyle.settings.heading.label",
+      "default": "Made for the miles ahead."
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "t:hi.hi_product_lifestyle.settings.text.label",
+      "default": "From frozen trailheads to the drive home, this piece holds its own. We build every piece to be worn hard, repaired, and handed down — because the gear you trust should last as long as the memories you make in it."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "t:hi.hi_product_lifestyle.settings.button_label.label",
+      "default": "Explore Collection"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "t:hi.hi_product_lifestyle.settings.button_url.label"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:hi.hi_product_lifestyle.name"
+    }
+  ]
+}
+{% endschema %}

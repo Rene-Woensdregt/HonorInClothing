@@ -1,108 +1,91 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "main": {
-      "type": "main-product",
+      "type": "hi-product-main",
+      "settings": {
+        "show_breadcrumb": true,
+        "materials_content": "<p>Body: 87% Polyester, 13% Elastane. Lining: 100% Polyester. Machine wash cold, gentle cycle. Tumble dry low. Do not bleach or iron over logos.</p>",
+        "shipping_content": "<p>Free standard shipping on orders over $75. Expedited and express options available at checkout. Orders ship in 1–2 business days. Returns accepted within 30 days of delivery — unworn, with tags attached.</p>"
+      }
+    },
+    "features": {
+      "type": "hi-product-features",
       "blocks": {
-        "vendor": {
-          "type": "text",
+        "feat1": {
+          "type": "feature",
           "settings": {
-            "text": "{{ product.vendor }}",
-            "text_style": "uppercase"
+            "label": "Performance",
+            "title": "Built to Move",
+            "description": "Engineered with 4-way stretch fabric and articulated patterning so you move without restriction — on the trail or off it."
           }
         },
-        "title": {
-          "type": "title",
-          "settings": {}
-        },
-        "price": {
-          "type": "price",
-          "settings": {}
-        },
-        "variant_picker": {
-          "type": "variant_picker",
+        "feat2": {
+          "type": "feature",
           "settings": {
-            "picker_type": "button",
-            "swatch_shape": "circle"
+            "label": "Durability",
+            "title": "Made to Last",
+            "description": "Reinforced stress points, YKK zippers, and Cordura panels where it counts. Built for the long haul, not a single season."
           }
         },
-        "quantity_selector": {
-          "type": "quantity_selector",
-          "settings": {}
-        },
-        "buy_buttons": {
-          "type": "buy_buttons",
+        "feat3": {
+          "type": "feature",
           "settings": {
-            "show_dynamic_checkout": true,
-            "show_gift_card_recipient": true
-          }
-        },
-        "description": {
-          "type": "description",
-          "settings": {}
-        },
-        "share": {
-          "type": "share",
-          "settings": {
-            "share_label": "Share"
+            "label": "Protection",
+            "title": "Weather Ready",
+            "description": "DWR-treated shell repels light rain and wind. When the weather turns, you're already covered."
           }
         }
       },
-      "block_order": [
-        "vendor",
-        "title",
-        "price",
-        "variant_picker",
-        "quantity_selector",
-        "buy_buttons",
-        "description",
-        "share"
-      ],
+      "block_order": ["feat1", "feat2", "feat3"]
+    },
+    "lifestyle": {
+      "type": "hi-product-lifestyle",
       "settings": {
-        "enable_sticky_info": true,
-        "color_scheme": "scheme-1",
-        "media_size": "large",
-        "constrain_to_viewport": true,
-        "media_fit": "contain",
-        "gallery_layout": "stacked",
-        "mobile_thumbnails": "hide",
-        "media_position": "left",
-        "image_zoom": "lightbox",
-        "hide_variants": true,
-        "enable_video_looping": false,
-        "padding_top": 36,
-        "padding_bottom": 12
+        "eyebrow": "Field Tested",
+        "heading": "Made for the miles ahead.",
+        "text": "From frozen trailheads to the drive home, this piece holds its own. We build every piece to be worn hard, repaired, and handed down — because the gear you trust should last as long as the memories you make in it.",
+        "button_label": "Explore Collection",
+        "button_url": "/collections/all"
       }
     },
-    "related-products": {
-      "type": "related-products",
+    "highlights": {
+      "type": "hi-product-highlights",
+      "blocks": {
+        "hl1": { "type": "highlight", "settings": { "title": "4-Way Stretch Fabric", "description": "Our proprietary blend moves with you in every direction — no binding, no pulling, no excuses." } },
+        "hl2": { "type": "highlight", "settings": { "title": "Reinforced Stress Points", "description": "Triple-stitched seams and bartacks at every stress point mean this piece outlasts the season." } },
+        "hl3": { "type": "highlight", "settings": { "title": "DWR Weather Repellent", "description": "Durable Water Repellent finish sheds light rain and holds off wind chill on the fly." } },
+        "hl4": { "type": "highlight", "settings": { "title": "YKK Hardware", "description": "Every zipper, buckle, and snap is YKK — because the details matter on the trail and off it." } }
+      },
+      "block_order": ["hl1", "hl2", "hl3", "hl4"],
       "settings": {
-        "heading": "You may also like",
-        "heading_size": "h2",
-        "products_to_show": 4,
-        "columns_desktop": 4,
-        "columns_mobile": "2",
-        "color_scheme": "scheme-1",
-        "image_ratio": "square",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "padding_top": 36,
-        "padding_bottom": 28
+        "eyebrow": "The Details",
+        "heading": "Built into every stitch."
+      }
+    },
+    "related": {
+      "type": "hi-product-related",
+      "settings": {
+        "eyebrow": "Complete The Kit",
+        "heading": "You May Also Like",
+        "view_all_label": "Shop All",
+        "view_all_url": "/collections/all",
+        "fallback_collection": "all"
+      }
+    },
+    "faq": {
+      "type": "hi-product-faq",
+      "blocks": {
+        "faq1": { "type": "question", "settings": { "question": "What is your return policy?", "answer": "<p>We offer free 30-day returns on all orders. Items must be unworn and in original condition. Start a return from your account page or email us at support@honorinclothing.com.</p>" } },
+        "faq2": { "type": "question", "settings": { "question": "How do I care for this product?", "answer": "<p>Machine wash cold on gentle cycle. Tumble dry low or hang dry. Do not bleach or iron directly on logos. Proper care extends the life of every piece.</p>" } },
+        "faq3": { "type": "question", "settings": { "question": "When will my order ship?", "answer": "<p>Orders ship within 1–2 business days. You'll receive tracking info by email as soon as your order leaves our facility. Free shipping on orders over $75.</p>" } },
+        "faq4": { "type": "question", "settings": { "question": "I'm between sizes — what should I do?", "answer": "<p>We recommend sizing up for a relaxed, layering fit or staying true to size for a more tailored look. Check the size guide for exact measurements.</p>" } }
+      },
+      "block_order": ["faq1", "faq2", "faq3", "faq4"],
+      "settings": {
+        "eyebrow": "Good To Know",
+        "heading": "Frequently Asked"
       }
     }
   },
-  "order": [
-    "main",
-    "related-products"
-  ]
+  "order": ["main", "features", "lifestyle", "highlights", "related", "faq"]
 }

@@ -102,9 +102,9 @@ section[class*="hi-"] div:empty { display: block; }
 .hi-cart-item-title { font-family:'Oswald',sans-serif;font-size:13px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:#16150F;margin-bottom:4px; }
 .hi-cart-item-variant { font-family:'Hanken Grotesk',sans-serif;font-size:12px;color:#8A8479;margin-bottom:10px; }
 .hi-cart-item-price { font-family:'Oswald',sans-serif;font-size:14px;font-weight:600;color:#16150F; }
-.hi-qty { display:inline-flex;align-items:center;border:1px solid #D7D0C2;height:30px; }
-.hi-qty button { width:30px;height:30px;background:none;border:none;cursor:pointer;font-size:16px;color:#16150F;display:flex;align-items:center;justify-content:center;padding:0; }
-.hi-qty span { width:28px;text-align:center;font-family:'Hanken Grotesk',sans-serif;font-size:13px; }
+.hi-cqty { display:inline-flex;align-items:center;border:1px solid #D7D0C2;height:30px; }
+.hi-cqty button { width:30px;height:30px;background:none;border:none;cursor:pointer;font-size:16px;color:#16150F;display:flex;align-items:center;justify-content:center;padding:0; }
+.hi-cqty span { width:28px;text-align:center;font-family:'Hanken Grotesk',sans-serif;font-size:13px; }
 .hi-cart-remove { background:none;border:none;cursor:pointer;font-family:'Hanken Grotesk',sans-serif;font-size:11px;color:#8A8479;text-decoration:underline;padding:0;margin-top:6px; }
 .hi-cart-foot { flex-shrink:0;padding:20px 24px;border-top:1px solid #E7E2D7; }
 .hi-cart-subtotal { display:flex;justify-content:space-between;align-items:center;margin-bottom:16px; }

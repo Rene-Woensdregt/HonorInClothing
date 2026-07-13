@@ -575,6 +575,44 @@
       "clear_filters": "Clear All Filters",
       "view_product": "View Product"
     },
+    "pdp": {
+      "home": "Home",
+      "breadcrumb": "Breadcrumb",
+      "color": "Color",
+      "size": "Size",
+      "size_guide": "Size Guide",
+      "select_size": "Please select a size.",
+      "add_to_cart": "Add to Cart",
+      "sold_out": "Sold Out",
+      "adding": "Adding...",
+      "added": "Added!",
+      "save": "Save",
+      "decrease_qty": "Decrease quantity",
+      "increase_qty": "Increase quantity",
+      "close": "Close",
+      "description": "Description",
+      "materials": "Materials & Care",
+      "shipping": "Shipping & Returns",
+      "trust_ship_title": "Free shipping over $75",
+      "trust_ship_desc": "Ships in 1–2 business days",
+      "trust_return_title": "30-day easy returns",
+      "trust_return_desc": "Wear it, test it, love it — or send it back",
+      "trust_give_title": "Every purchase gives back",
+      "trust_give_desc": "10% of profits support veterans with PTSD",
+      "size_guide_note": "Measurements in inches. For the best fit, measure a garment you already own and compare. Between sizes? Size up for a relaxed layering fit.",
+      "size_col_size": "Size",
+      "size_col_chest": "Chest",
+      "size_col_waist": "Waist",
+      "size_col_length": "Length",
+      "features": {
+        "placeholder_label": "Feature",
+        "placeholder_title": "Feature Title",
+        "placeholder_desc": "Feature description."
+      },
+      "faq": {
+        "no_questions": "No FAQ items added yet."
+      }
+    },
     "announcement_bar": {
       "name": "Announcement Bar",
       "label": "Announcement bar",
@@ -625,6 +663,82 @@
       "start_shopping": "Start Shopping"
     },
     "footer": { "name": "Footer" },
+    "hi_product_main": {
+      "name": "Product Main",
+      "settings": {
+        "show_breadcrumb": { "label": "Show breadcrumb" },
+        "materials_content": { "label": "Materials & Care content", "info": "HTML shown in the Materials & Care accordion." },
+        "shipping_content": { "label": "Shipping & Returns content" },
+        "size_guide_content": { "label": "Size guide (HTML)", "info": "Leave blank to use the default size chart." }
+      }
+    },
+    "hi_product_features": {
+      "name": "Product Features Strip",
+      "blocks": {
+        "feature": {
+          "name": "Feature",
+          "settings": {
+            "label": { "label": "Label" },
+            "title": { "label": "Title" },
+            "description": { "label": "Description" }
+          }
+        }
+      }
+    },
+    "hi_product_lifestyle": {
+      "name": "Product Lifestyle Banner",
+      "settings": {
+        "image": { "label": "Image" },
+        "eyebrow": { "label": "Eyebrow text" },
+        "heading": { "label": "Heading" },
+        "text": { "label": "Body text" },
+        "button_label": { "label": "Button label" },
+        "button_url": { "label": "Button URL" }
+      }
+    },
+    "hi_product_highlights": {
+      "name": "Product Highlights",
+      "settings": {
+        "image": { "label": "Image" },
+        "eyebrow": { "label": "Eyebrow text" },
+        "heading": { "label": "Heading" }
+      },
+      "blocks": {
+        "highlight": {
+          "name": "Highlight",
+          "settings": {
+            "title": { "label": "Title" },
+            "description": { "label": "Description" }
+          }
+        }
+      }
+    },
+    "hi_product_faq": {
+      "name": "Product FAQ",
+      "settings": {
+        "eyebrow": { "label": "Eyebrow text" },
+        "heading": { "label": "Heading" }
+      },
+      "blocks": {
+        "question": {
+          "name": "Question",
+          "settings": {
+            "question": { "label": "Question" },
+            "answer": { "label": "Answer" }
+          }
+        }
+      }
+    },
+    "hi_product_related": {
+      "name": "Related Products",
+      "settings": {
+        "eyebrow": { "label": "Eyebrow text" },
+        "heading": { "label": "Heading" },
+        "view_all_label": { "label": "View all label" },
+        "view_all_url": { "label": "View all URL" },
+        "fallback_collection": { "label": "Fallback collection (when no related products)" }
+      }
+    },
     "hi_collection_banner": {
       "name": "Collection Banner",
       "settings": {
@@ -667,6 +781,82 @@
         "enable_sorting": {
           "label": "Enable sorting"
         }
+      }
+    },
+    "hi_product_main": {
+      "name": "Product Main",
+      "settings": {
+        "show_breadcrumb": { "label": "Show breadcrumb" },
+        "materials_content": { "label": "Materials & Care content", "info": "HTML shown in the Materials & Care accordion." },
+        "shipping_content": { "label": "Shipping & Returns content" },
+        "size_guide_content": { "label": "Size guide (HTML)", "info": "Leave blank to use the default size chart." }
+      }
+    },
+    "hi_product_features": {
+      "name": "Product Features Strip",
+      "blocks": {
+        "feature": {
+          "name": "Feature",
+          "settings": {
+            "label": { "label": "Label" },
+            "title": { "label": "Title" },
+            "description": { "label": "Description" }
+          }
+        }
+      }
+    },
+    "hi_product_lifestyle": {
+      "name": "Product Lifestyle Banner",
+      "settings": {
+        "image": { "label": "Image" },
+        "eyebrow": { "label": "Eyebrow text" },
+        "heading": { "label": "Heading" },
+        "text": { "label": "Body text" },
+        "button_label": { "label": "Button label" },
+        "button_url": { "label": "Button URL" }
+      }
+    },
+    "hi_product_highlights": {
+      "name": "Product Highlights",
+      "settings": {
+        "image": { "label": "Image" },
+        "eyebrow": { "label": "Eyebrow text" },
+        "heading": { "label": "Heading" }
+      },
+      "blocks": {
+        "highlight": {
+          "name": "Highlight",
+          "settings": {
+            "title": { "label": "Title" },
+            "description": { "label": "Description" }
+          }
+        }
+      }
+    },
+    "hi_product_faq": {
+      "name": "Product FAQ",
+      "settings": {
+        "eyebrow": { "label": "Eyebrow text" },
+        "heading": { "label": "Heading" }
+      },
+      "blocks": {
+        "question": {
+          "name": "Question",
+          "settings": {
+            "question": { "label": "Question" },
+            "answer": { "label": "Answer" }
+          }
+        }
+      }
+    },
+    "hi_product_related": {
+      "name": "Related Products",
+      "settings": {
+        "eyebrow": { "label": "Eyebrow text" },
+        "heading": { "label": "Heading" },
+        "view_all_label": { "label": "View all label" },
+        "view_all_url": { "label": "View all URL" },
+        "fallback_collection": { "label": "Fallback collection (when no related products)" }
       }
     }
   }

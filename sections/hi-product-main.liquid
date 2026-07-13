@@ -79,21 +79,38 @@ window.hiI18n = window.hiI18n || {
 
       <!-- Gallery -->
       <div class="hi-gallery" id="hi-gallery-{{ section.id }}">
-        <div class="hi-thumbs">
-          {%- if product.media.size > 0 -%}
-            {%- for media in product.media -%}
-              <div class="hi-thumb{% if forloop.first %} hi-thumb--active{% endif %}"
-                   data-media-id="{{ media.id }}"
-                   onclick="hiPdpSelectMedia('{{ section.id }}', {{ media.id }})"
-                   aria-label="{{ media.alt | default: product.title | escape }}">
-                <div class="img" style="background-image:url('{{ media | image_url: width: 200 }}');"></div>
-              </div>
-            {%- endfor -%}
-          {%- else -%}
-            <div class="hi-thumb hi-thumb--active">
-              <div class="img" style="background:#E9E4DA;"></div>
+        <div class="hi-tcarousel" id="hi-tcarousel-{{ section.id }}">
+          <button class="hi-tcarousel-btn hi-tcarousel-btn--up"
+                  id="hi-tcbtn-up-{{ section.id }}"
+                  onclick="hiThumbNav('{{ section.id }}', -1)"
+                  aria-label="Previous images"
+                  disabled>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 9.5L7 4.5L12 9.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="hi-thumbs-viewport">
+            <div class="hi-thumbs" id="hi-thumbs-{{ section.id }}">
+              {%- if product.media.size > 0 -%}
+                {%- for media in product.media -%}
+                  <div class="hi-thumb{% if forloop.first %} hi-thumb--active{% endif %}"
+                       data-media-id="{{ media.id }}"
+                       onclick="hiPdpSelectMedia('{{ section.id }}', {{ media.id }})"
+                       aria-label="{{ media.alt | default: product.title | escape }}">
+                    <div class="img" style="background-image:url('{{ media | image_url: width: 200 }}');"></div>
+                  </div>
+                {%- endfor -%}
+              {%- else -%}
+                <div class="hi-thumb hi-thumb--active">
+                  <div class="img" style="background:#E9E4DA;"></div>
+                </div>
+              {%- endif -%}
             </div>
-          {%- endif -%}
+          </div>
+          <button class="hi-tcarousel-btn hi-tcarousel-btn--down"
+                  id="hi-tcbtn-down-{{ section.id }}"
+                  onclick="hiThumbNav('{{ section.id }}', 1)"
+                  aria-label="Next images">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 4.5L7 9.5L12 4.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
         </div>
 
         <div class="hi-gallery-main" id="hi-gallery-main-{{ section.id }}">
@@ -150,7 +167,7 @@ window.hiI18n = window.hiI18n || {
               </div>
               <div class="hi-colors">
                 {%- for value in color_option.values -%}
-                  {%- assign swatch_key = value | downcase | replace: ' ', '-' -%}
+                  {%- assign swatch_key = value | downcase | replace: ' / ', '-' | replace: '/', '-' | replace: ' ', '-' -%}
                   <div class="hi-color{% if selected_variant.options[color_option_index] == value %} hi-color--active{% endif %}"
                        data-section-id="{{ section.id }}"
                        data-option-index="{{ color_option_index }}"
@@ -200,7 +217,7 @@ window.hiI18n = window.hiI18n || {
             </div>
           {%- endif -%}
 
-          <!-- Qty + ATC + Wishlist -->
+          <!-- Qty + ATC -->
           <div class="hi-buyrow" id="hi-buyrow-{{ section.id }}">
             <div class="hi-qty" id="hi-qty-{{ section.id }}">
               <button type="button" onclick="hiPdpDecQty('{{ section.id }}')" aria-label="{{ 'hi.pdp.decrease_qty' | t }}">−</button>
@@ -216,13 +233,6 @@ window.hiI18n = window.hiI18n || {
               {%- else -%}
                 {{ 'hi.pdp.sold_out' | t }}
               {%- endif -%}
-            </button>
-            <button type="button"
-                    class="hi-wishbtn"
-                    id="hi-wish-{{ section.id }}"
-                    onclick="hiToggleWishlist('{{ section.id }}')"
-                    aria-label="{{ 'hi.pdp.save' | t }}">
-              <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="#16150F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"></path></svg>
             </button>
           </div>
         {%- endform -%}
@@ -389,6 +399,107 @@ window.hiI18n = window.hiI18n || {
   --hi-swatch-burgundy: #6B2737;
   --hi-swatch-green: #5C6B47;
   --hi-swatch-khaki: #A49872;
+
+  /* Blues & Navys */
+  --hi-swatch-baby-blue: #A8CEE2;
+  --hi-swatch-blue-jean: #607D8F;
+  --hi-swatch-blue-spruce: #4A7A7A;
+  --hi-swatch-carolina-blue: #7DB9D9;
+  --hi-swatch-chambray: #8AB4C8;
+  --hi-swatch-collegiate-navy: #1F3A6E;
+  --hi-swatch-denim: #4A7C99;
+  --hi-swatch-flo-blue: #5B97CC;
+  --hi-swatch-french-navy: #1B2F52;
+  --hi-swatch-harbor-blue: #5B8FAA;
+  --hi-swatch-heather-columbia-blue: #89C4DE;
+  --hi-swatch-heather-deep-teal: #2A7B7B;
+  --hi-swatch-heather-navy: #2A3F5A;
+  --hi-swatch-light-blue: #9EC4D5;
+  --hi-swatch-mystic-blue: #4A78A0;
+  --hi-swatch-navy-blazer: #1A2940;
+  --hi-swatch-pacific-blue: #2975B0;
+  --hi-swatch-pigment-light-blue: #7AB5CC;
+  --hi-swatch-pigment-slate-blue: #5A6E8B;
+  --hi-swatch-royal: #2A4EA8;
+  --hi-swatch-royal-blue: #2A4EA8;
+  --hi-swatch-smoke: #7A7A7A;
+  --hi-swatch-storm: #6B7B8B;
+  --hi-swatch-team-royal: #2A4EA8;
+  --hi-swatch-true-navy: #1A2A40;
+  --hi-swatch-true-royal: #2E4FA8;
+
+  /* Greens */
+  --hi-swatch-dark-green: #1E4D1E;
+  --hi-swatch-forest: #2D5C2D;
+  --hi-swatch-forest-green: #2D5C2D;
+  --hi-swatch-green-camo: #4E6B3A;
+  --hi-swatch-heather-forest: #3D6640;
+  --hi-swatch-island-reef: #4DBDA8;
+  --hi-swatch-kelly-green: #2D7A2D;
+  --hi-swatch-light-green: #8CC88A;
+  --hi-swatch-loden: #5B7046;
+  --hi-swatch-military-green: #4A5C38;
+  --hi-swatch-mint: #6ABFA0;
+  --hi-swatch-pigment-alpine-green: #4A6B3A;
+  --hi-swatch-spruce: #3D6255;
+  --hi-swatch-vintage-turquoise: #2D8B7A;
+
+  /* Grays & Neutrals */
+  --hi-swatch-black-heather: #3A3A3A;
+  --hi-swatch-charcoal-grey: #4A4A4A;
+  --hi-swatch-charcoal-heather: #5A5A5A;
+  --hi-swatch-dark-grey: #5A5A5A;
+  --hi-swatch-dark-grey-heather: #4D4D4D;
+  --hi-swatch-dark-heather: #4A4A4A;
+  --hi-swatch-graphite: #5A5A5A;
+  --hi-swatch-heather-dust: #C8A87C;
+  --hi-swatch-heather-gray: #9A9A9A;
+  --hi-swatch-heather-grey: #9A9A9A;
+  --hi-swatch-hemp: #8C7B5A;
+  --hi-swatch-natural: #E8DBBF;
+  --hi-swatch-pepper: #3A3A3A;
+  --hi-swatch-pigment-black: #1E1E1E;
+  --hi-swatch-premium-heather: #B0A8B0;
+  --hi-swatch-sport-grey: #9A9A9A;
+
+  /* Reds, Pinks & Purples */
+  --hi-swatch-berry: #8B3A5E;
+  --hi-swatch-bone: #E0D5C5;
+  --hi-swatch-cancun: #48B0AA;
+  --hi-swatch-cranberry: #8B1C3C;
+  --hi-swatch-crimson: #9B1B1B;
+  --hi-swatch-crunchberry: #C04B79;
+  --hi-swatch-heather-mauve: #B08A9A;
+  --hi-swatch-light-pink: #F0AABB;
+  --hi-swatch-maroon: #6B1B2A;
+  --hi-swatch-neon-orange: #FF5A00;
+  --hi-swatch-neon-yellow: #D0DD00;
+  --hi-swatch-orchid: #B077A3;
+  --hi-swatch-pigment-maroon: #6B1B2A;
+  --hi-swatch-pigment-pink: #D98A9E;
+  --hi-swatch-pink: #F0AABB;
+  --hi-swatch-purple-rush: #6B3A9A;
+  --hi-swatch-scarlet: #B31B1B;
+  --hi-swatch-squash: #C4882A;
+  --hi-swatch-team-red: #B31B1B;
+  --hi-swatch-vintage-red: #8B2020;
+  --hi-swatch-vintage-royal: #26388B;
+  --hi-swatch-violet: #5A3D8B;
+
+  /* Two-tone / compound colors (split swatch) */
+  --hi-swatch-black-charcoal: linear-gradient(to right, #16150F 50%, #3C3A35 50%);
+  --hi-swatch-black-white: linear-gradient(to right, #16150F 50%, #FFFFFF 50%);
+  --hi-swatch-charcoal-black: linear-gradient(to right, #3C3A35 50%, #16150F 50%);
+  --hi-swatch-burgundy-heather-grey: linear-gradient(to right, #6B2737 50%, #9A9A9A 50%);
+  --hi-swatch-fire-red-arctic-white: linear-gradient(to right, #B31B1B 50%, #F5F2EE 50%);
+  --hi-swatch-heather-grey-black: linear-gradient(to right, #9A9A9A 50%, #16150F 50%);
+  --hi-swatch-heather-grey-white: linear-gradient(to right, #9A9A9A 50%, #FFFFFF 50%);
+  --hi-swatch-jet-black-arctic-white: linear-gradient(to right, #2A2825 50%, #F5F2EE 50%);
+  --hi-swatch-jet-black-fire-red: linear-gradient(to right, #2A2825 50%, #B31B1B 50%);
+  --hi-swatch-jet-black-heather-grey: linear-gradient(to right, #2A2825 50%, #9A9A9A 50%);
+  --hi-swatch-kelly-green-arctic-white: linear-gradient(to right, #2D7A2D 50%, #F5F2EE 50%);
+  --hi-swatch-oxford-navy-heather-grey: linear-gradient(to right, #1F3A6E 50%, #9A9A9A 50%);
+  --hi-swatch-royal-blue-arctic-white: linear-gradient(to right, #2A4EA8 50%, #F5F2EE 50%);
 }
 
 .hi-pdp-breadcrumb-wrap {
@@ -435,10 +546,39 @@ window.hiI18n = window.hiI18n || {
   gap: 16px;
   align-items: start;
 }
+.hi-tcarousel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.hi-tcarousel-btn {
+  width: 100%;
+  height: 26px;
+  background: none;
+  border: 1px solid #E7E2D7;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #16150F;
+  transition: background .2s ease;
+  flex-shrink: 0;
+  padding: 0;
+}
+.hi-tcarousel-btn:hover:not(:disabled) { background: #F3EFE6; }
+.hi-tcarousel-btn:disabled { opacity: .3; cursor: default; }
+.hi-thumbs-viewport {
+  width: 100%;
+  overflow: hidden;
+  /* 4 visible thumbs: 4 × 112px + 3 × 12px gap = 484px */
+  height: 484px;
+}
 .hi-thumbs {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  transition: transform .3s cubic-bezier(.2,.7,.3,1);
 }
 .hi-thumb {
   position: relative;
@@ -646,20 +786,6 @@ window.hiI18n = window.hiI18n || {
   font-family: 'Oswald', sans-serif;
 }
 .hi-addbtn { flex: 1; white-space: nowrap; }
-.hi-wishbtn {
-  width: 56px;
-  border: 1.5px solid #16150F;
-  background: #fff;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background .2s ease;
-  flex-shrink: 0;
-}
-.hi-wishbtn:hover { background: #F1ECE1; }
-.hi-wishbtn--active { background: #16150F; }
-.hi-wishbtn--active svg { stroke: #fff; }
 
 /* Trust box */
 .hi-trust-box {
@@ -726,6 +852,22 @@ window.hiI18n = window.hiI18n || {
 .hi-rte p { margin: 0 0 12px; }
 .hi-rte ul, .hi-rte ol { margin: 0 0 12px; padding-left: 20px; }
 .hi-rte li { margin-bottom: 4px; }
+.hi-rte { overflow-x: auto; }
+.hi-rte table { border-collapse: separate; border-spacing: 0; width: 100%; margin: 16px 0; border: 1px solid #E7E2D7; }
+.hi-rte table td,
+.hi-rte table th { border-right: 1px solid #E7E2D7; border-bottom: 1px solid #E7E2D7; padding: 10px 14px; text-align: left; font-size: 14px; line-height: 1.4; }
+.hi-rte table td:first-child,
+.hi-rte table th:first-child { border-left: none; }
+.hi-rte table tr:first-child td,
+.hi-rte table tr:first-child th { border-top: none; }
+.hi-rte table tr:last-child td,
+.hi-rte table tr:last-child th { border-bottom: none; }
+.hi-rte table td:last-child,
+.hi-rte table th:last-child { border-right: none; }
+.hi-rte table tr:first-child td,
+.hi-rte table th { font-family: 'Oswald', sans-serif; font-weight: 600; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; background: #F3EFE6; color: #16150F; }
+.hi-rte table tr:nth-child(even):not(:first-child) td { background: #FAFAF8; }
+.hi-acc-content .table-responsive { padding-inline: 5px; }
 
 /* Size guide modal */
 .hi-size-guide-overlay {
@@ -840,19 +982,25 @@ window.hiI18n = window.hiI18n || {
 
 /* Responsive */
 @media (max-width: 900px) {
-  .hi-pdp-grid { grid-template-columns: 1fr; gap: 34px; }
+  .hi-pdp-grid { grid-template-columns: minmax(0, 1fr); gap: 34px; }
   .hi-buybox { position: static; }
 }
 @media (max-width: 640px) {
   .hi-pdp-breadcrumb-wrap { padding: 16px 20px 0; }
   .hi-pdp-main { padding: 20px 20px 50px; }
-  .hi-gallery { grid-template-columns: 1fr; }
-  .hi-thumbs { display: grid !important; grid-template-columns: repeat(5,1fr); order: 2; gap: 10px; flex-direction: row; }
-  .hi-gallery-main { order: 1; }
+  .hi-gallery { display: flex; flex-direction: column; align-items: stretch; gap: 10px; min-width: 0; max-width: 100%; overflow: hidden; }
+  .hi-gallery-main { order: 1; width: 100%; min-width: 0; max-width: 100%; }
+  .hi-tcarousel { order: 2; flex-direction: row; align-items: center; gap: 4px; min-width: 0; max-width: 100%; overflow: hidden; }
+  .hi-tcarousel-btn { width: 26px; height: 48px; flex-shrink: 0; }
+  .hi-tcarousel-btn--up svg { transform: rotate(-90deg); }
+  .hi-tcarousel-btn--down svg { transform: rotate(-90deg); }
+  .hi-thumbs-viewport { height: 48px; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; flex: 1; min-width: 0; align-items: center; }
+  .hi-thumbs-viewport::-webkit-scrollbar { display: none; }
+  .hi-thumbs { flex-direction: row !important; gap: 8px; transform: none !important; transition: none !important; }
+  .hi-thumb { width: 48px; height: 48px; aspect-ratio: unset; flex-shrink: 0; }
   .hi-buyrow { flex-wrap: wrap; }
   .hi-buyrow .hi-qty { order: 1; }
-  .hi-buyrow .hi-wishbtn { order: 2; margin-left: auto; }
-  .hi-buyrow .hi-addbtn { order: 3; flex: 1 1 100% !important; }
+  .hi-buyrow .hi-addbtn { order: 2; flex: 1 1 100% !important; }
   .hi-stickybar-inner { padding: 10px 20px; gap: 14px; }
   .hi-sticky-qty { display: none !important; }
   .hi-stickybar-addbtn { padding: 13px 16px !important; font-size: 12px !important; letter-spacing: .08em !important; }
@@ -930,6 +1078,55 @@ window.hiI18n = window.hiI18n || {
     }
   }
 
+  // Thumbnail carousel
+  var hiThumbPos = {};
+  var HI_THUMB_H = 112; // 84px wide × 3:4 ratio = 112px tall
+  var HI_THUMB_GAP = 12;
+  var HI_VISIBLE = 4;
+
+  function hiThumbUpdateBtns(sectionId, pos, total) {
+    var btnUp = document.getElementById('hi-tcbtn-up-' + sectionId);
+    var btnDown = document.getElementById('hi-tcbtn-down-' + sectionId);
+    if (btnUp) btnUp.disabled = pos <= 0;
+    if (btnDown) btnDown.disabled = pos >= total - HI_VISIBLE;
+  }
+
+  window.hiThumbNav = function(sectionId, dir) {
+    if (window.innerWidth <= 640) {
+      var viewport = document.querySelector('#hi-tcarousel-' + sectionId + ' .hi-thumbs-viewport');
+      if (viewport) viewport.scrollBy({ left: dir * 132, behavior: 'smooth' });
+      return;
+    }
+    var thumbs = document.getElementById('hi-thumbs-' + sectionId);
+    if (!thumbs) return;
+    var total = thumbs.querySelectorAll('.hi-thumb').length;
+    if (total <= HI_VISIBLE) return;
+    var pos = (hiThumbPos[sectionId] || 0) + dir;
+    pos = Math.min(total - HI_VISIBLE, Math.max(0, pos));
+    hiThumbPos[sectionId] = pos;
+    thumbs.style.transform = 'translateY(-' + (pos * (HI_THUMB_H + HI_THUMB_GAP)) + 'px)';
+    hiThumbUpdateBtns(sectionId, pos, total);
+  };
+
+  function hiThumbScrollToActive(sectionId, mediaId) {
+    var thumbs = document.getElementById('hi-thumbs-' + sectionId);
+    if (!thumbs) return;
+    var thumbEls = thumbs.querySelectorAll('.hi-thumb');
+    var total = thumbEls.length;
+    if (total <= HI_VISIBLE) return;
+    var activeIndex = -1;
+    thumbEls.forEach(function(t, i) { if (t.dataset.mediaId == mediaId) activeIndex = i; });
+    if (activeIndex < 0) return;
+    var pos = hiThumbPos[sectionId] || 0;
+    if (activeIndex < pos) pos = activeIndex;
+    else if (activeIndex >= pos + HI_VISIBLE) pos = activeIndex - HI_VISIBLE + 1;
+    if (pos !== (hiThumbPos[sectionId] || 0)) {
+      hiThumbPos[sectionId] = pos;
+      thumbs.style.transform = 'translateY(-' + (pos * (HI_THUMB_H + HI_THUMB_GAP)) + 'px)';
+      hiThumbUpdateBtns(sectionId, pos, total);
+    }
+  }
+
   window.hiPdpSelectMedia = function(sectionId, mediaId) {
     document.querySelectorAll('#hi-gallery-' + sectionId + ' .hi-gallery-slide').forEach(function(s) {
       s.classList.toggle('hi-gallery-slide--active', s.dataset.mediaId == mediaId);
@@ -937,6 +1134,7 @@ window.hiI18n = window.hiI18n || {
     document.querySelectorAll('#hi-gallery-' + sectionId + ' .hi-thumb').forEach(function(t) {
       t.classList.toggle('hi-thumb--active', t.dataset.mediaId == mediaId);
     });
+    hiThumbScrollToActive(sectionId, mediaId);
   };
 
   window.hiPdpSelectOption = function(sectionId, optionIndex, value) {
@@ -945,11 +1143,14 @@ window.hiI18n = window.hiI18n || {
 
     state.selectedOptions[optionIndex] = value;
 
-    // Update active classes
+    // Update active classes — toggle only the class that matches the element type
     document.querySelectorAll('[data-section-id="' + sectionId + '"][data-option-index="' + optionIndex + '"]').forEach(function(el) {
       var isActive = el.dataset.value === value;
-      el.classList.toggle('hi-color--active', isActive);
-      el.classList.toggle('hi-size--active', isActive);
+      if (el.classList.contains('hi-color')) {
+        el.classList.toggle('hi-color--active', isActive);
+      } else {
+        el.classList.toggle('hi-size--active', isActive);
+      }
     });
 
     var variant = findVariant(state);
@@ -1068,11 +1269,6 @@ window.hiI18n = window.hiI18n || {
     if (panel) panel.setAttribute('data-open', String(!isOpen));
   };
 
-  window.hiToggleWishlist = function(sectionId) {
-    var btn = document.getElementById('hi-wish-' + sectionId);
-    if (btn) btn.classList.toggle('hi-wishbtn--active');
-  };
-
   function doAddToCart(sectionId) {
     var state = pdpState[sectionId];
     if (!state) return;
@@ -1116,41 +1312,64 @@ window.hiI18n = window.hiI18n || {
   document.querySelectorAll('[data-hi-pdp-section]').forEach(function(el) {
     initPdp(el.dataset.hiPdpSection);
   });
+
+  // Initialize thumbnail carousel button states
+  document.querySelectorAll('[id^="hi-tcarousel-"]').forEach(function(carousel) {
+    var sectionId = carousel.id.replace('hi-tcarousel-', '');
+    var thumbs = document.getElementById('hi-thumbs-' + sectionId);
+    if (!thumbs) return;
+    var total = thumbs.querySelectorAll('.hi-thumb').length;
+    var btnDown = document.getElementById('hi-tcbtn-down-' + sectionId);
+    if (btnDown && total <= HI_VISIBLE) btnDown.disabled = true;
+
+    // Mobile: track scroll position to update button states
+    var viewport = carousel.querySelector('.hi-thumbs-viewport');
+    if (viewport) {
+      viewport.addEventListener('scroll', function() {
+        var btnUp = document.getElementById('hi-tcbtn-up-' + sectionId);
+        var btnDn = document.getElementById('hi-tcbtn-down-' + sectionId);
+        var atStart = viewport.scrollLeft <= 1;
+        var atEnd = viewport.scrollLeft >= viewport.scrollWidth - viewport.clientWidth - 1;
+        if (btnUp) btnUp.disabled = atStart;
+        if (btnDn) btnDn.disabled = atEnd;
+      });
+    }
+  });
 })();
 {% endjavascript %}
 
 {% schema %}
 {
-  "name": "t:sections.hi_product_main.name",
+  "name": "t:hi.hi_product_main.name",
   "tag": "div",
   "settings": [
     {
       "type": "checkbox",
       "id": "show_breadcrumb",
-      "label": "t:sections.hi_product_main.settings.show_breadcrumb.label",
+      "label": "t:hi.hi_product_main.settings.show_breadcrumb.label",
       "default": true
     },
     {
       "type": "richtext",
       "id": "materials_content",
-      "label": "t:sections.hi_product_main.settings.materials_content.label",
-      "info": "t:sections.hi_product_main.settings.materials_content.info"
+      "label": "t:hi.hi_product_main.settings.materials_content.label",
+      "info": "t:hi.hi_product_main.settings.materials_content.info"
     },
     {
       "type": "richtext",
       "id": "shipping_content",
-      "label": "t:sections.hi_product_main.settings.shipping_content.label"
+      "label": "t:hi.hi_product_main.settings.shipping_content.label"
     },
     {
       "type": "html",
       "id": "size_guide_content",
-      "label": "t:sections.hi_product_main.settings.size_guide_content.label",
-      "info": "t:sections.hi_product_main.settings.size_guide_content.info"
+      "label": "t:hi.hi_product_main.settings.size_guide_content.label",
+      "info": "t:hi.hi_product_main.settings.size_guide_content.info"
     }
   ],
   "presets": [
     {
-      "name": "t:sections.hi_product_main.name"
+      "name": "t:hi.hi_product_main.name"
     }
   ]
 }

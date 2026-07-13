@@ -3405,6 +3405,82 @@
       "presets": {
         "name": "Collapsible content"
       }
+    },
+    "hi_product_main": {
+      "name": "Product Main",
+      "settings": {
+        "show_breadcrumb": { "label": "Show breadcrumb" },
+        "materials_content": { "label": "Materials & Care content", "info": "HTML shown in the Materials & Care accordion." },
+        "shipping_content": { "label": "Shipping & Returns content" },
+        "size_guide_content": { "label": "Size guide (HTML)", "info": "Leave blank to use the default size chart." }
+      }
+    },
+    "hi_product_features": {
+      "name": "Product Features Strip",
+      "blocks": {
+        "feature": {
+          "name": "Feature",
+          "settings": {
+            "label": { "label": "Label" },
+            "title": { "label": "Title" },
+            "description": { "label": "Description" }
+          }
+        }
+      }
+    },
+    "hi_product_lifestyle": {
+      "name": "Product Lifestyle Banner",
+      "settings": {
+        "image": { "label": "Image" },
+        "eyebrow": { "label": "Eyebrow text" },
+        "heading": { "label": "Heading" },
+        "text": { "label": "Body text" },
+        "button_label": { "label": "Button label" },
+        "button_url": { "label": "Button URL" }
+      }
+    },
+    "hi_product_highlights": {
+      "name": "Product Highlights",
+      "settings": {
+        "image": { "label": "Image" },
+        "eyebrow": { "label": "Eyebrow text" },
+        "heading": { "label": "Heading" }
+      },
+      "blocks": {
+        "highlight": {
+          "name": "Highlight",
+          "settings": {
+            "title": { "label": "Title" },
+            "description": { "label": "Description" }
+          }
+        }
+      }
+    },
+    "hi_product_faq": {
+      "name": "Product FAQ",
+      "settings": {
+        "eyebrow": { "label": "Eyebrow text" },
+        "heading": { "label": "Heading" }
+      },
+      "blocks": {
+        "question": {
+          "name": "Question",
+          "settings": {
+            "question": { "label": "Question" },
+            "answer": { "label": "Answer" }
+          }
+        }
+      }
+    },
+    "hi_product_related": {
+      "name": "Related Products",
+      "settings": {
+        "eyebrow": { "label": "Eyebrow text" },
+        "heading": { "label": "Heading" },
+        "view_all_label": { "label": "View all label" },
+        "view_all_url": { "label": "View all URL" },
+        "fallback_collection": { "label": "Fallback collection (when no related products)" }
+      }
     }
   },
   "hi": {
@@ -3424,6 +3500,82 @@
     },
     "cart_drawer": {
       "name": "Cart Drawer"
+    },
+    "hi_product_main": {
+      "name": "Product Main",
+      "settings": {
+        "show_breadcrumb": { "label": "Show breadcrumb" },
+        "materials_content": { "label": "Materials & Care content", "info": "HTML shown in the Materials & Care accordion." },
+        "shipping_content": { "label": "Shipping & Returns content" },
+        "size_guide_content": { "label": "Size guide (HTML)", "info": "Leave blank to use the default size chart." }
+      }
+    },
+    "hi_product_features": {
+      "name": "Product Features Strip",
+      "blocks": {
+        "feature": {
+          "name": "Feature",
+          "settings": {
+            "label": { "label": "Label" },
+            "title": { "label": "Title" },
+            "description": { "label": "Description" }
+          }
+        }
+      }
+    },
+    "hi_product_lifestyle": {
+      "name": "Product Lifestyle Banner",
+      "settings": {
+        "image": { "label": "Image" },
+        "eyebrow": { "label": "Eyebrow text" },
+        "heading": { "label": "Heading" },
+        "text": { "label": "Body text" },
+        "button_label": { "label": "Button label" },
+        "button_url": { "label": "Button URL" }
+      }
+    },
+    "hi_product_highlights": {
+      "name": "Product Highlights",
+      "settings": {
+        "image": { "label": "Image" },
+        "eyebrow": { "label": "Eyebrow text" },
+        "heading": { "label": "Heading" }
+      },
+      "blocks": {
+        "highlight": {
+          "name": "Highlight",
+          "settings": {
+            "title": { "label": "Title" },
+            "description": { "label": "Description" }
+          }
+        }
+      }
+    },
+    "hi_product_faq": {
+      "name": "Product FAQ",
+      "settings": {
+        "eyebrow": { "label": "Eyebrow text" },
+        "heading": { "label": "Heading" }
+      },
+      "blocks": {
+        "question": {
+          "name": "Question",
+          "settings": {
+            "question": { "label": "Question" },
+            "answer": { "label": "Answer" }
+          }
+        }
+      }
+    },
+    "hi_product_related": {
+      "name": "Related Products",
+      "settings": {
+        "eyebrow": { "label": "Eyebrow text" },
+        "heading": { "label": "Heading" },
+        "view_all_label": { "label": "View all label" },
+        "view_all_url": { "label": "View all URL" },
+        "fallback_collection": { "label": "Fallback collection (when no related products)" }
+      }
     }
   }
 }

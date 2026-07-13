@@ -1,0 +1,115 @@
+<section class="hi-pfaq-section">
+  <div class="hi-x hi-pfaq-inner">
+    <div class="hi-pfaq-header">
+      {%- if section.settings.eyebrow != blank -%}
+        <div class="hi-pfaq-eyebrow">{{ section.settings.eyebrow }}</div>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="hi-pfaq-heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+    </div>
+    <div class="hi-pfaq-list">
+      {%- for block in section.blocks -%}
+        <div class="hi-acc" {{ block.shopify_attributes }}>
+          <button type="button" class="hi-acc-btn hi-pfaq-btn" data-open="false" onclick="hiToggleAcc(this)">
+            {{ block.settings.question }} <span class="hi-acc-icon">+</span>
+          </button>
+          <div class="hi-acc-panel" data-open="false">
+            <div class="hi-acc-content">{{ block.settings.answer }}</div>
+          </div>
+        </div>
+      {%- else -%}
+        <div class="hi-pfaq-empty">{{ 'hi.pdp.faq.no_questions' | t }}</div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+.hi-pfaq-section { background: #FBF9F5; }
+.hi-pfaq-inner {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 84px 32px;
+}
+.hi-pfaq-header { text-align: center; margin-bottom: 40px; }
+.hi-pfaq-eyebrow {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: #5C6B47;
+  margin-bottom: 12px;
+}
+.hi-pfaq-heading {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: clamp(26px, 3.2vw, 40px);
+  line-height: 1;
+  margin: 0;
+  color: #16150F;
+}
+.hi-pfaq-btn {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  text-transform: none;
+  letter-spacing: .01em;
+}
+@media (max-width: 640px) {
+  .hi-pfaq-inner { padding: 60px 20px; }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:hi.hi_product_faq.name",
+  "blocks": [
+    {
+      "type": "question",
+      "name": "t:hi.hi_product_faq.blocks.question.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "t:hi.hi_product_faq.blocks.question.settings.question.label",
+          "default": "Question goes here?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "t:hi.hi_product_faq.blocks.question.settings.answer.label",
+          "default": "<p>Answer goes here.</p>"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:hi.hi_product_faq.settings.eyebrow.label",
+      "default": "Good To Know"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:hi.hi_product_faq.settings.heading.label",
+      "default": "Frequently Asked"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:hi.hi_product_faq.name",
+      "blocks": [
+        { "type": "question", "settings": { "question": "What is your return policy?", "answer": "<p>We offer free 30-day returns on all orders. Items must be unworn and in original condition. Start a return from your account page or email us at support@honorinclothing.com.</p>" } },
+        { "type": "question", "settings": { "question": "How do I care for this product?", "answer": "<p>Machine wash cold on gentle cycle. Tumble dry low or hang dry. Do not bleach or iron directly on logos. Proper care extends the life of every piece.</p>" } },
+        { "type": "question", "settings": { "question": "When will my order ship?", "answer": "<p>Orders ship within 1–2 business days. You'll receive tracking info by email as soon as your order leaves our facility. Free shipping on orders over $75.</p>" } },
+        { "type": "question", "settings": { "question": "I'm between sizes — what should I do?", "answer": "<p>We recommend sizing up for a relaxed, layering fit or staying true to size for a more tailored look. Check the size guide above for exact measurements and compare to a garment you already love.</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
