@@ -41,6 +41,7 @@
     "lifestyle": {
       "type": "hi-product-lifestyle",
       "settings": {
+        "image": "shopify://shop_images/activewear-minimal-4.jpg",
         "eyebrow": "Field Tested",
         "heading": "Made for the miles ahead.",
         "text": "From frozen trailheads to the drive home, this piece holds its own. We build every piece to be worn hard, repaired, and handed down — because the gear you trust should last as long as the memories you make in it.",
@@ -58,6 +59,7 @@
       },
       "block_order": ["hl1", "hl2", "hl3", "hl4"],
       "settings": {
+        "image": "shopify://shop_images/activewear-minimal-7.jpg",
         "eyebrow": "The Details",
         "heading": "Built into every stitch."
       }

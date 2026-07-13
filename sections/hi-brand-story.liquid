@@ -32,6 +32,21 @@
 
 {% stylesheet %}
 .hi-about { background: #F1ECE1; overflow: hidden; }
+.hi-about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 560px;
+}
+.hi-about-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 72px 80px 80px;
+}
+.hi-about-img {
+  position: relative;
+  overflow: hidden;
+}
 .hi-about-eyebrow {
   display: flex;
   align-items: center;
