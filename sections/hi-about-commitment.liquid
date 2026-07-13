@@ -1,0 +1,294 @@
+<section class="hi-acommit">
+  <div class="hi-acommit-top">
+    <div class="hi-acommit-bg">
+      {%- if section.settings.image != blank -%}
+        {{ section.settings.image | image_url: width: 2400 | image_tag: class: 'hi-acommit-img', loading: 'lazy', alt: '' }}
+      {%- else -%}
+        <div class="hi-acommit-img-ph"></div>
+      {%- endif -%}
+    </div>
+    <div class="hi-acommit-overlay"></div>
+    <div class="hi-acommit-content">
+      <div class="hi-acommit-text" data-hi-reveal>
+        {%- if section.settings.eyebrow != blank -%}
+          <div class="hi-acommit-eyebrow">
+            <span class="hi-acommit-rule" aria-hidden="true"></span>
+            {{ section.settings.eyebrow }}
+          </div>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="hi-acommit-h2">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.body != blank -%}
+          <div class="hi-acommit-body">{{ section.settings.body }}</div>
+        {%- endif -%}
+        {%- if section.settings.cta_label != blank -%}
+          <a href="{{ section.settings.cta_url }}" class="hi-acommit-cta">{{ section.settings.cta_label }}</a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  <div class="hi-acommit-stats">
+    <div class="hi-acommit-stats-inner">
+      {%- if section.settings.stat_1_number != blank -%}
+        <div class="hi-acommit-stat">
+          <div class="hi-acommit-stat-num">{{ section.settings.stat_1_number }}</div>
+          <div class="hi-acommit-stat-label">{{ section.settings.stat_1_label }}</div>
+        </div>
+      {%- endif -%}
+      {%- if section.settings.stat_2_number != blank -%}
+        <div class="hi-acommit-stat">
+          <div class="hi-acommit-stat-num">{{ section.settings.stat_2_number }}</div>
+          <div class="hi-acommit-stat-label">{{ section.settings.stat_2_label }}</div>
+        </div>
+      {%- endif -%}
+      {%- if section.settings.stat_3_number != blank -%}
+        <div class="hi-acommit-stat">
+          <div class="hi-acommit-stat-num">{{ section.settings.stat_3_number }}</div>
+          <div class="hi-acommit-stat-label">{{ section.settings.stat_3_label }}</div>
+        </div>
+      {%- endif -%}
+      {%- if section.settings.stat_4_number != blank -%}
+        <div class="hi-acommit-stat">
+          <div class="hi-acommit-stat-num">{{ section.settings.stat_4_number }}</div>
+          <div class="hi-acommit-stat-label">{{ section.settings.stat_4_label }}</div>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+.hi-acommit { background: #16150F; }
+.hi-acommit-top {
+  position: relative;
+  overflow: hidden;
+}
+.hi-acommit-bg {
+  position: absolute;
+  inset: 0;
+}
+.hi-acommit-img { width: 100%; height: 100%; object-fit: cover; object-position: center 40%; }
+.hi-acommit-img-ph { width: 100%; height: 100%; background: #26384C; }
+.hi-acommit-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, rgba(22,21,15,.88) 0%, rgba(22,21,15,.60) 100%);
+}
+.hi-acommit-content { position: relative; z-index: 2; max-width: 1280px; margin: 0 auto; }
+.hi-acommit-text {
+  padding: 104px 80px 96px;
+  max-width: 620px;
+}
+.hi-acommit-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: #9AA585;
+  margin-bottom: 22px;
+}
+.hi-acommit-rule {
+  display: inline-block;
+  width: 34px;
+  height: 1px;
+  background: #9AA585;
+  flex-shrink: 0;
+}
+.hi-acommit-h2 {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(28px, 3.1vw, 44px);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .01em;
+  line-height: 1.02;
+  color: #F3EFE6;
+  margin: 0 0 24px !important;
+}
+.hi-acommit-body {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 17px;
+  line-height: 1.76;
+  color: rgba(251,249,245,.78);
+  margin-bottom: 40px;
+  max-width: 52ch;
+}
+.hi-acommit-body p { margin: 0; }
+.hi-acommit-body strong { font-weight: 700; color: #FBF9F5; }
+.hi-acommit-cta {
+  background: #5C6B47;
+  color: #FBF9F5;
+  padding: 14px 32px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  display: inline-block;
+  transition: background .25s;
+}
+.hi-acommit-cta:hover { background: #4A5840; }
+.hi-acommit-stats {
+  background: #16150F;
+  border-top: 1px solid rgba(251,249,245,.12);
+}
+.hi-acommit-stats-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 80px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+.hi-acommit-stat {
+  padding: 48px 0 48px 40px;
+  border-right: 1px solid rgba(251,249,245,.1);
+}
+.hi-acommit-stat:first-child { border-left: 1px solid rgba(251,249,245,.1); }
+.hi-acommit-stat-num {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(36px, 4vw, 56px);
+  font-weight: 700;
+  letter-spacing: .01em;
+  color: #FBF9F5;
+  line-height: 1;
+  margin-bottom: 10px;
+}
+.hi-acommit-stat-label {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: rgba(251,249,245,.58);
+  max-width: 20ch;
+}
+@media (max-width: 1100px) {
+  .hi-acommit-text { padding: 80px 48px 80px; }
+  .hi-acommit-stats-inner { padding: 0 48px; }
+}
+@media (max-width: 900px) {
+  .hi-acommit-text { padding: 72px 24px 64px; }
+  .hi-acommit-stats-inner { padding: 0; grid-template-columns: repeat(2, 1fr); }
+  .hi-acommit-stat { padding: 36px 24px; }
+  .hi-acommit-stat:first-child { border-left: none; }
+  .hi-acommit-stat:nth-child(odd) { border-left: none; }
+  .hi-acommit-stat:nth-child(even) { border-right: none; }
+  .hi-acommit-stat:nth-child(-n+2) { border-bottom: 1px solid rgba(251,249,245,.1); }
+}
+@media (max-width: 560px) {
+  .hi-acommit-stats-inner { grid-template-columns: 1fr 1fr; }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:hi.hi_about_commitment.name",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:hi.hi_about_commitment.settings.image.label",
+      "info": "Landscape image with nature/outdoor subject. 2400×1400px recommended."
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:hi.hi_about_commitment.settings.eyebrow.label",
+      "default": "Our Commitment"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:hi.hi_about_commitment.settings.heading.label",
+      "default": "We honor those who served."
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "t:hi.hi_about_commitment.settings.body.label",
+      "default": "<p>After our first full year in business, Honor In Clothing pledges to donate <strong>10% of annual profits</strong> to a carefully selected organization supporting veterans living with PTSD. Every purchase moves that mission forward.</p>"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "t:hi.hi_about_commitment.settings.cta_label.label",
+      "default": "Shop With Purpose",
+      "info": "Leave blank to hide"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "t:hi.hi_about_commitment.settings.cta_url.label"
+    },
+    {
+      "type": "header",
+      "content": "Stats"
+    },
+    {
+      "type": "text",
+      "id": "stat_1_number",
+      "label": "t:hi.hi_about_commitment.settings.stat_1_number.label",
+      "default": "10%"
+    },
+    {
+      "type": "text",
+      "id": "stat_1_label",
+      "label": "t:hi.hi_about_commitment.settings.stat_1_label.label",
+      "default": "of annual profits pledged to veterans with PTSD"
+    },
+    {
+      "type": "text",
+      "id": "stat_2_number",
+      "label": "t:hi.hi_about_commitment.settings.stat_2_number.label",
+      "default": "100%"
+    },
+    {
+      "type": "text",
+      "id": "stat_2_label",
+      "label": "t:hi.hi_about_commitment.settings.stat_2_label.label",
+      "default": "built to be repaired, re-worn & passed on"
+    },
+    {
+      "type": "text",
+      "id": "stat_3_number",
+      "label": "t:hi.hi_about_commitment.settings.stat_3_number.label",
+      "default": "30-Day"
+    },
+    {
+      "type": "text",
+      "id": "stat_3_label",
+      "label": "t:hi.hi_about_commitment.settings.stat_3_label.label",
+      "default": "no-questions returns on every order"
+    },
+    {
+      "type": "text",
+      "id": "stat_4_number",
+      "label": "t:hi.hi_about_commitment.settings.stat_4_number.label",
+      "default": "2026"
+    },
+    {
+      "type": "text",
+      "id": "stat_4_label",
+      "label": "t:hi.hi_about_commitment.settings.stat_4_label.label",
+      "default": "proudly established · American heritage"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:hi.hi_about_commitment.name"
+    }
+  ]
+}
+{% endschema %}

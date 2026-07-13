@@ -1,0 +1,104 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hi-about-hero",
+      "settings": {
+        "image": "shopify://shop_images/photo-1551632811-561732d1e306.jpg",
+        "eyebrow": "Our Story",
+        "heading": "Honor in everything we do.",
+        "body": "We build premium active-lifestyle apparel for people who live with purpose — and we do it in a way we can be proud of, on the trail, on the job, and in the communities we serve."
+      }
+    },
+    "mission": {
+      "type": "hi-about-mission",
+      "settings": {
+        "eyebrow": "Why We Exist",
+        "body": "Honor In Clothing is more than apparel. It represents a commitment to honor, character, purpose, integrity, and legacy — values worth wearing, and worth living."
+      }
+    },
+    "story": {
+      "type": "hi-about-story",
+      "settings": {
+        "image": "shopify://shop_images/activewear-minimal-5.jpg",
+        "eyebrow": "How It Started",
+        "heading": "Built by people who show up.",
+        "body_1": "Honor In Clothing was founded on a simple belief: the way you do anything is the way you do everything. We wanted apparel that could keep up with a life lived fully — durable enough for the work, refined enough for everything after.",
+        "body_2": "So we set out to make pieces the honest way — quality materials, considered fits, and hardware built to last. No shortcuts, no throwaway trends. Just gear you can trust and be proud to wear.",
+        "cta_label": "Shop The Collection",
+        "cta_url": "/collections/all"
+      }
+    },
+    "values": {
+      "type": "hi-about-values",
+      "blocks": {
+        "v1": { "type": "value", "settings": { "number": "01", "title": "Honor", "description": "Doing what's right even when no one is watching — in our materials, our making, and our word." } },
+        "v2": { "type": "value", "settings": { "number": "02", "title": "Character", "description": "Who you are under pressure. We build gear for people who show up and follow through." } },
+        "v3": { "type": "value", "settings": { "number": "03", "title": "Integrity", "description": "No shortcuts, no throwaway trends. What we promise is what we deliver." } },
+        "v4": { "type": "value", "settings": { "number": "04", "title": "Hard Work", "description": "Respect for the grind. Apparel made to keep up with a life lived fully." } },
+        "v5": { "type": "value", "settings": { "number": "05", "title": "Responsibility", "description": "To our craft, our customers, and the communities and causes we serve." } },
+        "v6": { "type": "value", "settings": { "number": "06", "title": "Service", "description": "Giving back is built into the brand — starting with the veterans who served us all." } },
+        "v7": { "type": "value", "settings": { "number": "07", "title": "Legacy", "description": "Gear designed to be repaired, re-worn, and passed on. Built to outlast the season." } }
+      },
+      "block_order": ["v1", "v2", "v3", "v4", "v5", "v6", "v7"],
+      "settings": {
+        "eyebrow": "What We Stand For",
+        "heading": "Our Values",
+        "cta_label": "Wear your values",
+        "cta_url": "/collections/all"
+      }
+    },
+    "commitment": {
+      "type": "hi-about-commitment",
+      "settings": {
+        "image": "shopify://shop_images/photo-1441974231531-c6227db76b6e.jpg",
+        "eyebrow": "Our Commitment",
+        "heading": "We honor those who served.",
+        "body": "<p>After our first full year in business, Honor In Clothing pledges to donate <strong>10% of annual profits<\/strong> to a carefully selected organization supporting veterans living with PTSD. Every purchase moves that mission forward.<\/p>",
+        "cta_label": "Shop With Purpose",
+        "cta_url": "/collections/all",
+        "stat_1_number": "10%",
+        "stat_1_label": "of annual profits pledged to veterans with PTSD",
+        "stat_2_number": "100%",
+        "stat_2_label": "built to be repaired, re-worn & passed on",
+        "stat_3_number": "30-Day",
+        "stat_3_label": "no-questions returns on every order",
+        "stat_4_number": "2026",
+        "stat_4_label": "proudly established · American heritage"
+      }
+    },
+    "promise": {
+      "type": "hi-about-promise",
+      "blocks": {
+        "p1": { "type": "promise", "settings": { "title": "Made With Honor", "description": "Quality materials and considered fits, chosen the honest way. We'd rather make it right than make it cheap." } },
+        "p2": { "type": "promise", "settings": { "title": "Every Purchase Gives Back", "description": "10% of annual profits pledged to veterans living with PTSD. Your order is part of something bigger." } },
+        "p3": { "type": "promise", "settings": { "title": "Built To Last", "description": "Designed to be repaired, re-worn, and passed on. Gear that earns its place season after season." } }
+      },
+      "block_order": ["p1", "p2", "p3"],
+      "settings": {
+        "eyebrow": "Every Piece, Every Time",
+        "heading": "The Honor In Promise"
+      }
+    },
+    "quote": {
+      "type": "hi-about-quote",
+      "settings": {
+        "show_stars": true,
+        "quote": "We don't just want to make clothing you love. We want to build something that stands for the values worth passing on.",
+        "name": "The Honor In Team",
+        "title": "Founders, Honor In Clothing Co."
+      }
+    },
+    "cta": {
+      "type": "hi-about-cta",
+      "settings": {
+        "image": "shopify://shop_images/photo-1551632811-561732d1e306.jpg",
+        "eyebrow": "Join The Community",
+        "heading": "Wear your values.",
+        "body": "Explore apparel built for a life lived with purpose — and be part of a mission that gives back.",
+        "cta_label": "Shop The Collection",
+        "cta_url": "/collections/all"
+      }
+    }
+  },
+  "order": ["hero", "mission", "story", "values", "commitment", "promise", "quote", "cta"]
+}

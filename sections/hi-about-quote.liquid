@@ -1,0 +1,101 @@
+<section class="hi-aquote">
+  <div class="hi-aquote-inner" data-hi-reveal>
+    {%- if section.settings.show_stars -%}
+      <div class="hi-aquote-stars" aria-hidden="true">★★★★★</div>
+    {%- endif -%}
+    {%- if section.settings.quote != blank -%}
+      <blockquote class="hi-aquote-text">"{{ section.settings.quote }}"</blockquote>
+    {%- endif -%}
+    <div class="hi-aquote-attribution">
+      {%- if section.settings.name != blank -%}
+        <div class="hi-aquote-name">{{ section.settings.name }}</div>
+      {%- endif -%}
+      {%- if section.settings.title != blank -%}
+        <div class="hi-aquote-title">{{ section.settings.title }}</div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+.hi-aquote {
+  background: #F3EFE6;
+  padding: 96px 32px;
+  text-align: center;
+  border-top: 1px solid #E7E2D7;
+  border-bottom: 1px solid #E7E2D7;
+}
+.hi-aquote-inner { max-width: 720px; margin: 0 auto; }
+.hi-aquote-stars {
+  font-size: 18px;
+  letter-spacing: .2em;
+  color: #5C6B47;
+  margin-bottom: 32px;
+}
+.hi-aquote-text {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(22px, 2.6vw, 32px);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.44;
+  color: #16150F;
+  margin: 0 0 36px !important;
+  padding: 0 !important;
+  border: none !important;
+  quotes: none;
+}
+.hi-aquote-attribution { display: flex; flex-direction: column; gap: 4px; align-items: center; }
+.hi-aquote-name {
+  font-family: 'Oswald', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: #16150F;
+}
+.hi-aquote-title {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 13px;
+  color: #8A8479;
+}
+@media (max-width: 640px) {
+  .hi-aquote { padding: 64px 24px; }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:hi.hi_about_quote.name",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_stars",
+      "label": "t:hi.hi_about_quote.settings.show_stars.label",
+      "default": true
+    },
+    {
+      "type": "textarea",
+      "id": "quote",
+      "label": "t:hi.hi_about_quote.settings.quote.label",
+      "default": "We don't just want to make clothing you love. We want to build something that stands for the values worth passing on."
+    },
+    {
+      "type": "text",
+      "id": "name",
+      "label": "t:hi.hi_about_quote.settings.name.label",
+      "default": "The Honor In Team"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:hi.hi_about_quote.settings.title.label",
+      "default": "Founders, Honor In Clothing Co."
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:hi.hi_about_quote.name"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,147 @@
+<section class="hi-acta">
+  <div class="hi-acta-bg">
+    {%- if section.settings.image != blank -%}
+      {{ section.settings.image | image_url: width: 2400 | image_tag: class: 'hi-acta-img', loading: 'lazy', alt: '' }}
+    {%- else -%}
+      <div class="hi-acta-img-ph"></div>
+    {%- endif -%}
+  </div>
+  <div class="hi-acta-overlay"></div>
+  <div class="hi-acta-inner" data-hi-reveal>
+    {%- if section.settings.eyebrow != blank -%}
+      <div class="hi-acta-eyebrow">{{ section.settings.eyebrow }}</div>
+    {%- endif -%}
+    {%- if section.settings.heading != blank -%}
+      <h2 class="hi-acta-h2">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.body != blank -%}
+      <p class="hi-acta-body">{{ section.settings.body }}</p>
+    {%- endif -%}
+    {%- if section.settings.cta_label != blank -%}
+      <a href="{{ section.settings.cta_url }}" class="hi-btn hi-btn--linen hi-acta-btn">{{ section.settings.cta_label }}</a>
+    {%- endif -%}
+  </div>
+</section>
+
+{% stylesheet %}
+.hi-acta {
+  position: relative;
+  min-height: 600px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.hi-acta-bg { position: absolute; inset: 0; }
+.hi-acta-img { width: 100%; height: 100%; object-fit: cover; object-position: center 35%; }
+.hi-acta-img-ph { width: 100%; height: 100%; background: #26384C; }
+.hi-acta-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(22,21,15,.62);
+}
+.hi-acta-inner {
+  position: relative;
+  z-index: 2;
+  padding: 80px 32px;
+  max-width: 700px;
+  width: 100%;
+}
+.hi-acta-eyebrow {
+  font-family: 'Oswald', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: #E9E3D4;
+  margin-bottom: 16px;
+}
+.hi-acta-h2 {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(38px, 5.5vw, 72px);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .01em;
+  line-height: 1;
+  color: #FBF9F5;
+  margin: 0 0 22px !important;
+}
+.hi-acta-body {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 17px;
+  line-height: 1.7;
+  color: rgba(251,249,245,.78);
+  margin-bottom: 40px;
+  max-width: 46ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+.hi-btn--linen {
+  background: #FBF9F5;
+  color: #16150F;
+  border: none;
+  padding: 16px 40px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  display: inline-block;
+  transition: background .25s, color .25s;
+}
+.hi-btn--linen:hover { background: #5C6B47; color: #FBF9F5; }
+@media (max-width: 640px) {
+  .hi-acta { min-height: 480px; }
+  .hi-acta-inner { padding: 64px 24px; }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:hi.hi_about_cta.name",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:hi.hi_about_cta.settings.image.label",
+      "info": "Landscape image. 2400×1200px recommended."
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:hi.hi_about_cta.settings.eyebrow.label",
+      "default": "Join The Community"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:hi.hi_about_cta.settings.heading.label",
+      "default": "Wear your values."
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "t:hi.hi_about_cta.settings.body.label",
+      "default": "Explore apparel built for a life lived with purpose — and be part of a mission that gives back."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "t:hi.hi_about_cta.settings.cta_label.label",
+      "default": "Shop The Collection"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "t:hi.hi_about_cta.settings.cta_url.label"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:hi.hi_about_cta.name"
+    }
+  ]
+}
+{% endschema %}

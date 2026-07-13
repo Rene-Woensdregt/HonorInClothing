@@ -1,0 +1,173 @@
+<section class="hi-aprom">
+  <div class="hi-aprom-inner">
+    <div class="hi-aprom-head" data-hi-reveal>
+      {%- if section.settings.eyebrow != blank -%}
+        <div class="hi-aprom-eyebrow">{{ section.settings.eyebrow }}</div>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="hi-aprom-h2">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+    </div>
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="hi-aprom-cards">
+        {%- for block in section.blocks -%}
+          <div class="hi-aprom-card" {{ block.shopify_attributes }}>
+            <div class="hi-aprom-icon" aria-hidden="true">
+              {%- case forloop.index -%}
+                {%- when 1 -%}
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                {%- when 2 -%}
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                {%- when 3 -%}
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                {%- when 4 -%}
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                {%- when 5 -%}
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                {%- else -%}
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              {%- endcase -%}
+            </div>
+            {%- if block.settings.title != blank -%}
+              <h3 class="hi-aprom-card-title">{{ block.settings.title }}</h3>
+            {%- endif -%}
+            {%- if block.settings.description != blank -%}
+              <p class="hi-aprom-card-desc">{{ block.settings.description }}</p>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% stylesheet %}
+.hi-aprom { background: #FBF9F5; padding: 104px 0; }
+.hi-aprom-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 80px;
+}
+.hi-aprom-head {
+  text-align: center;
+  margin-bottom: 64px;
+}
+.hi-aprom-eyebrow {
+  font-family: 'Oswald', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: #5C6B47;
+  margin-bottom: 12px;
+}
+.hi-aprom-h2 {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(30px, 3.1vw, 44px);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0;
+  line-height: 1.04;
+  color: #16150F;
+  margin: 0 !important;
+}
+.hi-aprom-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0 56px;
+}
+.hi-aprom-card {
+  display: flex;
+  flex-direction: column;
+  padding-top: 40px;
+  border-top: 1px solid #D9D3C7;
+}
+.hi-aprom-icon {
+  width: 40px;
+  height: 40px;
+  color: #8A8479;
+  margin-bottom: 20px;
+  flex-shrink: 0;
+}
+.hi-aprom-icon svg {
+  width: 40px;
+  height: 40px;
+}
+.hi-aprom-card-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: #16150F;
+  margin: 0 0 10px !important;
+}
+.hi-aprom-card-desc {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 15px;
+  line-height: 1.68;
+  color: #54504A;
+}
+@media (max-width: 1100px) {
+  .hi-aprom-inner { padding: 0 40px; }
+  .hi-aprom-cards { gap: 0 40px; }
+}
+@media (max-width: 900px) {
+  .hi-aprom { padding: 72px 0; }
+  .hi-aprom-inner { padding: 0 24px; }
+  .hi-aprom-cards { grid-template-columns: 1fr; gap: 40px 0; }
+  .hi-aprom-head { margin-bottom: 48px; }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:hi.hi_about_promise.name",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:hi.hi_about_promise.settings.eyebrow.label",
+      "default": "Every Piece, Every Time"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:hi.hi_about_promise.settings.heading.label",
+      "default": "The Honor In Promise"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "promise",
+      "name": "t:hi.hi_about_promise.blocks.promise.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "t:hi.hi_about_promise.blocks.promise.settings.title.label",
+          "default": "Made With Honor"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "t:hi.hi_about_promise.blocks.promise.settings.description.label",
+          "default": "Quality materials and considered fits, chosen the honest way. We'd rather make it right than make it cheap."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:hi.hi_about_promise.name",
+      "blocks": [
+        { "type": "promise", "settings": { "title": "Made With Honor", "description": "Quality materials and considered fits, chosen the honest way. We'd rather make it right than make it cheap." } },
+        { "type": "promise", "settings": { "title": "Every Purchase Gives Back", "description": "10% of annual profits pledged to veterans living with PTSD. Your order is part of something bigger." } },
+        { "type": "promise", "settings": { "title": "Built To Last", "description": "Designed to be repaired, re-worn, and passed on. Gear that earns its place season after season." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -858,6 +858,108 @@
         "view_all_url": { "label": "View all URL" },
         "fallback_collection": { "label": "Fallback collection (when no related products)" }
       }
+    },
+    "hi_about_hero": {
+      "name": "About Hero",
+      "settings": {
+        "image": { "label": "Background image" },
+        "eyebrow": { "label": "Eyebrow text" },
+        "heading": { "label": "Heading" },
+        "body": { "label": "Body text" }
+      }
+    },
+    "hi_about_mission": {
+      "name": "About Mission",
+      "settings": {
+        "eyebrow": { "label": "Eyebrow text" },
+        "body": { "label": "Statement text" }
+      }
+    },
+    "hi_about_story": {
+      "name": "About Story",
+      "settings": {
+        "eyebrow": { "label": "Eyebrow text" },
+        "heading": { "label": "Heading" },
+        "body_1": { "label": "First paragraph" },
+        "body_2": { "label": "Second paragraph" },
+        "cta_label": { "label": "Button label" },
+        "cta_url": { "label": "Button URL" },
+        "image": { "label": "Side image" }
+      }
+    },
+    "hi_about_values": {
+      "name": "About Values",
+      "settings": {
+        "eyebrow": { "label": "Eyebrow text" },
+        "heading": { "label": "Heading" },
+        "cta_label": { "label": "CTA label" },
+        "cta_url": { "label": "CTA URL" }
+      },
+      "blocks": {
+        "value": {
+          "name": "Value",
+          "settings": {
+            "number": { "label": "Number (e.g. 01)" },
+            "title": { "label": "Value name" },
+            "description": { "label": "Description" }
+          }
+        }
+      }
+    },
+    "hi_about_commitment": {
+      "name": "About Commitment",
+      "settings": {
+        "image": { "label": "Background image" },
+        "eyebrow": { "label": "Eyebrow text" },
+        "heading": { "label": "Heading" },
+        "body": { "label": "Body text" },
+        "cta_label": { "label": "Button label" },
+        "cta_url": { "label": "Button URL" },
+        "stat_1_number": { "label": "Stat 1 — number" },
+        "stat_1_label": { "label": "Stat 1 — label" },
+        "stat_2_number": { "label": "Stat 2 — number" },
+        "stat_2_label": { "label": "Stat 2 — label" },
+        "stat_3_number": { "label": "Stat 3 — number" },
+        "stat_3_label": { "label": "Stat 3 — label" },
+        "stat_4_number": { "label": "Stat 4 — number" },
+        "stat_4_label": { "label": "Stat 4 — label" }
+      }
+    },
+    "hi_about_promise": {
+      "name": "About Promise",
+      "settings": {
+        "eyebrow": { "label": "Eyebrow text" },
+        "heading": { "label": "Heading" }
+      },
+      "blocks": {
+        "promise": {
+          "name": "Promise",
+          "settings": {
+            "title": { "label": "Title" },
+            "description": { "label": "Description" }
+          }
+        }
+      }
+    },
+    "hi_about_quote": {
+      "name": "About Quote",
+      "settings": {
+        "show_stars": { "label": "Show star rating" },
+        "quote": { "label": "Quote text" },
+        "name": { "label": "Name" },
+        "title": { "label": "Title / role" }
+      }
+    },
+    "hi_about_cta": {
+      "name": "About CTA",
+      "settings": {
+        "image": { "label": "Background image" },
+        "eyebrow": { "label": "Eyebrow text" },
+        "heading": { "label": "Heading" },
+        "body": { "label": "Body text" },
+        "cta_label": { "label": "Button label" },
+        "cta_url": { "label": "Button URL" }
+      }
     }
   }
 }

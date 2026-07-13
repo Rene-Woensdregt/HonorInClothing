@@ -1,0 +1,178 @@
+<section class="hi-astory">
+  <div class="hi-astory-grid">
+    <div class="hi-astory-img-col">
+      {%- if section.settings.image != blank -%}
+        {{ section.settings.image | image_url: width: 1200 | image_tag: class: 'hi-astory-img', loading: 'lazy', alt: section.settings.heading }}
+      {%- else -%}
+        <div class="hi-astory-img-ph"></div>
+      {%- endif -%}
+    </div>
+    <div class="hi-astory-text" data-hi-reveal>
+      {%- if section.settings.eyebrow != blank -%}
+        <div class="hi-astory-eyebrow">
+          <span class="hi-astory-eyebrow-line" aria-hidden="true"></span>
+          {{ section.settings.eyebrow }}
+        </div>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="hi-astory-h2">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.body_1 != blank -%}
+        <p class="hi-astory-body">{{ section.settings.body_1 }}</p>
+      {%- endif -%}
+      {%- if section.settings.body_2 != blank -%}
+        <p class="hi-astory-body">{{ section.settings.body_2 }}</p>
+      {%- endif -%}
+      {%- if section.settings.cta_label != blank -%}
+        <a href="{{ section.settings.cta_url }}" class="hi-btn hi-btn--ink hi-astory-cta">{{ section.settings.cta_label }}</a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+.hi-astory { background: #F3EFE6; overflow: hidden; }
+.hi-astory-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 620px;
+}
+.hi-astory-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 88px 80px 88px 72px;
+  max-width: 620px;
+  margin-right: auto;
+}
+.hi-astory-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: #5C6B47;
+  margin-bottom: 20px;
+}
+.hi-astory-eyebrow-line {
+  display: inline-block;
+  width: 34px;
+  height: 1px;
+  background: #5C6B47;
+  flex-shrink: 0;
+}
+.hi-astory-h2 {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(28px, 2.8vw, 42px);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0;
+  line-height: 1.05;
+  color: #16150F;
+  margin: 0 0 28px !important;
+}
+.hi-astory-body {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 17px;
+  line-height: 1.76;
+  color: #54504A;
+  margin-bottom: 20px;
+}
+.hi-astory-body:last-of-type { margin-bottom: 36px; }
+.hi-astory-cta { margin-top: 0; align-self: flex-start; }
+.hi-astory-img-col {
+  position: relative;
+  overflow: hidden;
+}
+.hi-astory-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.hi-astory-img-ph {
+  position: absolute;
+  inset: 0;
+  background: #C5BFB5;
+}
+@media (max-width: 1024px) {
+  .hi-astory-text { padding: 72px 48px 72px 48px; }
+}
+@media (max-width: 900px) {
+  .hi-astory-grid { grid-template-columns: 1fr; }
+  .hi-astory-text { padding: 56px 24px 48px; max-width: 100%; margin-left: 0; }
+  .hi-astory-img-col { position: relative; height: 400px; }
+  .hi-astory-img { position: absolute; }
+  .hi-astory-img-ph { position: absolute; }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:hi.hi_about_story.name",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:hi.hi_about_story.settings.eyebrow.label",
+      "default": "How It Started"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:hi.hi_about_story.settings.heading.label",
+      "default": "Built by people who show up."
+    },
+    {
+      "type": "textarea",
+      "id": "body_1",
+      "label": "t:hi.hi_about_story.settings.body_1.label",
+      "default": "Honor In Clothing was founded on a simple belief: the way you do anything is the way you do everything. We wanted apparel that could keep up with a life lived fully — durable enough for the work, refined enough for everything after."
+    },
+    {
+      "type": "textarea",
+      "id": "body_2",
+      "label": "t:hi.hi_about_story.settings.body_2.label",
+      "default": "So we set out to make pieces the honest way — quality materials, considered fits, and hardware built to last. No shortcuts, no throwaway trends. Just gear you can trust and be proud to wear."
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "t:hi.hi_about_story.settings.cta_label.label",
+      "default": "Shop The Collection"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "t:hi.hi_about_story.settings.cta_url.label"
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:hi.hi_about_story.settings.image.label",
+      "info": "Fills the right half. Portrait or square images work best."
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:hi.hi_about_story.name"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,238 @@
+<section class="hi-avals">
+  <div class="hi-avals-inner">
+    <div class="hi-avals-head" data-hi-reveal>
+      {%- if section.settings.eyebrow != blank -%}
+        <div class="hi-avals-eyebrow">{{ section.settings.eyebrow }}</div>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="hi-avals-h2">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+    </div>
+    <div class="hi-avals-grid">
+      {%- for block in section.blocks -%}
+        <div class="hi-avals-item" {{ block.shopify_attributes }}>
+          {%- if block.settings.number != blank -%}
+            <div class="hi-avals-num">{{ block.settings.number }}</div>
+          {%- endif -%}
+          {%- if block.settings.title != blank -%}
+            <div class="hi-avals-name">{{ block.settings.title }}</div>
+          {%- endif -%}
+          {%- if block.settings.description != blank -%}
+            <div class="hi-avals-desc">{{ block.settings.description }}</div>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+      <div class="hi-avals-deco" aria-hidden="true">
+        <span class="hi-avals-deco-brand">HONOR IN</span>
+        <span class="hi-avals-deco-year">EST. 2026</span>
+      </div>
+      {%- if section.settings.cta_label != blank -%}
+        <a href="{{ section.settings.cta_url }}" class="hi-avals-cta">
+          <span class="hi-avals-cta-label">{{ section.settings.cta_label }}</span>
+          <span class="hi-avals-cta-arrow">SHOP NOW &rarr;</span>
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+.hi-avals { background: #FBF9F5; }
+.hi-avals-inner { max-width: 1280px; margin: 0 auto; padding: 0 80px 96px; }
+.hi-avals-head { text-align: center; padding: 96px 0 56px; }
+.hi-avals-eyebrow {
+  font-family: 'Oswald', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: #5C6B47;
+  margin-bottom: 12px;
+}
+.hi-avals-h2 {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(32px, 3.1vw, 44px);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0;
+  line-height: 1;
+  color: #16150F;
+  margin: 0 !important;
+}
+.hi-avals-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid #E7E2D7;
+  border-left: 1px solid #E7E2D7;
+}
+.hi-avals-item {
+  padding: 40px 36px;
+  border-right: 1px solid #E7E2D7;
+  border-bottom: 1px solid #E7E2D7;
+}
+.hi-avals-num {
+  font-family: 'Oswald', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  color: #5C6B47;
+  margin-bottom: 12px;
+}
+.hi-avals-name {
+  font-family: 'Oswald', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: #16150F;
+  margin-bottom: 10px;
+}
+.hi-avals-desc {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 15px;
+  line-height: 1.68;
+  color: #54504A;
+}
+.hi-avals-deco {
+  background: #16150F;
+  padding: 40px 36px;
+  border-right: 1px solid rgba(251,249,245,.08);
+  border-bottom: 1px solid rgba(251,249,245,.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 4px;
+}
+.hi-avals-deco-brand {
+  font-family: 'Oswald', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #FBF9F5;
+  display: block;
+}
+.hi-avals-deco-year {
+  font-family: 'Oswald', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(251,249,245,.56);
+  display: block;
+}
+.hi-avals-cta {
+  background: #5C6B47;
+  padding: 40px 36px;
+  border-right: 1px solid rgba(251,249,245,.08);
+  border-bottom: 1px solid rgba(251,249,245,.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 6px;
+  text-decoration: none;
+  transition: background .25s;
+}
+.hi-avals-cta:hover { background: #4A5840; }
+.hi-avals-cta-label {
+  font-family: 'Oswald', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: #FBF9F5;
+  display: block;
+}
+.hi-avals-cta-arrow {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(251,249,245,.72);
+  display: block;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+@media (max-width: 900px) {
+  .hi-avals-inner { padding: 0 24px; }
+  .hi-avals-head { padding: 72px 0 48px; }
+  .hi-avals-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .hi-avals-grid { grid-template-columns: 1fr; }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:hi.hi_about_values.name",
+  "max_blocks": 12,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:hi.hi_about_values.settings.eyebrow.label",
+      "default": "What We Stand For"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:hi.hi_about_values.settings.heading.label",
+      "default": "Our Values"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "t:hi.hi_about_values.settings.cta_label.label",
+      "default": "Wear your values",
+      "info": "Leave blank to hide"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "t:hi.hi_about_values.settings.cta_url.label"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "value",
+      "name": "t:hi.hi_about_values.blocks.value.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "number",
+          "label": "t:hi.hi_about_values.blocks.value.settings.number.label",
+          "default": "01"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "t:hi.hi_about_values.blocks.value.settings.title.label",
+          "default": "Honor"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "t:hi.hi_about_values.blocks.value.settings.description.label",
+          "default": "Doing what's right even when no one is watching — in our materials, our making, and our word."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:hi.hi_about_values.name",
+      "blocks": [
+        { "type": "value", "settings": { "number": "01", "title": "Honor", "description": "Doing what's right even when no one is watching — in our materials, our making, and our word." } },
+        { "type": "value", "settings": { "number": "02", "title": "Character", "description": "Who you are under pressure. We build gear for people who show up and follow through." } },
+        { "type": "value", "settings": { "number": "03", "title": "Integrity", "description": "No shortcuts, no throwaway trends. What we promise is what we deliver." } },
+        { "type": "value", "settings": { "number": "04", "title": "Hard Work", "description": "Respect for the grind. Apparel made to keep up with a life lived fully." } },
+        { "type": "value", "settings": { "number": "05", "title": "Responsibility", "description": "To our craft, our customers, and the communities and causes we serve." } },
+        { "type": "value", "settings": { "number": "06", "title": "Service", "description": "Giving back is built into the brand — starting with the veterans who served us all." } },
+        { "type": "value", "settings": { "number": "07", "title": "Legacy", "description": "Gear designed to be repaired, re-worn, and passed on. Built to outlast the season." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,64 @@
+<section class="hi-amisn">
+  <div class="hi-amisn-inner" data-hi-reveal>
+    {%- if section.settings.eyebrow != blank -%}
+      <div class="hi-amisn-eyebrow">{{ section.settings.eyebrow }}</div>
+    {%- endif -%}
+    {%- if section.settings.body != blank -%}
+      <p class="hi-amisn-body">{{ section.settings.body }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% stylesheet %}
+.hi-amisn {
+  background: #FBF9F5;
+  padding: 96px 32px;
+  text-align: center;
+}
+.hi-amisn-inner { max-width: 700px; margin: 0 auto; }
+.hi-amisn-eyebrow {
+  font-family: 'Oswald', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: #5C6B47;
+  margin-bottom: 28px;
+}
+.hi-amisn-body {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(24px, 2.8vw, 36px);
+  font-weight: 500;
+  line-height: 1.32;
+  color: #16150F;
+  margin: 0;
+}
+@media (max-width: 640px) {
+  .hi-amisn { padding: 64px 24px; }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:hi.hi_about_mission.name",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:hi.hi_about_mission.settings.eyebrow.label",
+      "default": "Why We Exist"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "t:hi.hi_about_mission.settings.body.label",
+      "default": "Honor In Clothing is more than apparel. It represents a commitment to honor, character, purpose, integrity, and legacy — values worth wearing, and worth living."
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:hi.hi_about_mission.name"
+    }
+  ]
+}
+{% endschema %}
