@@ -1,17 +1,18 @@
 # Honor In Clothing — Development To-Do List
 
 > **Workflow:** HTML mockup (Claude Design) → review → implement as Shopify Liquid
+> **Last updated:** 2026-07-20
 
 ---
 
 ## Phase 1 — Foundation
 
-- [ ] Configure Dawn color scheme to brand palette (Black / Charcoal / White / Military Green / Deep Navy)
+- [x] Configure Dawn color scheme to brand palette (Obsidian / Linen / Sage / Sand / Navy / Gold)
+- [x] Set up global typography (Oswald headings + Hanken Grotesk body)
+- [x] Configure announcement bar (`hi-announcement-bar.liquid`)
+- [x] Update header navigation (`hi-header.liquid`)
+- [x] Update footer (`hi-footer.liquid`)
 - [ ] Upload and configure brand logo (primary, secondary, icon/badge variants)
-- [ ] Set up global typography (heading font + body font)
-- [ ] Configure announcement bar (messaging, links)
-- [ ] Update header navigation structure (collections, about, contact)
-- [ ] Update footer (nav links, social icons, newsletter signup, legal links)
 - [ ] Configure favicon
 
 ---
@@ -21,55 +22,52 @@
 > Each item: HTML mockup first → approve → implement as Liquid section
 
 ### Home Page
-- [ ] Hero banner (lifestyle image/video, headline, Shop Now CTA, mission statement)
-- [ ] Featured collection section
-- [ ] Best sellers section
-- [ ] About / brand mission section
-- [ ] Veteran support section
-- [ ] Customer testimonials section
-- [ ] Email signup section
-- [ ] Instagram feed section
-
-### Shop Page
-- [ ] Product filtering (by category, size, color)
-- [ ] Sorting options
-- [ ] Search functionality
+- [x] Hero banner (`hi-hero.liquid`)
+- [x] Featured collection (`hi-featured-collection.liquid`)
+- [x] About / brand story strip (`hi-brand-story.liquid`)
+- [x] Shop by activity (`hi-shop-by-activity.liquid`)
+- [x] Values strip (`hi-values-strip.liquid`)
+- [x] Veteran support section (`hi-veteran-support.liquid`)
+- [x] Customer testimonials (`hi-testimonials.liquid`)
+- [x] Email signup (`hi-email-signup.liquid`)
+- [x] Instagram feed placeholder (`hi-instagram.liquid`)
+- [ ] Best sellers section (separate from featured collection)
 
 ### Collection Pages
-- [ ] Men's Apparel
-- [ ] Women's Apparel
-- [ ] Youth Apparel
-- [ ] Shop By Activity
-- [ ] Accessories
-- [ ] New Arrivals
-- [ ] Best Sellers
+- [x] Collection banner (`hi-collection-banner.liquid`)
+- [x] Product grid with filtering + sorting (`hi-collection-product-grid.liquid`, `hi-facets.liquid`)
+- [ ] Set up collection handles in Shopify admin (Men's, Women's, Youth, Activity, Accessories, New Arrivals, Best Sellers)
 
 ### Product Pages
-- [ ] Product image gallery (multiple angles + lifestyle shots)
-- [ ] Product description block
-- [ ] Size guide
-- [ ] Product specifications
-- [ ] Reviews section (Judge.me or Loox)
-- [ ] Related products section
-- [ ] Add-to-cart / buy buttons
+- [x] Product image carousel + swatches (`hi-product-main.liquid`)
+- [x] Product features strip (`hi-product-features.liquid`)
+- [x] Product highlights section (`hi-product-highlights.liquid`)
+- [x] Product lifestyle banner (`hi-product-lifestyle.liquid`)
+- [x] Product FAQ accordion (`hi-product-faq.liquid`)
+- [x] Related products (`hi-product-related.liquid`)
+- [x] Cart drawer (`hi-cart-drawer.liquid`)
+- [ ] Reviews widget (requires Judge.me or Loox — Phase 3)
 
-### About Us Page
-- [ ] Brand story section
-- [ ] Founder's story section
-- [ ] Mission & values section
-- [ ] Veteran support initiative section
+### About Us Page ✅
+- [x] Hero (`hi-about-hero.liquid`)
+- [x] Mission statement (`hi-about-mission.liquid`)
+- [x] Brand story (`hi-about-story.liquid`)
+- [x] Values grid (`hi-about-values.liquid`)
+- [x] Promise section (`hi-about-promise.liquid`)
+- [x] Commitment / stats (`hi-about-commitment.liquid`)
+- [x] Pull quote (`hi-about-quote.liquid`)
+- [x] CTA banner (`hi-about-cta.liquid`)
 
-### Contact Page
-- [ ] Contact form
-- [ ] Email address display
-- [ ] Social media links
+### Contact Page ✅
+- [x] Hero (`hi-contact-hero.liquid`)
+- [x] Contact methods — email, phone, chat (`hi-contact-methods.liquid`)
+- [x] Contact form with hours + HQ info (`hi-contact-form.liquid`)
+- [x] Mini FAQ (`hi-contact-faq.liquid`)
 
-### FAQ Page
-- [ ] Shipping FAQ
-- [ ] Returns FAQ
-- [ ] Sizing FAQ
-- [ ] Product care FAQ
-- [ ] Order tracking FAQ
+### FAQ Page ✅
+- [x] Hero with image (`hi-faq-hero.liquid`)
+- [x] Sidebar nav + accordion groups (Orders, Shipping, Returns, Sizing, Mission) (`hi-faq-body.liquid`)
+- [x] Still Need Help CTA → Contact page
 
 ### Static Pages
 - [ ] Shipping & Returns
