@@ -1,0 +1,238 @@
+<section class="hi-cfaq-section">
+  <div class="hi-cfaq-inner">
+    <div class="hi-cfaq-header">
+      {%- if section.settings.eyebrow != blank -%}
+        <div class="hi-cfaq-eyebrow">{{ section.settings.eyebrow }}</div>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="hi-cfaq-h2">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+    </div>
+
+    <div class="hi-cfaq-list">
+      {%- for block in section.blocks -%}
+        <div class="hi-cfaq-item{% if forloop.last %} hi-cfaq-item--last{% endif %}" {{ block.shopify_attributes }}>
+          <button
+            class="hi-cfaq-btn"
+            aria-expanded="false"
+            data-faq-btn
+            aria-controls="faq-panel-{{ block.id }}"
+          >
+            {{ block.settings.question }}
+            <span class="hi-cfaq-ic" aria-hidden="true">+</span>
+          </button>
+          <div class="hi-cfaq-panel" id="faq-panel-{{ block.id }}" hidden>
+            <div class="hi-cfaq-answer">{{ block.settings.answer }}</div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.footer_text != blank or section.settings.footer_link_label != blank -%}
+      <div class="hi-cfaq-footer">
+        {{ section.settings.footer_text }}
+        {%- if section.settings.footer_link_label != blank -%}
+          <a href="{{ section.settings.footer_link_url }}" class="hi-cfaq-footer-link">{{ section.settings.footer_link_label }}</a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% stylesheet %}
+.hi-cfaq-section { background: #F1ECE1; }
+.hi-cfaq-inner { max-width: 820px; margin: 0 auto; padding: 88px 32px; }
+.hi-cfaq-header { text-align: center; margin-bottom: 40px; }
+.hi-cfaq-eyebrow {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: #5C6B47;
+  margin-bottom: 12px;
+}
+.hi-cfaq-h2 {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: clamp(26px, 3.2vw, 42px);
+  line-height: 1;
+  color: #16150F;
+  margin: 0 !important;
+}
+.hi-cfaq-item { border-top: 1px solid #E7E2D7; }
+.hi-cfaq-item--last { border-bottom: 1px solid #E7E2D7; }
+.hi-cfaq-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 22px 0;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: #16150F;
+  text-align: left;
+}
+.hi-cfaq-ic {
+  font-size: 22px;
+  font-weight: 300;
+  line-height: 1;
+  color: #5C6B47;
+  flex-shrink: 0;
+  transition: transform .3s ease;
+  display: inline-block;
+}
+.hi-cfaq-btn[aria-expanded="true"] .hi-cfaq-ic { transform: rotate(45deg); }
+.hi-cfaq-panel { }
+.hi-cfaq-answer {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 15px;
+  line-height: 1.75;
+  color: #54504A;
+  padding: 0 0 22px;
+}
+.hi-cfaq-footer {
+  text-align: center;
+  margin-top: 36px;
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 15px;
+  color: #54504A;
+}
+.hi-cfaq-footer-link {
+  color: #16150F;
+  font-weight: 600;
+  text-decoration: none;
+}
+.hi-cfaq-footer-link:hover { text-decoration: underline; }
+@media (max-width: 640px) {
+  .hi-cfaq-inner { padding: 64px 24px; }
+}
+{% endstylesheet %}
+
+{% javascript %}
+(function() {
+  document.querySelectorAll('[data-faq-btn]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var expanded = btn.getAttribute('aria-expanded') === 'true';
+      var panelId = btn.getAttribute('aria-controls');
+      var panel = document.getElementById(panelId);
+      btn.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+      if (panel) {
+        if (expanded) {
+          panel.hidden = true;
+        } else {
+          panel.hidden = false;
+        }
+      }
+    });
+  });
+})();
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:hi.hi_contact_faq.name",
+  "max_blocks": 20,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:hi.hi_contact_faq.settings.eyebrow.label",
+      "default": "Quick Answers"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:hi.hi_contact_faq.settings.heading.label",
+      "default": "Frequently Asked"
+    },
+    {
+      "type": "text",
+      "id": "footer_text",
+      "label": "t:hi.hi_contact_faq.settings.footer_text.label",
+      "default": "Still have questions?"
+    },
+    {
+      "type": "text",
+      "id": "footer_link_label",
+      "label": "t:hi.hi_contact_faq.settings.footer_link_label.label",
+      "default": "Visit our full Help Center →"
+    },
+    {
+      "type": "url",
+      "id": "footer_link_url",
+      "label": "t:hi.hi_contact_faq.settings.footer_link_url.label"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "t:hi.hi_contact_faq.blocks.question.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "t:hi.hi_contact_faq.blocks.question.settings.question.label",
+          "default": "What is your return policy?"
+        },
+        {
+          "type": "textarea",
+          "id": "answer",
+          "label": "t:hi.hi_contact_faq.blocks.question.settings.answer.label",
+          "default": "We offer free 30-day returns on all orders. Items must be unworn and in original condition."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:hi.hi_contact_faq.name",
+      "blocks": [
+        {
+          "type": "question",
+          "settings": {
+            "question": "What is your return policy?",
+            "answer": "We offer free 30-day returns on all orders. Items must be unworn and in original condition. Start a return from your account page or email us at help@honorinclothing.com."
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "How long does shipping take?",
+            "answer": "Standard shipping takes 3–5 business days. Expedited options are available at checkout. Orders ship within 1–2 business days of being placed."
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "Do you ship internationally?",
+            "answer": "Currently we ship to the US and Canada. International expansion is coming — sign up for our newsletter to be the first to know."
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "How do I find my size?",
+            "answer": "Each product page has a full size guide with measurements. When in doubt between two sizes, we recommend sizing up for a relaxed fit or staying true to size for a fitted look."
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "Can I change or cancel my order?",
+            "answer": "We process orders quickly, but contact us within 1 hour of placing your order and we'll do our best to make changes. Once shipped, we're unable to modify the order."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,374 @@
+<section class="hi-cform-section">
+  <div class="hi-cform-inner">
+    <div class="hi-cform-grid">
+
+      <!-- Contact form (left) -->
+      <div class="hi-cform-left">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="hi-cform-h2">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.intro != blank -%}
+          <p class="hi-cform-intro">{{ section.settings.intro }}</p>
+        {%- endif -%}
+
+        {%- form 'contact' -%}
+          {%- if form.posted_successfully? -%}
+            <div class="hi-cform-success">
+              <div class="hi-cform-success-heading">
+                {%- if section.settings.success_heading != blank -%}
+                  {{ section.settings.success_heading }}
+                {%- else -%}
+                  Message received — thank you.
+                {%- endif -%}
+              </div>
+              <div class="hi-cform-success-body">
+                {%- if section.settings.success_body != blank -%}
+                  {{ section.settings.success_body }}
+                {%- else -%}
+                  We've got your note and will reply within one business day. Honor in everything we do.
+                {%- endif -%}
+              </div>
+            </div>
+          {%- else -%}
+            <div class="hi-cform-fields">
+              <div class="hi-cform-name-row">
+                <div class="hi-cform-field">
+                  <label class="hi-cform-label" for="ContactForm-first-name">{{ 'hi.hi_contact_form.label_first_name' | t }}</label>
+                  <input
+                    class="hi-cform-input"
+                    type="text"
+                    id="ContactForm-first-name"
+                    name="contact[first_name]"
+                    autocomplete="given-name"
+                    placeholder="{{ section.settings.first_name_placeholder }}"
+                  >
+                </div>
+                <div class="hi-cform-field">
+                  <label class="hi-cform-label" for="ContactForm-last-name">{{ 'hi.hi_contact_form.label_last_name' | t }}</label>
+                  <input
+                    class="hi-cform-input"
+                    type="text"
+                    id="ContactForm-last-name"
+                    name="contact[last_name]"
+                    autocomplete="family-name"
+                    placeholder="{{ section.settings.last_name_placeholder }}"
+                  >
+                </div>
+              </div>
+              <div class="hi-cform-field">
+                <label class="hi-cform-label" for="ContactForm-email">{{ 'hi.hi_contact_form.label_email' | t }}</label>
+                <input
+                  class="hi-cform-input"
+                  type="email"
+                  id="ContactForm-email"
+                  name="contact[email]"
+                  autocomplete="email"
+                  required
+                  placeholder="{{ section.settings.email_placeholder }}"
+                >
+              </div>
+              <div class="hi-cform-field">
+                <label class="hi-cform-label" for="ContactForm-body">{{ 'hi.hi_contact_form.label_message' | t }}</label>
+                <textarea
+                  class="hi-cform-textarea"
+                  id="ContactForm-body"
+                  name="contact[body]"
+                  rows="6"
+                  placeholder="{{ section.settings.message_placeholder }}"
+                ></textarea>
+              </div>
+              <div>
+                <button type="submit" class="hi-btn hi-btn--primary">{{ section.settings.submit_label }}</button>
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endform -%}
+      </div>
+
+      <!-- Sidebar (right) -->
+      <div class="hi-cform-sidebar">
+        <!-- Support Hours card -->
+        <div class="hi-cform-card hi-cform-card--cream">
+          {%- if section.settings.hours_heading != blank -%}
+            <div class="hi-cform-card-heading">{{ section.settings.hours_heading }}</div>
+          {%- endif -%}
+          {%- assign hour_blocks = section.blocks | where: 'type', 'hour_row' -%}
+          {%- for block in hour_blocks -%}
+            <div class="hi-hours-row{% if forloop.first %} hi-hours-row--first{% endif %}" {{ block.shopify_attributes }}>
+              <span class="hi-hours-day">{{ block.settings.day_range }}</span>
+              <span class="hi-hours-time">{{ block.settings.time }}</span>
+            </div>
+          {%- endfor -%}
+          {%- if section.settings.hours_note != blank -%}
+            <div class="hi-hours-note">{{ section.settings.hours_note }}</div>
+          {%- endif -%}
+        </div>
+
+        <!-- HQ Address card -->
+        <div class="hi-cform-card hi-cform-card--dark">
+          {%- if section.settings.hq_heading != blank -%}
+            <div class="hi-cform-card-heading hi-cform-card-heading--light">{{ section.settings.hq_heading }}</div>
+          {%- endif -%}
+          {%- if section.settings.hq_address != blank -%}
+            <div class="hi-hq-address">{{ section.settings.hq_address | newline_to_br }}</div>
+          {%- endif -%}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+.hi-cform-section { background: #FBF9F5; }
+.hi-cform-inner { max-width: 1280px; margin: 0 auto; padding: 52px 32px; }
+.hi-cform-grid {
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;
+  gap: 64px;
+  align-items: start;
+}
+.hi-cform-h2 {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: clamp(24px, 2.8vw, 34px);
+  line-height: 1;
+  color: #16150F;
+  margin: 0 0 8px !important;
+}
+.hi-cform-intro {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #8A8479;
+  margin: 0 0 28px;
+}
+.hi-cform-success {
+  background: #F1ECE1;
+  border-left: 3px solid #5C6B47;
+  padding: 26px 28px;
+}
+.hi-cform-success-heading {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: #16150F;
+  margin-bottom: 8px;
+}
+.hi-cform-success-body {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 15px;
+  line-height: 1.65;
+  color: #54504A;
+}
+.hi-cform-fields { display: flex; flex-direction: column; gap: 20px; }
+.hi-cform-name-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.hi-cform-field { display: flex; flex-direction: column; gap: 8px; }
+.hi-cform-label {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #3A372F;
+}
+.hi-cform-input,
+.hi-cform-textarea {
+  width: 100%;
+  padding: 14px 16px;
+  background: #fff;
+  border: 1px solid #D9D3C6;
+  color: #16150F;
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 15px;
+  outline: none;
+  transition: border-color .2s ease, box-shadow .2s ease;
+  border-radius: 0;
+  -webkit-appearance: none;
+}
+.hi-cform-input:focus,
+.hi-cform-textarea:focus {
+  border-color: #16150F;
+  box-shadow: 0 0 0 3px rgba(92,107,71,.14);
+}
+.hi-cform-textarea { resize: vertical; min-height: 140px; line-height: 1.6; }
+.hi-cform-sidebar { display: flex; flex-direction: column; gap: 20px; }
+.hi-cform-card { padding: 32px 30px; }
+.hi-cform-card--cream { background: #F1ECE1; }
+.hi-cform-card--dark { background: #16150F; }
+.hi-cform-card-heading {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #16150F;
+  margin-bottom: 18px;
+}
+.hi-cform-card-heading--light { color: #fff; margin-bottom: 14px; }
+.hi-hours-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 11px 0;
+  border-top: 1px solid #E3DDD0;
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 14.5px;
+}
+.hi-hours-row--first { border-top: none; }
+.hi-hours-day { color: #54504A; }
+.hi-hours-time { font-family: 'Oswald', sans-serif; letter-spacing: .03em; color: #16150F; }
+.hi-hours-note {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 13px;
+  color: #8A8479;
+  margin-top: 16px;
+  line-height: 1.55;
+}
+.hi-hq-address {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+  color: #CFC9BC;
+}
+@media (max-width: 900px) {
+  .hi-cform-inner { padding: 40px 24px; }
+  .hi-cform-grid { grid-template-columns: 1fr; gap: 40px; }
+  .hi-cform-name-row { grid-template-columns: 1fr; }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:hi.hi_contact_form.name",
+  "blocks": [
+    {
+      "type": "hour_row",
+      "name": "t:hi.hi_contact_form.blocks.hour_row.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "day_range",
+          "label": "t:hi.hi_contact_form.blocks.hour_row.settings.day_range.label",
+          "default": "Mon – Fri"
+        },
+        {
+          "type": "text",
+          "id": "time",
+          "label": "t:hi.hi_contact_form.blocks.hour_row.settings.time.label",
+          "default": "9am – 6pm MT"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Form"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:hi.hi_contact_form.settings.heading.label",
+      "default": "Send Us A Message"
+    },
+    {
+      "type": "text",
+      "id": "intro",
+      "label": "t:hi.hi_contact_form.settings.intro.label",
+      "default": "Fill out the form and our team will get back to you shortly."
+    },
+    {
+      "type": "text",
+      "id": "success_heading",
+      "label": "t:hi.hi_contact_form.settings.success_heading.label",
+      "default": "Message received — thank you."
+    },
+    {
+      "type": "textarea",
+      "id": "success_body",
+      "label": "t:hi.hi_contact_form.settings.success_body.label",
+      "default": "We've got your note and will reply within one business day. Honor in everything we do."
+    },
+    {
+      "type": "text",
+      "id": "submit_label",
+      "label": "t:hi.hi_contact_form.settings.submit_label.label",
+      "default": "Send Message"
+    },
+    {
+      "type": "header",
+      "content": "Form placeholders"
+    },
+    {
+      "type": "text",
+      "id": "first_name_placeholder",
+      "label": "t:hi.hi_contact_form.settings.first_name_placeholder.label",
+      "default": "Jordan"
+    },
+    {
+      "type": "text",
+      "id": "last_name_placeholder",
+      "label": "t:hi.hi_contact_form.settings.last_name_placeholder.label",
+      "default": "Rivera"
+    },
+    {
+      "type": "text",
+      "id": "email_placeholder",
+      "label": "t:hi.hi_contact_form.settings.email_placeholder.label",
+      "default": "you@email.com"
+    },
+    {
+      "type": "text",
+      "id": "message_placeholder",
+      "label": "t:hi.hi_contact_form.settings.message_placeholder.label",
+      "default": "How can we help?"
+    },
+    {
+      "type": "header",
+      "content": "Support hours"
+    },
+    {
+      "type": "text",
+      "id": "hours_heading",
+      "label": "t:hi.hi_contact_form.settings.hours_heading.label",
+      "default": "Support Hours"
+    },
+    {
+      "type": "text",
+      "id": "hours_note",
+      "label": "t:hi.hi_contact_form.settings.hours_note.label",
+      "default": "All times Mountain Time (MT). Closed on major U.S. holidays."
+    },
+    {
+      "type": "header",
+      "content": "Headquarters"
+    },
+    {
+      "type": "text",
+      "id": "hq_heading",
+      "label": "t:hi.hi_contact_form.settings.hq_heading.label",
+      "default": "Headquarters"
+    },
+    {
+      "type": "textarea",
+      "id": "hq_address",
+      "label": "t:hi.hi_contact_form.settings.hq_address.label",
+      "default": "Honor In Clothing Co.\n1042 Foothills Parkway\nBoulder, CO 80302\nUnited States"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:hi.hi_contact_form.name",
+      "blocks": [
+        { "type": "hour_row", "settings": { "day_range": "Mon – Fri", "time": "9am – 6pm MT" } },
+        { "type": "hour_row", "settings": { "day_range": "Saturday", "time": "10am – 4pm MT" } },
+        { "type": "hour_row", "settings": { "day_range": "Sunday", "time": "Closed" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
