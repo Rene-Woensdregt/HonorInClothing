@@ -287,7 +287,6 @@
       "announcement": "Announcement",
       "announcement_bar": "Announcement bar"
     },
-
     "header": {
       "announcement": "Announcement",
       "menu": "Menu",
@@ -617,19 +616,27 @@
       "name": "Announcement Bar",
       "label": "Announcement bar",
       "settings": {
-        "speed": { "label": "Scroll speed" }
+        "speed": {
+          "label": "Scroll speed"
+        }
       },
       "blocks": {
         "message": {
           "name": "Message",
           "settings": {
-            "text": { "label": "Message text" }
+            "text": {
+              "label": "Message text"
+            }
           }
         }
       }
     },
-    "hero": { "name": "Hero Banner" },
-    "values_strip": { "name": "Values Strip" },
+    "hero": {
+      "name": "Hero Banner"
+    },
+    "values_strip": {
+      "name": "Values Strip"
+    },
     "featured_collection": {
       "name": "Featured Collection",
       "shop_now": "Shop Now",
@@ -637,19 +644,35 @@
       "sold_out": "Sold Out",
       "add_to_cart": "Add to Cart"
     },
-    "shop_by_activity": { "name": "Shop by Activity" },
-    "veteran_support": { "name": "Veteran Support" },
-    "brand_story": { "name": "Brand Story" },
-    "testimonials": { "name": "Testimonials" },
+    "shop_by_activity": {
+      "name": "Shop by Activity"
+    },
+    "veteran_support": {
+      "name": "Veteran Support"
+    },
+    "brand_story": {
+      "name": "Brand Story"
+    },
+    "testimonials": {
+      "name": "Testimonials"
+    },
     "email_signup": {
       "name": "Email Signup",
       "placeholder": "Enter your email",
       "success": "You're in. Welcome to the community."
     },
-    "instagram": { "name": "Instagram Feed" },
-    "collection_banner": { "name": "Collection Banner" },
-    "collection_product_grid": { "name": "Collection Product Grid" },
-    "header": { "name": "Header" },
+    "instagram": {
+      "name": "Instagram Feed"
+    },
+    "collection_banner": {
+      "name": "Collection Banner"
+    },
+    "collection_product_grid": {
+      "name": "Collection Product Grid"
+    },
+    "header": {
+      "name": "Header"
+    },
     "cart_drawer": {
       "name": "Cart Drawer",
       "title": "Your Cart",
@@ -662,14 +685,26 @@
       "empty_body": "Looks like you haven't added anything yet. Find something worth honoring.",
       "start_shopping": "Start Shopping"
     },
-    "footer": { "name": "Footer" },
+    "footer": {
+      "name": "Footer"
+    },
     "hi_product_main": {
       "name": "Product Main",
       "settings": {
-        "show_breadcrumb": { "label": "Show breadcrumb" },
-        "materials_content": { "label": "Materials & Care content", "info": "HTML shown in the Materials & Care accordion." },
-        "shipping_content": { "label": "Shipping & Returns content" },
-        "size_guide_content": { "label": "Size guide (HTML)", "info": "Leave blank to use the default size chart." }
+        "show_breadcrumb": {
+          "label": "Show breadcrumb"
+        },
+        "materials_content": {
+          "label": "Materials & Care content",
+          "info": "HTML shown in the Materials & Care accordion."
+        },
+        "shipping_content": {
+          "label": "Shipping & Returns content"
+        },
+        "size_guide_content": {
+          "label": "Size guide (HTML)",
+          "info": "Leave blank to use the default size chart."
+        }
       }
     },
     "hi_product_features": {
@@ -678,9 +713,15 @@
         "feature": {
           "name": "Feature",
           "settings": {
-            "label": { "label": "Label" },
-            "title": { "label": "Title" },
-            "description": { "label": "Description" }
+            "label": {
+              "label": "Label"
+            },
+            "title": {
+              "label": "Title"
+            },
+            "description": {
+              "label": "Description"
+            }
           }
         }
       }
@@ -688,27 +729,49 @@
     "hi_product_lifestyle": {
       "name": "Product Lifestyle Banner",
       "settings": {
-        "image": { "label": "Image" },
-        "eyebrow": { "label": "Eyebrow text" },
-        "heading": { "label": "Heading" },
-        "text": { "label": "Body text" },
-        "button_label": { "label": "Button label" },
-        "button_url": { "label": "Button URL" }
+        "image": {
+          "label": "Image"
+        },
+        "eyebrow": {
+          "label": "Eyebrow text"
+        },
+        "heading": {
+          "label": "Heading"
+        },
+        "text": {
+          "label": "Body text"
+        },
+        "button_label": {
+          "label": "Button label"
+        },
+        "button_url": {
+          "label": "Button URL"
+        }
       }
     },
     "hi_product_highlights": {
       "name": "Product Highlights",
       "settings": {
-        "image": { "label": "Image" },
-        "eyebrow": { "label": "Eyebrow text" },
-        "heading": { "label": "Heading" }
+        "image": {
+          "label": "Image"
+        },
+        "eyebrow": {
+          "label": "Eyebrow text"
+        },
+        "heading": {
+          "label": "Heading"
+        }
       },
       "blocks": {
         "highlight": {
           "name": "Highlight",
           "settings": {
-            "title": { "label": "Title" },
-            "description": { "label": "Description" }
+            "title": {
+              "label": "Title"
+            },
+            "description": {
+              "label": "Description"
+            }
           }
         }
       }
@@ -716,15 +779,23 @@
     "hi_product_faq": {
       "name": "Product FAQ",
       "settings": {
-        "eyebrow": { "label": "Eyebrow text" },
-        "heading": { "label": "Heading" }
+        "eyebrow": {
+          "label": "Eyebrow text"
+        },
+        "heading": {
+          "label": "Heading"
+        }
       },
       "blocks": {
         "question": {
           "name": "Question",
           "settings": {
-            "question": { "label": "Question" },
-            "answer": { "label": "Answer" }
+            "question": {
+              "label": "Question"
+            },
+            "answer": {
+              "label": "Answer"
+            }
           }
         }
       }
@@ -732,11 +803,21 @@
     "hi_product_related": {
       "name": "Related Products",
       "settings": {
-        "eyebrow": { "label": "Eyebrow text" },
-        "heading": { "label": "Heading" },
-        "view_all_label": { "label": "View all label" },
-        "view_all_url": { "label": "View all URL" },
-        "fallback_collection": { "label": "Fallback collection (when no related products)" }
+        "eyebrow": {
+          "label": "Eyebrow text"
+        },
+        "heading": {
+          "label": "Heading"
+        },
+        "view_all_label": {
+          "label": "View all label"
+        },
+        "view_all_url": {
+          "label": "View all URL"
+        },
+        "fallback_collection": {
+          "label": "Fallback collection (when no related products)"
+        }
       }
     },
     "hi_collection_banner": {
@@ -783,125 +864,89 @@
         }
       }
     },
-    "hi_product_main": {
-      "name": "Product Main",
-      "settings": {
-        "show_breadcrumb": { "label": "Show breadcrumb" },
-        "materials_content": { "label": "Materials & Care content", "info": "HTML shown in the Materials & Care accordion." },
-        "shipping_content": { "label": "Shipping & Returns content" },
-        "size_guide_content": { "label": "Size guide (HTML)", "info": "Leave blank to use the default size chart." }
-      }
-    },
-    "hi_product_features": {
-      "name": "Product Features Strip",
-      "blocks": {
-        "feature": {
-          "name": "Feature",
-          "settings": {
-            "label": { "label": "Label" },
-            "title": { "label": "Title" },
-            "description": { "label": "Description" }
-          }
-        }
-      }
-    },
-    "hi_product_lifestyle": {
-      "name": "Product Lifestyle Banner",
-      "settings": {
-        "image": { "label": "Image" },
-        "eyebrow": { "label": "Eyebrow text" },
-        "heading": { "label": "Heading" },
-        "text": { "label": "Body text" },
-        "button_label": { "label": "Button label" },
-        "button_url": { "label": "Button URL" }
-      }
-    },
-    "hi_product_highlights": {
-      "name": "Product Highlights",
-      "settings": {
-        "image": { "label": "Image" },
-        "eyebrow": { "label": "Eyebrow text" },
-        "heading": { "label": "Heading" }
-      },
-      "blocks": {
-        "highlight": {
-          "name": "Highlight",
-          "settings": {
-            "title": { "label": "Title" },
-            "description": { "label": "Description" }
-          }
-        }
-      }
-    },
-    "hi_product_faq": {
-      "name": "Product FAQ",
-      "settings": {
-        "eyebrow": { "label": "Eyebrow text" },
-        "heading": { "label": "Heading" }
-      },
-      "blocks": {
-        "question": {
-          "name": "Question",
-          "settings": {
-            "question": { "label": "Question" },
-            "answer": { "label": "Answer" }
-          }
-        }
-      }
-    },
-    "hi_product_related": {
-      "name": "Related Products",
-      "settings": {
-        "eyebrow": { "label": "Eyebrow text" },
-        "heading": { "label": "Heading" },
-        "view_all_label": { "label": "View all label" },
-        "view_all_url": { "label": "View all URL" },
-        "fallback_collection": { "label": "Fallback collection (when no related products)" }
-      }
-    },
     "hi_about_hero": {
       "name": "About Hero",
       "settings": {
-        "image": { "label": "Background image" },
-        "eyebrow": { "label": "Eyebrow text" },
-        "heading": { "label": "Heading" },
-        "body": { "label": "Body text" }
+        "image": {
+          "label": "Background image"
+        },
+        "eyebrow": {
+          "label": "Eyebrow text"
+        },
+        "heading": {
+          "label": "Heading"
+        },
+        "body": {
+          "label": "Body text"
+        }
       }
     },
     "hi_about_mission": {
       "name": "About Mission",
       "settings": {
-        "eyebrow": { "label": "Eyebrow text" },
-        "body": { "label": "Statement text" }
+        "eyebrow": {
+          "label": "Eyebrow text"
+        },
+        "body": {
+          "label": "Statement text"
+        }
       }
     },
     "hi_about_story": {
       "name": "About Story",
       "settings": {
-        "eyebrow": { "label": "Eyebrow text" },
-        "heading": { "label": "Heading" },
-        "body_1": { "label": "First paragraph" },
-        "body_2": { "label": "Second paragraph" },
-        "cta_label": { "label": "Button label" },
-        "cta_url": { "label": "Button URL" },
-        "image": { "label": "Side image" }
+        "eyebrow": {
+          "label": "Eyebrow text"
+        },
+        "heading": {
+          "label": "Heading"
+        },
+        "body_1": {
+          "label": "First paragraph"
+        },
+        "body_2": {
+          "label": "Second paragraph"
+        },
+        "cta_label": {
+          "label": "Button label"
+        },
+        "cta_url": {
+          "label": "Button URL"
+        },
+        "image": {
+          "label": "Side image"
+        }
       }
     },
     "hi_about_values": {
       "name": "About Values",
       "settings": {
-        "eyebrow": { "label": "Eyebrow text" },
-        "heading": { "label": "Heading" },
-        "cta_label": { "label": "CTA label" },
-        "cta_url": { "label": "CTA URL" }
+        "eyebrow": {
+          "label": "Eyebrow text"
+        },
+        "heading": {
+          "label": "Heading"
+        },
+        "cta_label": {
+          "label": "CTA label"
+        },
+        "cta_url": {
+          "label": "CTA URL"
+        }
       },
       "blocks": {
         "value": {
           "name": "Value",
           "settings": {
-            "number": { "label": "Number (e.g. 01)" },
-            "title": { "label": "Value name" },
-            "description": { "label": "Description" }
+            "number": {
+              "label": "Number (e.g. 01)"
+            },
+            "title": {
+              "label": "Value name"
+            },
+            "description": {
+              "label": "Description"
+            }
           }
         }
       }
@@ -909,34 +954,70 @@
     "hi_about_commitment": {
       "name": "About Commitment",
       "settings": {
-        "image": { "label": "Background image" },
-        "eyebrow": { "label": "Eyebrow text" },
-        "heading": { "label": "Heading" },
-        "body": { "label": "Body text" },
-        "cta_label": { "label": "Button label" },
-        "cta_url": { "label": "Button URL" },
-        "stat_1_number": { "label": "Stat 1 — number" },
-        "stat_1_label": { "label": "Stat 1 — label" },
-        "stat_2_number": { "label": "Stat 2 — number" },
-        "stat_2_label": { "label": "Stat 2 — label" },
-        "stat_3_number": { "label": "Stat 3 — number" },
-        "stat_3_label": { "label": "Stat 3 — label" },
-        "stat_4_number": { "label": "Stat 4 — number" },
-        "stat_4_label": { "label": "Stat 4 — label" }
+        "image": {
+          "label": "Background image"
+        },
+        "eyebrow": {
+          "label": "Eyebrow text"
+        },
+        "heading": {
+          "label": "Heading"
+        },
+        "body": {
+          "label": "Body text"
+        },
+        "cta_label": {
+          "label": "Button label"
+        },
+        "cta_url": {
+          "label": "Button URL"
+        },
+        "stat_1_number": {
+          "label": "Stat 1 — number"
+        },
+        "stat_1_label": {
+          "label": "Stat 1 — label"
+        },
+        "stat_2_number": {
+          "label": "Stat 2 — number"
+        },
+        "stat_2_label": {
+          "label": "Stat 2 — label"
+        },
+        "stat_3_number": {
+          "label": "Stat 3 — number"
+        },
+        "stat_3_label": {
+          "label": "Stat 3 — label"
+        },
+        "stat_4_number": {
+          "label": "Stat 4 — number"
+        },
+        "stat_4_label": {
+          "label": "Stat 4 — label"
+        }
       }
     },
     "hi_about_promise": {
       "name": "About Promise",
       "settings": {
-        "eyebrow": { "label": "Eyebrow text" },
-        "heading": { "label": "Heading" }
+        "eyebrow": {
+          "label": "Eyebrow text"
+        },
+        "heading": {
+          "label": "Heading"
+        }
       },
       "blocks": {
         "promise": {
           "name": "Promise",
           "settings": {
-            "title": { "label": "Title" },
-            "description": { "label": "Description" }
+            "title": {
+              "label": "Title"
+            },
+            "description": {
+              "label": "Description"
+            }
           }
         }
       }
@@ -944,30 +1025,58 @@
     "hi_about_quote": {
       "name": "About Quote",
       "settings": {
-        "show_stars": { "label": "Show star rating" },
-        "quote": { "label": "Quote text" },
-        "name": { "label": "Name" },
-        "title": { "label": "Title / role" }
+        "show_stars": {
+          "label": "Show star rating"
+        },
+        "quote": {
+          "label": "Quote text"
+        },
+        "name": {
+          "label": "Name"
+        },
+        "title": {
+          "label": "Title / role"
+        }
       }
     },
     "hi_about_cta": {
       "name": "About CTA",
       "settings": {
-        "image": { "label": "Background image" },
-        "eyebrow": { "label": "Eyebrow text" },
-        "heading": { "label": "Heading" },
-        "body": { "label": "Body text" },
-        "cta_label": { "label": "Button label" },
-        "cta_url": { "label": "Button URL" }
+        "image": {
+          "label": "Background image"
+        },
+        "eyebrow": {
+          "label": "Eyebrow text"
+        },
+        "heading": {
+          "label": "Heading"
+        },
+        "body": {
+          "label": "Body text"
+        },
+        "cta_label": {
+          "label": "Button label"
+        },
+        "cta_url": {
+          "label": "Button URL"
+        }
       }
     },
     "hi_contact_hero": {
       "name": "Contact Hero",
       "settings": {
-        "image": { "label": "Background image" },
-        "eyebrow": { "label": "Eyebrow text" },
-        "heading": { "label": "Heading" },
-        "body": { "label": "Body text" }
+        "image": {
+          "label": "Background image"
+        },
+        "eyebrow": {
+          "label": "Eyebrow text"
+        },
+        "heading": {
+          "label": "Heading"
+        },
+        "body": {
+          "label": "Body text"
+        }
       }
     },
     "hi_contact_methods": {
@@ -978,14 +1087,28 @@
           "settings": {
             "icon": {
               "label": "Icon",
-              "options__1": { "label": "Email" },
-              "options__2": { "label": "Phone" },
-              "options__3": { "label": "Live Chat" }
+              "options__1": {
+                "label": "Email"
+              },
+              "options__2": {
+                "label": "Phone"
+              },
+              "options__3": {
+                "label": "Live Chat"
+              }
             },
-            "title": { "label": "Title" },
-            "body": { "label": "Description" },
-            "link_label": { "label": "Link label" },
-            "link_url": { "label": "Link URL" }
+            "title": {
+              "label": "Title"
+            },
+            "body": {
+              "label": "Description"
+            },
+            "link_label": {
+              "label": "Link label"
+            },
+            "link_url": {
+              "label": "Link URL"
+            }
           }
         }
       }
@@ -993,19 +1116,45 @@
     "hi_contact_form": {
       "name": "Contact Form",
       "settings": {
-        "heading": { "label": "Heading" },
-        "intro": { "label": "Intro text" },
-        "success_heading": { "label": "Success heading" },
-        "success_body": { "label": "Success message" },
-        "submit_label": { "label": "Submit button label" },
-        "first_name_placeholder": { "label": "First name placeholder" },
-        "last_name_placeholder": { "label": "Last name placeholder" },
-        "email_placeholder": { "label": "Email placeholder" },
-        "message_placeholder": { "label": "Message placeholder" },
-        "hours_heading": { "label": "Hours heading" },
-        "hours_note": { "label": "Hours note" },
-        "hq_heading": { "label": "HQ heading" },
-        "hq_address": { "label": "HQ address" }
+        "heading": {
+          "label": "Heading"
+        },
+        "intro": {
+          "label": "Intro text"
+        },
+        "success_heading": {
+          "label": "Success heading"
+        },
+        "success_body": {
+          "label": "Success message"
+        },
+        "submit_label": {
+          "label": "Submit button label"
+        },
+        "first_name_placeholder": {
+          "label": "First name placeholder"
+        },
+        "last_name_placeholder": {
+          "label": "Last name placeholder"
+        },
+        "email_placeholder": {
+          "label": "Email placeholder"
+        },
+        "message_placeholder": {
+          "label": "Message placeholder"
+        },
+        "hours_heading": {
+          "label": "Hours heading"
+        },
+        "hours_note": {
+          "label": "Hours note"
+        },
+        "hq_heading": {
+          "label": "HQ heading"
+        },
+        "hq_address": {
+          "label": "HQ address"
+        }
       },
       "label_first_name": "First Name",
       "label_last_name": "Last Name",
@@ -1015,8 +1164,12 @@
         "hour_row": {
           "name": "Hour row",
           "settings": {
-            "day_range": { "label": "Day / range" },
-            "time": { "label": "Time" }
+            "day_range": {
+              "label": "Day / range"
+            },
+            "time": {
+              "label": "Time"
+            }
           }
         }
       }
@@ -1024,18 +1177,116 @@
     "hi_contact_faq": {
       "name": "Contact FAQ",
       "settings": {
-        "eyebrow": { "label": "Eyebrow" },
-        "heading": { "label": "Heading" },
-        "footer_text": { "label": "Footer text" },
-        "footer_link_label": { "label": "Footer link label" },
-        "footer_link_url": { "label": "Footer link URL" }
+        "eyebrow": {
+          "label": "Eyebrow"
+        },
+        "heading": {
+          "label": "Heading"
+        },
+        "footer_text": {
+          "label": "Footer text"
+        },
+        "footer_link_label": {
+          "label": "Footer link label"
+        },
+        "footer_link_url": {
+          "label": "Footer link URL"
+        }
       },
       "blocks": {
         "question": {
           "name": "FAQ item",
           "settings": {
-            "question": { "label": "Question" },
-            "answer": { "label": "Answer" }
+            "question": {
+              "label": "Question"
+            },
+            "answer": {
+              "label": "Answer"
+            }
+          }
+        }
+      }
+    },
+    "hi_faq_hero": {
+      "name": "FAQ Hero",
+      "settings": {
+        "image": {
+          "label": "Background image"
+        },
+        "eyebrow": {
+          "label": "Eyebrow"
+        },
+        "heading": {
+          "label": "Heading"
+        },
+        "body": {
+          "label": "Body text"
+        }
+      }
+    },
+    "hi_faq_body": {
+      "name": "FAQ Body",
+      "nav_label": "FAQ categories",
+      "settings": {
+        "orders_subtitle": {
+          "label": "Orders category subtitle"
+        },
+        "shipping_subtitle": {
+          "label": "Shipping category subtitle"
+        },
+        "returns_subtitle": {
+          "label": "Returns category subtitle"
+        },
+        "sizing_subtitle": {
+          "label": "Sizing category subtitle"
+        },
+        "mission_subtitle": {
+          "label": "Mission category subtitle"
+        },
+        "cta_eyebrow": {
+          "label": "CTA eyebrow"
+        },
+        "cta_heading": {
+          "label": "CTA heading"
+        },
+        "cta_body": {
+          "label": "CTA body text"
+        },
+        "cta_button_label": {
+          "label": "CTA button label"
+        },
+        "cta_button_url": {
+          "label": "CTA button URL"
+        }
+      },
+      "blocks": {
+        "question": {
+          "name": "Question",
+          "settings": {
+            "category": {
+              "label": "Category",
+              "options__1": {
+                "label": "Orders & Payment"
+              },
+              "options__2": {
+                "label": "Shipping & Delivery"
+              },
+              "options__3": {
+                "label": "Returns & Exchanges"
+              },
+              "options__4": {
+                "label": "Sizing & Fit"
+              },
+              "options__5": {
+                "label": "Product & Our Mission"
+              }
+            },
+            "question": {
+              "label": "Question"
+            },
+            "answer": {
+              "label": "Answer"
+            }
           }
         }
       }

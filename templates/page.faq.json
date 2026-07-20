@@ -1,0 +1,34 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hi-faq-hero",
+      "settings": {}
+    },
+    "faq_body": {
+      "type": "hi-faq-body",
+      "blocks": {
+        "q1":  { "type": "question", "settings": { "category": "orders",   "question": "How do I place an order?",            "answer": "Add items to your cart, choose your size and color, then check out through the cart drawer. You'll get an email confirmation with your order number right away." } },
+        "q2":  { "type": "question", "settings": { "category": "orders",   "question": "Can I change or cancel my order?",     "answer": "We move fast to get orders out, but if you reach us within a couple hours of ordering we'll do our best to update or cancel it. Email help@honorinclothing.com with your order number." } },
+        "q3":  { "type": "question", "settings": { "category": "orders",   "question": "What payment methods do you accept?",  "answer": "We accept Visa, Mastercard, American Express, PayPal, and Apple Pay. All payments are securely encrypted." } },
+        "q4":  { "type": "question", "settings": { "category": "orders",   "question": "Do you offer gift cards?",             "answer": "Yes — digital gift cards are available in several denominations and are delivered by email with instructions for redemption at checkout." } },
+        "q5":  { "type": "question", "settings": { "category": "shipping", "question": "How long does shipping take?",          "answer": "Orders ship within 1–2 business days and typically arrive in 3–5 business days with standard shipping. Expedited options are available at checkout." } },
+        "q6":  { "type": "question", "settings": { "category": "shipping", "question": "How much does shipping cost?",          "answer": "Free standard shipping on all orders over $75. Orders under $75 ship at a flat $6 rate within the continental U.S." } },
+        "q7":  { "type": "question", "settings": { "category": "shipping", "question": "Do you ship internationally?",          "answer": "We currently ship within the United States, with Canada coming soon. Sign up for our newsletter to be the first to know when international shipping opens." } },
+        "q8":  { "type": "question", "settings": { "category": "shipping", "question": "How do I track my order?",              "answer": "Once your order ships you'll receive a tracking link by email. You can also track it anytime from your account under Order History." } },
+        "q9":  { "type": "question", "settings": { "category": "returns",  "question": "What is your return policy?",           "answer": "We offer free 30-day returns on unworn, unwashed items with tags attached — no questions asked. Wear it, test it, love it, or send it back." } },
+        "q10": { "type": "question", "settings": { "category": "returns",  "question": "How do I start a return or exchange?",  "answer": "Head to your account, open the order, and select Start a Return. You'll get a prepaid label and step-by-step instructions. Prefer help? Just contact us." } },
+        "q11": { "type": "question", "settings": { "category": "returns",  "question": "When will I get my refund?",            "answer": "Once we receive your return, refunds are processed within 3–5 business days back to your original payment method. Exchanges ship as soon as we receive the original item." } },
+        "q12": { "type": "question", "settings": { "category": "sizing",   "question": "How do I find my size?",                "answer": "Every product page includes a detailed size guide with garment measurements. Measure a piece you already own and compare for the most accurate fit." } },
+        "q13": { "type": "question", "settings": { "category": "sizing",   "question": "What if I'm between sizes?",            "answer": "For a relaxed or layering fit, size up. For a trimmer fit, size down. When in doubt, reach out — we're happy to make a recommendation." } },
+        "q14": { "type": "question", "settings": { "category": "sizing",   "question": "How should the pieces fit?",            "answer": "Most of our apparel is designed for a modern, true-to-size fit with room to move. Product descriptions note when a style runs relaxed or fitted." } },
+        "q15": { "type": "question", "settings": { "category": "mission",  "question": "How does the veteran giving work?",     "answer": "After our first full year in business, we pledge 10% of annual profits to a carefully selected organization supporting veterans living with PTSD. Every purchase moves that mission forward." } },
+        "q16": { "type": "question", "settings": { "category": "mission",  "question": "What are your products made from?",     "answer": "We use quality, durable materials — recycled ripstop shells, PrimaLoft insulation, heavyweight cottons — chosen to last and made with considered fits and reliable hardware." } },
+        "q17": { "type": "question", "settings": { "category": "mission",  "question": "How should I care for my apparel?",     "answer": "Care instructions are on each product page and garment tag. In general: machine wash cold, tumble dry low, and skip the fabric softener to keep performance finishes working." } },
+        "q18": { "type": "question", "settings": { "category": "mission",  "question": "Do you offer wholesale or partnerships?", "answer": "Yes — we partner with select retailers and organizations that share our values. Reach out through our Contact page and our team will follow up." } }
+      },
+      "block_order": ["q1","q2","q3","q4","q5","q6","q7","q8","q9","q10","q11","q12","q13","q14","q15","q16","q17","q18"],
+      "settings": {}
+    }
+  },
+  "order": ["hero", "faq_body"]
+}

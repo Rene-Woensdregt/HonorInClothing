@@ -1,0 +1,434 @@
+{%- assign faq_cat_ids = 'orders,shipping,returns,sizing,mission' | split: ',' -%}
+{%- assign faq_cat_labels = 'Orders & Payment,Shipping & Delivery,Returns & Exchanges,Sizing & Fit,Product & Our Mission' | split: ',' -%}
+
+<section class="hi-faqbody">
+  <div class="hi-faqbody-inner">
+    <div class="hi-faqlayout">
+
+      <!-- Category sidebar nav -->
+      <nav class="hi-catnav" aria-label="{{ 'hi.hi_faq_body.nav_label' | t }}">
+        {%- for cat_id in faq_cat_ids -%}
+          {%- assign cat_label = faq_cat_labels[forloop.index0] -%}
+          <button
+            class="hi-catlink"
+            type="button"
+            data-cat-btn
+            data-target="faq-{{ cat_id }}"
+            {%- if forloop.first %} data-on="true"{% endif %}
+          >{{ cat_label }}</button>
+        {%- endfor -%}
+      </nav>
+
+      <!-- FAQ groups + CTA -->
+      <div>
+        {%- for cat_id in faq_cat_ids -%}
+          {%- assign cat_index = forloop.index0 -%}
+          {%- assign cat_label = faq_cat_labels[cat_index] -%}
+          {%- case cat_id -%}
+            {%- when 'orders' -%}{%- assign cat_sub = section.settings.orders_subtitle -%}
+            {%- when 'shipping' -%}{%- assign cat_sub = section.settings.shipping_subtitle -%}
+            {%- when 'returns' -%}{%- assign cat_sub = section.settings.returns_subtitle -%}
+            {%- when 'sizing' -%}{%- assign cat_sub = section.settings.sizing_subtitle -%}
+            {%- when 'mission' -%}{%- assign cat_sub = section.settings.mission_subtitle -%}
+          {%- endcase -%}
+          {%- assign has_items = false -%}
+          {%- for block in section.blocks -%}
+            {%- if block.settings.category == cat_id -%}
+              {%- assign has_items = true -%}
+            {%- endif -%}
+          {%- endfor -%}
+          {%- if has_items -%}
+            <div class="hi-faqgroup" id="faq-{{ cat_id }}" data-faq-group>
+              <div class="hi-faqgroup-title">{{ cat_label }}</div>
+              {%- if cat_sub != blank -%}
+                <p class="hi-faqgroup-sub">{{ cat_sub }}</p>
+              {%- endif -%}
+              {%- for block in section.blocks -%}
+                {%- if block.settings.category == cat_id -%}
+                  <div class="hi-faq" {{ block.shopify_attributes }}>
+                    <button
+                      class="hi-faq-btn"
+                      type="button"
+                      aria-expanded="false"
+                      aria-controls="faqp-{{ block.id }}"
+                      data-faq-btn
+                    >
+                      {{ block.settings.question }}
+                      <span class="hi-faq-ic" aria-hidden="true">+</span>
+                    </button>
+                    <div class="hi-faq-panel" id="faqp-{{ block.id }}" hidden>
+                      <div class="hi-faq-answer">{{ block.settings.answer }}</div>
+                    </div>
+                  </div>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+
+        <!-- Still Need Help CTA -->
+        <div class="hi-faqcta">
+          {%- if section.settings.cta_eyebrow != blank -%}
+            <div class="hi-faqcta-eyebrow">{{ section.settings.cta_eyebrow }}</div>
+          {%- endif -%}
+          {%- if section.settings.cta_heading != blank -%}
+            <h2 class="hi-faqcta-heading">{{ section.settings.cta_heading }}</h2>
+          {%- endif -%}
+          {%- if section.settings.cta_body != blank -%}
+            <p class="hi-faqcta-body">{{ section.settings.cta_body }}</p>
+          {%- endif -%}
+          {%- if section.settings.cta_button_label != blank -%}
+            <a href="{{ section.settings.cta_button_url | default: '/pages/contact' }}" class="hi-btn hi-btn--accent hi-faqcta-btn">{{ section.settings.cta_button_label }}</a>
+          {%- endif -%}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+.hi-faqbody { background: #FBF9F5; }
+.hi-faqbody-inner { max-width: 1280px; margin: 0 auto; padding: 64px 32px 80px; }
+.hi-faqlayout {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 56px;
+  align-items: start;
+}
+.hi-catnav {
+  position: sticky;
+  top: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.hi-catlink {
+  text-align: left;
+  background: none;
+  border: none;
+  border-left: 2px solid #E7E2D7;
+  cursor: pointer;
+  padding: 12px 16px;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #6B675C;
+  transition: color .2s ease, border-color .2s ease, background .2s ease;
+}
+.hi-catlink:hover { color: #16150F; background: #F1ECE1; }
+.hi-catlink[data-on="true"] { color: #16150F; border-left-color: #5C6B47; background: #F1ECE1; }
+.hi-faqgroup { margin-bottom: 52px; scroll-margin-top: 150px; }
+.hi-faqgroup-title {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  font-size: clamp(20px, 2.4vw, 28px);
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  color: #16150F;
+  margin: 0 0 6px;
+}
+.hi-faqgroup-sub {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 14.5px;
+  color: #8A8479;
+  margin: 0 0 18px;
+  line-height: 1.55;
+}
+.hi-faq { border-top: 1px solid #E7E2D7; }
+.hi-faq:last-of-type { border-bottom: 1px solid #E7E2D7; }
+.hi-faq-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 22px 0;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: #16150F;
+  text-align: left;
+}
+.hi-faq-ic {
+  font-size: 22px;
+  font-weight: 300;
+  line-height: 1;
+  color: #5C6B47;
+  transition: transform .3s ease;
+  flex-shrink: 0;
+  display: inline-block;
+}
+.hi-faq-btn[aria-expanded="true"] .hi-faq-ic { transform: rotate(45deg); }
+.hi-faq-panel { }
+.hi-faq-answer {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 15px;
+  line-height: 1.75;
+  color: #54504A;
+  max-width: 70ch;
+  padding: 0 0 22px;
+}
+.hi-faqcta {
+  background: #16150F;
+  color: #F3EFE6;
+  text-align: center;
+  padding: 56px 40px;
+}
+.hi-faqcta-eyebrow {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: #9AA585;
+  margin-bottom: 14px;
+}
+.hi-faqcta-heading {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: clamp(24px, 3vw, 36px);
+  line-height: 1.05;
+  margin: 0 0 14px;
+  color: #fff;
+}
+.hi-faqcta-body {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  color: #B6B1A4;
+  margin: 0 auto 28px;
+  max-width: 44ch;
+}
+.hi-faqcta-btn:hover { background: #FBF9F5 !important; color: #16150F !important; }
+.hi-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 36px;
+  text-decoration: none;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: none;
+  transition: background .28s cubic-bezier(.2,.7,.3,1), color .28s cubic-bezier(.2,.7,.3,1);
+}
+.hi-btn--accent { background: #5C6B47; color: #fff; }
+.hi-btn--accent:hover { background: #16150F; color: #fff; }
+@media (max-width: 900px) {
+  .hi-faqbody-inner { padding: 44px 20px 56px; }
+  .hi-faqlayout { grid-template-columns: 1fr; gap: 24px; }
+  .hi-catnav {
+    position: static;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 8px;
+    padding-bottom: 2px;
+    margin: 0 -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .hi-catnav::-webkit-scrollbar { display: none; }
+  .hi-catlink {
+    border-left: none;
+    border: 1px solid #E7E2D7;
+    padding: 9px 16px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .hi-catlink[data-on="true"] { border-color: #16150F; background: #F1ECE1; }
+  .hi-faqgroup { scroll-margin-top: 80px; }
+  .hi-faqcta { padding: 44px 24px; }
+}
+{% endstylesheet %}
+
+{% javascript %}
+(function() {
+  var btns = document.querySelectorAll('[data-faq-btn]');
+  btns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var expanded = btn.getAttribute('aria-expanded') === 'true';
+      var panelId = btn.getAttribute('aria-controls');
+      var panel = document.getElementById(panelId);
+      btn.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+      if (panel) panel.hidden = expanded;
+    });
+  });
+
+  var catBtns = document.querySelectorAll('[data-cat-btn]');
+  function setActive(targetId) {
+    catBtns.forEach(function(b) {
+      b.setAttribute('data-on', b.getAttribute('data-target') === targetId ? 'true' : 'false');
+    });
+  }
+  catBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var targetId = btn.getAttribute('data-target');
+      var el = document.getElementById(targetId);
+      if (el) {
+        var top = el.getBoundingClientRect().top + window.scrollY - 140;
+        window.scrollTo({ top: top, behavior: 'smooth' });
+      }
+      setActive(targetId);
+    });
+  });
+
+  if ('IntersectionObserver' in window) {
+    var groups = document.querySelectorAll('[data-faq-group]');
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) setActive(entry.target.id);
+      });
+    }, { rootMargin: '-20% 0px -60% 0px' });
+    groups.forEach(function(g) { observer.observe(g); });
+  }
+})();
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:hi.hi_faq_body.name",
+  "max_blocks": 50,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Category subtitles"
+    },
+    {
+      "type": "text",
+      "id": "orders_subtitle",
+      "label": "t:hi.hi_faq_body.settings.orders_subtitle.label",
+      "default": "Placing, changing, and paying for your order."
+    },
+    {
+      "type": "text",
+      "id": "shipping_subtitle",
+      "label": "t:hi.hi_faq_body.settings.shipping_subtitle.label",
+      "default": "Where we ship, how long it takes, and tracking."
+    },
+    {
+      "type": "text",
+      "id": "returns_subtitle",
+      "label": "t:hi.hi_faq_body.settings.returns_subtitle.label",
+      "default": "Our policy, timelines, and how to start a return."
+    },
+    {
+      "type": "text",
+      "id": "sizing_subtitle",
+      "label": "t:hi.hi_faq_body.settings.sizing_subtitle.label",
+      "default": "Finding your best fit across our range."
+    },
+    {
+      "type": "text",
+      "id": "mission_subtitle",
+      "label": "t:hi.hi_faq_body.settings.mission_subtitle.label",
+      "default": "How we make our gear and how we give back."
+    },
+    {
+      "type": "header",
+      "content": "Still Need Help?"
+    },
+    {
+      "type": "text",
+      "id": "cta_eyebrow",
+      "label": "t:hi.hi_faq_body.settings.cta_eyebrow.label",
+      "default": "Still Need Help?"
+    },
+    {
+      "type": "text",
+      "id": "cta_heading",
+      "label": "t:hi.hi_faq_body.settings.cta_heading.label",
+      "default": "We're here for you."
+    },
+    {
+      "type": "textarea",
+      "id": "cta_body",
+      "label": "t:hi.hi_faq_body.settings.cta_body.label",
+      "default": "Our team replies within one business day — real people, honest answers."
+    },
+    {
+      "type": "text",
+      "id": "cta_button_label",
+      "label": "t:hi.hi_faq_body.settings.cta_button_label.label",
+      "default": "Contact Us"
+    },
+    {
+      "type": "url",
+      "id": "cta_button_url",
+      "label": "t:hi.hi_faq_body.settings.cta_button_url.label"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "t:hi.hi_faq_body.blocks.question.name",
+      "settings": [
+        {
+          "type": "select",
+          "id": "category",
+          "label": "t:hi.hi_faq_body.blocks.question.settings.category.label",
+          "options": [
+            { "value": "orders",   "label": "t:hi.hi_faq_body.blocks.question.settings.category.options__1.label" },
+            { "value": "shipping", "label": "t:hi.hi_faq_body.blocks.question.settings.category.options__2.label" },
+            { "value": "returns",  "label": "t:hi.hi_faq_body.blocks.question.settings.category.options__3.label" },
+            { "value": "sizing",   "label": "t:hi.hi_faq_body.blocks.question.settings.category.options__4.label" },
+            { "value": "mission",  "label": "t:hi.hi_faq_body.blocks.question.settings.category.options__5.label" }
+          ],
+          "default": "orders"
+        },
+        {
+          "type": "text",
+          "id": "question",
+          "label": "t:hi.hi_faq_body.blocks.question.settings.question.label",
+          "default": "What is your return policy?"
+        },
+        {
+          "type": "textarea",
+          "id": "answer",
+          "label": "t:hi.hi_faq_body.blocks.question.settings.answer.label",
+          "default": "We offer free 30-day returns on unworn, unwashed items with tags attached."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:hi.hi_faq_body.name",
+      "blocks": [
+        { "type": "question", "settings": { "category": "orders", "question": "How do I place an order?", "answer": "Add items to your cart, choose your size and color, then check out through the cart drawer. You'll get an email confirmation with your order number right away." } },
+        { "type": "question", "settings": { "category": "orders", "question": "Can I change or cancel my order?", "answer": "We move fast to get orders out, but if you reach us within a couple hours of ordering we'll do our best to update or cancel it. Email help@honorinclothing.com with your order number." } },
+        { "type": "question", "settings": { "category": "orders", "question": "What payment methods do you accept?", "answer": "We accept Visa, Mastercard, American Express, PayPal, and Apple Pay. All payments are securely encrypted." } },
+        { "type": "question", "settings": { "category": "orders", "question": "Do you offer gift cards?", "answer": "Yes — digital gift cards are available in several denominations and are delivered by email with instructions for redemption at checkout." } },
+        { "type": "question", "settings": { "category": "shipping", "question": "How long does shipping take?", "answer": "Orders ship within 1-2 business days and typically arrive in 3-5 business days with standard shipping. Expedited options are available at checkout." } },
+        { "type": "question", "settings": { "category": "shipping", "question": "How much does shipping cost?", "answer": "Free standard shipping on all orders over $75. Orders under $75 ship at a flat $6 rate within the continental U.S." } },
+        { "type": "question", "settings": { "category": "shipping", "question": "Do you ship internationally?", "answer": "We currently ship within the United States, with Canada coming soon. Sign up for our newsletter to be the first to know when international shipping opens." } },
+        { "type": "question", "settings": { "category": "shipping", "question": "How do I track my order?", "answer": "Once your order ships you'll receive a tracking link by email. You can also track it anytime from your account under Order History." } },
+        { "type": "question", "settings": { "category": "returns", "question": "What is your return policy?", "answer": "We offer free 30-day returns on unworn, unwashed items with tags attached -- no questions asked. Wear it, test it, love it, or send it back." } },
+        { "type": "question", "settings": { "category": "returns", "question": "How do I start a return or exchange?", "answer": "Head to your account, open the order, and select Start a Return. You'll get a prepaid label and step-by-step instructions. Prefer help? Just contact us." } },
+        { "type": "question", "settings": { "category": "returns", "question": "When will I get my refund?", "answer": "Once we receive your return, refunds are processed within 3-5 business days back to your original payment method. Exchanges ship as soon as we receive the original item." } },
+        { "type": "question", "settings": { "category": "sizing", "question": "How do I find my size?", "answer": "Every product page includes a detailed size guide with garment measurements. Measure a piece you already own and compare for the most accurate fit." } },
+        { "type": "question", "settings": { "category": "sizing", "question": "What if I'm between sizes?", "answer": "For a relaxed or layering fit, size up. For a trimmer fit, size down. When in doubt, reach out -- we're happy to make a recommendation." } },
+        { "type": "question", "settings": { "category": "sizing", "question": "How should the pieces fit?", "answer": "Most of our apparel is designed for a modern, true-to-size fit with room to move. Product descriptions note when a style runs relaxed or fitted." } },
+        { "type": "question", "settings": { "category": "mission", "question": "How does the veteran giving work?", "answer": "After our first full year in business, we pledge 10% of annual profits to a carefully selected organization supporting veterans living with PTSD. Every purchase moves that mission forward." } },
+        { "type": "question", "settings": { "category": "mission", "question": "What are your products made from?", "answer": "We use quality, durable materials -- recycled ripstop shells, PrimaLoft insulation, heavyweight cottons -- chosen to last and made with considered fits and reliable hardware." } },
+        { "type": "question", "settings": { "category": "mission", "question": "How should I care for my apparel?", "answer": "Care instructions are on each product page and garment tag. In general: machine wash cold, tumble dry low, and skip the fabric softener to keep performance finishes working." } },
+        { "type": "question", "settings": { "category": "mission", "question": "Do you offer wholesale or partnerships?", "answer": "Yes -- we partner with select retailers and organizations that share our values. Reach out through our Contact page and our team will follow up." } }
+      ]
+    }
+  ]
+}
+{% endschema %}
