@@ -150,7 +150,7 @@ window.hiI18n = window.hiI18n || {
 
         <!-- Blurb -->
         {%- if product.description != blank -%}
-          <p class="hi-buybox-blurb">{{ product.description | strip_html | truncate: 200 }}</p>
+          <p class="hi-buybox-blurb">{{ product.description | strip_html }}</p>
         {%- endif -%}
 
         {%- assign pdp_form_id = 'hi-pdp-form-' | append: section.id -%}
@@ -348,7 +348,11 @@ window.hiI18n = window.hiI18n || {
     {%- endif -%}
     <div class="hi-stickybar-info">
       <div class="hi-stickybar-name">{{ product.title }}</div>
+      {%- unless selected_variant.title == 'Default Title' -%}
       <div class="hi-stickybar-variant" id="hi-sticky-variant-{{ section.id }}">{{ selected_variant.title }}</div>
+      {%- else -%}
+      <div class="hi-stickybar-variant" id="hi-sticky-variant-{{ section.id }}" style="display:none;"></div>
+      {%- endunless -%}
     </div>
     <div class="hi-stickybar-actions">
       <div class="hi-qty hi-sticky-qty" id="hi-sticky-qty-{{ section.id }}">
@@ -571,8 +575,8 @@ window.hiI18n = window.hiI18n || {
 .hi-thumbs-viewport {
   width: 100%;
   overflow: hidden;
-  /* 4 visible thumbs: 4 × 112px + 3 × 12px gap = 484px */
-  height: 484px;
+  /* cap at 4 visible thumbs; shrinks when fewer exist */
+  max-height: 484px;
 }
 .hi-thumbs {
   display: flex;
@@ -979,6 +983,7 @@ window.hiI18n = window.hiI18n || {
 .hi-stickybar-actions { display: flex; align-items: center; gap: 12px; margin-left: auto; flex-shrink: 0; }
 .hi-sticky-qty { height: 50px; }
 .hi-sticky-qty button { width: 44px; }
+.hi-stickybar-addbtn { min-width: 160px; }
 
 /* Responsive */
 @media (max-width: 900px) {
@@ -1192,7 +1197,11 @@ window.hiI18n = window.hiI18n || {
 
     // Update variant display in sticky bar
     var variantEl = document.getElementById('hi-sticky-variant-' + sectionId);
-    if (variantEl) variantEl.textContent = variant.title;
+    if (variantEl) {
+      var isDefault = variant.title === 'Default Title';
+      variantEl.textContent = isDefault ? '' : variant.title;
+      variantEl.style.display = isDefault ? 'none' : '';
+    }
 
     // Switch gallery to variant media
     if (variant.featured_media_id) {

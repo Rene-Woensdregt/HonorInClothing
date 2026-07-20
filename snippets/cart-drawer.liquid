@@ -17,6 +17,77 @@
   }
 </style>
 
+{% stylesheet %}
+/* ── Cart drawer: smooth open / close ──────────────────────── */
+
+/* Fade the backdrop rather than instant visibility toggle */
+cart-drawer.drawer {
+  background-color: rgba(22, 21, 15, 0) !important;
+  transition: background-color 0.36s ease, visibility 0.36s ease !important;
+}
+cart-drawer.drawer.active {
+  background-color: rgba(22, 21, 15, 0.48) !important;
+}
+
+/* Spring-like panel slide in / out */
+.drawer__inner {
+  transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* ── Cart drawer: loading state ────────────────────────────── */
+
+/* Dim the image/details/quantity of the item being updated */
+.cart-drawer .cart-item:has(.loading__spinner:not(.hidden)) .cart-item__media,
+.cart-drawer .cart-item:has(.loading__spinner:not(.hidden)) .cart-item__details,
+.cart-drawer .cart-item:has(.loading__spinner:not(.hidden)) .cart-item__quantity {
+  opacity: 0.32;
+  transition: opacity 0.15s ease;
+}
+
+/* Spinner overlays the price element, right-aligned to match price position */
+.cart-drawer .cart-item__totals {
+  position: relative;
+}
+.cart-drawer .cart-item .loading__spinner {
+  inset: 0 !important;
+  width: auto !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: flex-end;
+  padding-top: 0 !important;
+  background: rgba(251, 249, 245, 0.72);
+}
+.cart-drawer .cart-item .loading__spinner .spinner {
+  width: 1.6rem;
+  height: 1.6rem;
+  flex-shrink: 0;
+}
+
+/* ── Cart drawer: subtotal loading state ─────────────────────── */
+
+/* While any item is updating, hide the stale subtotal and show a spinner */
+.drawer__inner:has(#CartDrawer-CartItems.cart__items--disabled) .totals__total-value {
+  position: relative;
+  color: transparent;
+}
+.drawer__inner:has(#CartDrawer-CartItems.cart__items--disabled) .totals__total-value::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 1.4rem;
+  height: 1.4rem;
+  margin-top: -0.7rem;
+  border: 1.5px solid rgba(22, 21, 15, 0.15);
+  border-top-color: #16150F;
+  border-radius: 50%;
+  animation: hi-subtotal-spin 0.65s linear infinite;
+}
+@keyframes hi-subtotal-spin {
+  to { transform: rotate(360deg); }
+}
+{% endstylesheet %}
+
 <cart-drawer class="drawer{% if cart == empty %} is-empty{% endif %}">
   <div id="CartDrawer" class="cart-drawer">
     <div id="CartDrawer-Overlay" class="cart-drawer__overlay"></div>

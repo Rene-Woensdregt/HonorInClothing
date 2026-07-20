@@ -8,7 +8,16 @@
         <h2 class="hi-ig-title">{{ section.settings.title }}</h2>
       {%- endif -%}
     </div>
-    {%- if section.blocks.size > 0 -%}
+    {%- liquid
+      assign has_any_image = false
+      for block in section.blocks
+        if block.settings.image != blank
+          assign has_any_image = true
+          break
+        endif
+      endfor
+    -%}
+    {%- if section.blocks.size > 0 and has_any_image -%}
       <div class="hi-ig-grid">
         {%- for block in section.blocks -%}
           {%- assign link = block.settings.url | default: section.settings.instagram_url -%}
@@ -20,6 +29,14 @@
             {%- endif -%}
           </a>
         {%- endfor -%}
+      </div>
+    {%- elsif section.settings.instagram_url != blank or section.blocks.size > 0 -%}
+      <div class="hi-ig-cta-wrap">
+        <p class="hi-ig-cta-text">Share your journey — tag us to be featured here.</p>
+        {%- assign ig_url = section.settings.instagram_url | default: 'https://instagram.com/honorinclothing' -%}
+        <a href="{{ ig_url }}" class="hi-btn hi-btn--outline hi-ig-cta-btn" target="_blank" rel="noopener">
+          Follow @honorinclothing
+        </a>
       </div>
     {%- endif -%}
   </div>
@@ -68,6 +85,33 @@
   inset: 0;
   background: #D3CCBE;
 }
+.hi-ig-cta-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 48px 0 16px;
+}
+.hi-ig-cta-text {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 17px;
+  color: #6B675C;
+  margin: 0;
+  text-align: center;
+}
+.hi-ig-cta-btn {
+  font-family: 'Oswald', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  padding: 14px 32px;
+  border: 1.5px solid #16150F !important;
+  color: #16150F !important;
+  text-decoration: none;
+  transition: background .25s, color .25s;
+}
+.hi-ig-cta-btn:hover { background: #16150F !important; color: #FBF9F5 !important; }
 @media (max-width: 900px) {
   .hi-ig-grid { grid-template-columns: repeat(3,1fr) !important; }
 }

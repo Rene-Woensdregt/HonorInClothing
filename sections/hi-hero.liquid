@@ -122,6 +122,16 @@
   flex-wrap: wrap;
   gap: 14px;
 }
+/* Ghost button on dark hero needs white treatment for visibility */
+.hi-hero .hi-btn--ghost {
+  color: rgba(255,255,255,.82) !important;
+  border-color: rgba(255,255,255,.45) !important;
+}
+.hi-hero .hi-btn--ghost:hover {
+  background: rgba(255,255,255,.14) !important;
+  border-color: rgba(255,255,255,.75) !important;
+  color: #fff !important;
+}
 @media (max-width: 900px) {
   .hi-hero {
     height: 82vh;

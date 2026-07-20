@@ -50,10 +50,22 @@
           {%- if block.settings.title != blank -%}
             <div class="hi-foot-col-title">{{ block.settings.title }}</div>
           {%- endif -%}
-          {%- if block.settings.menu != blank -%}
+              {%- if block.settings.menu != blank -%}
             <nav>
               {%- for link in block.settings.menu.links -%}
                 <a href="{{ link.url }}" class="hi-foot-link">{{ link.title }}</a>
+              {%- endfor -%}
+            </nav>
+          {%- else -%}
+            <nav>
+              {%- for i in (1..6) -%}
+                {%- assign label_key = 'link_' | append: i | append: '_label' -%}
+                {%- assign url_key   = 'link_' | append: i | append: '_url' -%}
+                {%- assign lbl = block.settings[label_key] -%}
+                {%- assign url = block.settings[url_key] -%}
+                {%- if lbl != blank -%}
+                  <a href="{{ url | default: '#' }}" class="hi-foot-link">{{ lbl }}</a>
+                {%- endif -%}
               {%- endfor -%}
             </nav>
           {%- endif -%}
@@ -228,9 +240,22 @@
         {
           "type": "link_list",
           "id": "menu",
-          "label": "Navigation menu",
-          "info": "Create or edit menus in Shopify Admin → Online Store → Navigation"
-        }
+          "label": "Navigation menu (optional)",
+          "info": "If set, overrides the manual links below. Create menus in Shopify Admin → Online Store → Navigation."
+        },
+        { "type": "header", "content": "Manual links (used when no menu is set)" },
+        { "type": "text", "id": "link_1_label", "label": "Link 1 label" },
+        { "type": "url",  "id": "link_1_url",   "label": "Link 1 URL" },
+        { "type": "text", "id": "link_2_label", "label": "Link 2 label" },
+        { "type": "url",  "id": "link_2_url",   "label": "Link 2 URL" },
+        { "type": "text", "id": "link_3_label", "label": "Link 3 label" },
+        { "type": "url",  "id": "link_3_url",   "label": "Link 3 URL" },
+        { "type": "text", "id": "link_4_label", "label": "Link 4 label" },
+        { "type": "url",  "id": "link_4_url",   "label": "Link 4 URL" },
+        { "type": "text", "id": "link_5_label", "label": "Link 5 label" },
+        { "type": "url",  "id": "link_5_url",   "label": "Link 5 URL" },
+        { "type": "text", "id": "link_6_label", "label": "Link 6 label" },
+        { "type": "url",  "id": "link_6_url",   "label": "Link 6 URL" }
       ]
     }
   ],
