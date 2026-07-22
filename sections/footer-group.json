@@ -25,43 +25,21 @@
           "type": "nav_column",
           "settings": {
             "title": "Activity",
-            "menu": "",
-            "link_1_label": "On The Trail",
-            "link_1_url": "/collections/all",
-            "link_2_label": "In Training",
-            "link_2_url": "/collections/all",
-            "link_3_label": "Everyday Carry",
-            "link_3_url": "/collections/all",
-            "link_4_label": "New Arrivals",
-            "link_4_url": "/collections/all"
+            "menu": ""
           }
         },
         "nav-company": {
           "type": "nav_column",
           "settings": {
             "title": "Company",
-            "menu": "",
-            "link_1_label": "About Us",
-            "link_1_url": "/pages/about",
-            "link_2_label": "Our Mission",
-            "link_2_url": "/pages/about",
-            "link_3_label": "Contact",
-            "link_3_url": "/pages/contact"
+            "menu": ""
           }
         },
         "nav-support": {
           "type": "nav_column",
           "settings": {
             "title": "Support",
-            "menu": "",
-            "link_1_label": "FAQ",
-            "link_1_url": "/pages/faq",
-            "link_2_label": "Contact Us",
-            "link_2_url": "/pages/contact",
-            "link_3_label": "Shipping & Returns",
-            "link_3_url": "/pages/shipping-returns",
-            "link_4_label": "Size Guide",
-            "link_4_url": "/pages/faq"
+            "menu": ""
           }
         }
       },

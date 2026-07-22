@@ -14,12 +14,33 @@
     "hi-announcement-bar": {
       "type": "hi-announcement-bar",
       "blocks": {
-        "msg_1": { "type": "message", "settings": { "text": "Complimentary shipping on orders over $75" } },
-        "msg_2": { "type": "message", "settings": { "text": "Honor in everything you do." } },
-        "msg_3": { "type": "message", "settings": { "text": "Free returns on all orders" } }
+        "msg_1": {
+          "type": "message",
+          "settings": {
+            "text": "Complimentary shipping on orders over $75"
+          }
+        },
+        "msg_2": {
+          "type": "message",
+          "settings": {
+            "text": "Honor in everything you do."
+          }
+        },
+        "msg_3": {
+          "type": "message",
+          "settings": {
+            "text": "Free returns on all orders"
+          }
+        }
       },
-      "block_order": ["msg_1", "msg_2", "msg_3"],
-      "settings": { "speed": 40 }
+      "block_order": [
+        "msg_1",
+        "msg_2",
+        "msg_3"
+      ],
+      "settings": {
+        "speed": 40
+      }
     },
     "hi-header": {
       "type": "hi-header",
@@ -77,6 +98,7 @@
       ],
       "settings": {
         "menu": "new-main-menu",
+        "logo": "shopify://shop_images/Group_1437253275.svg",
         "logo_text_line1": "HONOR IN",
         "logo_text_line2": "CLOTHING CO."
       }
@@ -84,7 +106,6 @@
     "hi-cart-drawer": {
       "type": "hi-cart-drawer",
       "settings": {
-        "free_shipping_threshold": 75,
         "checkout_label": "Proceed to Checkout"
       }
     }
