@@ -1,7 +1,7 @@
 # Honor In Clothing — Development To-Do List
 
 > **Workflow:** HTML mockup (Claude Design) → review → implement as Shopify Liquid
-> **Last updated:** 2026-07-20
+> **Last updated:** 2026-07-22
 
 ---
 
@@ -12,8 +12,8 @@
 - [x] Configure announcement bar (`hi-announcement-bar.liquid`)
 - [x] Update header navigation (`hi-header.liquid`)
 - [x] Update footer (`hi-footer.liquid`)
-- [ ] Upload and configure brand logo (primary, secondary, icon/badge variants)
-- [ ] Configure favicon
+- [x] Upload and configure brand logo (primary, secondary, icon/badge variants)
+- [x] Configure favicon
 
 ---
 
