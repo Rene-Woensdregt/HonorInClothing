@@ -117,7 +117,11 @@
           }
         }
       },
-      "block_order": ["activity-1", "activity-2", "activity-3"],
+      "block_order": [
+        "activity-1",
+        "activity-2",
+        "activity-3"
+      ],
       "settings": {
         "eyebrow": "Find Your Fit",
         "title": "Shop By Activity"
@@ -166,31 +170,31 @@
         "testimonial-1": {
           "type": "testimonial",
           "settings": {
+            "quote": "This brand represents everything I believe in. The quality is outstanding and I wear it with pride every day.",
+            "rating": 5,
             "author": "James R.",
             "subtitle": "Veteran",
-            "location": "Colorado",
-            "rating": 5,
-            "quote": "This brand represents everything I believe in. The quality is outstanding and I wear it with pride every day."
+            "location": "Colorado"
           }
         },
         "testimonial-2": {
           "type": "testimonial",
           "settings": {
+            "quote": "Finally a brand that stands for something real. Honor In Clothing is more than apparel — it's a mindset.",
+            "rating": 5,
             "author": "Sarah M.",
             "subtitle": "Runner",
-            "location": "Tennessee",
-            "rating": 5,
-            "quote": "Finally a brand that stands for something real. Honor In Clothing is more than apparel — it's a mindset."
+            "location": "Tennessee"
           }
         },
         "testimonial-3": {
           "type": "testimonial",
           "settings": {
+            "quote": "Incredible quality and fast shipping. The fit is perfect and the mission behind the brand is what sold me.",
+            "rating": 5,
             "author": "Mike D.",
             "subtitle": "Rancher",
-            "location": "Texas",
-            "rating": 5,
-            "quote": "Incredible quality and fast shipping. The fit is perfect and the mission behind the brand is what sold me."
+            "location": "Texas"
           }
         }
       },
@@ -220,45 +224,75 @@
         "photo-1": {
           "type": "photo",
           "settings": {
-            "image": "shopify://shop_images/activewear-minimal-1.jpg"
+            "image": "shopify://shop_images/activewear-minimal-1.jpg",
+            "url": ""
           }
         },
         "photo-2": {
           "type": "photo",
           "settings": {
-            "image": "shopify://shop_images/activewear-minimal-3.jpg"
+            "image": "shopify://shop_images/activewear-minimal-3.jpg",
+            "url": ""
           }
         },
         "photo-3": {
           "type": "photo",
           "settings": {
-            "image": "shopify://shop_images/activewear-minimal-7.jpg"
+            "image": "shopify://shop_images/activewear-minimal-7.jpg",
+            "url": ""
           }
         },
         "photo-4": {
           "type": "photo",
           "settings": {
-            "image": "shopify://shop_images/activewear-minimal-6.jpg"
+            "image": "shopify://shop_images/activewear-minimal-6.jpg",
+            "url": ""
           }
         },
         "photo-5": {
           "type": "photo",
           "settings": {
-            "image": "shopify://shop_images/activewear-minimal-4.jpg"
+            "image": "shopify://shop_images/activewear-minimal-4.jpg",
+            "url": ""
           }
         },
         "photo-6": {
           "type": "photo",
           "settings": {
-            "image": "shopify://shop_images/activewear-minimal-5.jpg"
+            "image": "shopify://shop_images/activewear-minimal-5.jpg",
+            "url": ""
           }
         }
       },
-      "block_order": ["photo-1", "photo-2", "photo-3", "photo-4", "photo-5", "photo-6"],
+      "block_order": [
+        "photo-1",
+        "photo-2",
+        "photo-3",
+        "photo-4",
+        "photo-5",
+        "photo-6"
+      ],
       "settings": {
         "eyebrow": "@honorinclothing",
         "title": "Follow The Journey",
         "instagram_url": ""
+      }
+    },
+    "17848150289a15a09e": {
+      "type": "apps",
+      "blocks": {
+        "klaviyo_email_marketing_sms_form_embed_block_tmkiqN": {
+          "type": "shopify://apps/klaviyo-email-marketing-sms/blocks/form-embed-block/2632fe16-c075-4321-a88b-50b567f42507",
+          "settings": {
+            "formId": "TwKu2T"
+          }
+        }
+      },
+      "block_order": [
+        "klaviyo_email_marketing_sms_form_embed_block_tmkiqN"
+      ],
+      "settings": {
+        "include_margins": true
       }
     }
   },
@@ -272,6 +306,7 @@
     "hi-brand-story",
     "hi-testimonials",
     "hi-email-signup",
-    "hi-instagram"
+    "hi-instagram",
+    "17848150289a15a09e"
   ]
 }

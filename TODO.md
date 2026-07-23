@@ -1,7 +1,7 @@
 # Honor In Clothing — Development To-Do List
 
 > **Workflow:** HTML mockup (Claude Design) → review → implement as Shopify Liquid
-> **Last updated:** 2026-07-22
+> **Last updated:** 2026-07-23
 
 ---
 
@@ -46,7 +46,7 @@
 - [x] Product FAQ accordion (`hi-product-faq.liquid`)
 - [x] Related products (`hi-product-related.liquid`)
 - [x] Cart drawer (`hi-cart-drawer.liquid`)
-- [ ] Reviews widget (requires Judge.me or Loox — Phase 3)
+- [ ] Reviews widget (Judge.me installed — needs widget embed on product page)
 
 ### About Us Page ✅
 - [x] Hero (`hi-about-hero.liquid`)
@@ -79,7 +79,7 @@
 ## Phase 3 — Integrations & Launch
 
 ### Email
-- [ ] Klaviyo: install and connect store
+- [x] Klaviyo: install and connect store
 - [ ] Klaviyo: configure email signup form / popup
 - [ ] Klaviyo: set up abandoned cart flow
 - [ ] Klaviyo: set up welcome email flow
@@ -91,7 +91,7 @@
 - [ ] Google Pay enablement
 
 ### Reviews
-- [ ] Install Judge.me or Loox
+- [x] Install Judge.me or Loox
 - [ ] Configure review request emails
 - [ ] Add review widget to product pages
 
