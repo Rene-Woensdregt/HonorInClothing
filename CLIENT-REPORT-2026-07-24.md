@@ -91,10 +91,6 @@ Thank you for your patience and for sharing your concerns. I completely understa
 - Abandoned cart email flow
 - Welcome email flow for new subscribers
 
-### Analytics
-- Google Analytics 4 setup
-- Meta (Facebook) Pixel setup
-
 ### QA & Final Review
 - Mobile QA (iPhone Safari, Android Chrome)
 - Tablet and desktop browser testing
@@ -108,13 +104,13 @@ Thank you for your patience and for sharing your concerns. I completely understa
 
 | Task | Target |
 |------|--------|
-| Collections setup + navigation linking | By Saturday July 26 |
-| Printful integration | By Saturday July 26 |
-| Static pages (Shipping, Privacy, Terms) | By Monday July 28 |
-| Email flows (Klaviyo) + Payments | By Tuesday July 29 |
-| QA pass (mobile, tablet, desktop) | By Wednesday July 30 |
-| Final review with you | Thursday July 31 |
-| **Go live** | **Friday August 1** |
+| Collections setup + navigation linking | By Sunday July 26 |
+| Printful integration | By Sunday July 26 |
+| Static pages (Shipping, Privacy, Terms) | By Tuesday July 28 |
+| Email flows (Klaviyo) | By Wednesday July 29 |
+| QA pass (mobile, tablet, desktop) | By Thursday July 30 |
+| Final review with you | Friday July 31 |
+| **Go live** | **Monday August 3** |
 
 ---
 
