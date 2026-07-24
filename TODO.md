@@ -2,6 +2,7 @@
 
 > **Workflow:** HTML mockup (Claude Design) → review → implement as Shopify Liquid
 > **Last updated:** 2026-07-24
+> **Status:** LIVE — theme published to production
 
 ---
 
@@ -85,10 +86,10 @@
 - [ ] Klaviyo: set up welcome email flow
 
 ### Payments
-- [ ] Shopify Payments configuration
-- [ ] PayPal integration
-- [ ] Apple Pay enablement
-- [ ] Google Pay enablement
+- [x] Shopify Payments configuration (Visa, Mastercard, Amex, Discover, Diners Club)
+- [x] PayPal integration (PayPal Wallet)
+- [x] Apple Pay enablement
+- [x] Google Pay enablement
 
 ### Reviews
 - [x] Install Judge.me or Loox
@@ -118,5 +119,5 @@
 - [ ] Performance audit (aim for 90+ Lighthouse score)
 - [ ] Cross-browser QA
 - [ ] Final client review and approval
-- [ ] Go live (publish dev theme to live)
+- [x] Go live (publish dev theme to live)
 - [ ] Post-launch smoke test
