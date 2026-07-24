@@ -76,8 +76,10 @@ Thank you for your patience and for sharing your concerns. I completely understa
 ## 🔲 REMAINING WORK
 
 ### Content & Collections (priority this week)
-- Set up collection pages for each category: Honor In Strength, Honor In Motion, Honor In Adventure, Honor In Service, Honor In Balance, Honor In Legacy — and assign your products to each one
-- Link the navigation menu (Men, Women, Youth) to the correct collections
+- Set up 7 lifestyle collections: Honor & Strength, Honor & Adventure, Honor & Sports, Honor & Service, Honor & Heritage, Honor & Wellness, Honor & Hobbies
+- Set up gender collections: Men, Women, Youth (customers filter by garment type using the built-in sidebar)
+- Set up Hats and Accessories collections
+- Link the full navigation menu to all collections
 - Printful integration — connect your Printful products to the store
 
 ### Static Pages
@@ -118,9 +120,9 @@ Thank you for your patience and for sharing your concerns. I completely understa
 
 ## 📋 WHAT I NEED FROM YOU
 
-1. **Collections — product assignment:** I have the collection categories (Honor In Strength, Honor In Motion, Adventure, Service, Balance, Legacy). I need you to tell me which of your Printful products belongs in each category. You can send me a simple list like: *"Honor In Strength: Black Gym T-Shirt, Navy Performance Hoodie"* etc.
+1. **Printful connection:** Please confirm you have a Printful account connected to your Shopify store, or let me know if you need help with that step.
 
-2. **Printful connection:** Please confirm you have a Printful account connected to your Shopify store, or let me know if you need help with that step.
+2. **Product tagging:** Once your Printful products are in Shopify, please tag each product with its lifestyle collection (e.g. "honor-adventure", "honor-strength") and gender (Men, Women, Youth) so I can assign them to the correct collections automatically.
 
 3. **Final copy/text:** If there are any specific phrases, taglines, or corrections you want on any page, please send them now so I can apply them during the QA pass.
 
