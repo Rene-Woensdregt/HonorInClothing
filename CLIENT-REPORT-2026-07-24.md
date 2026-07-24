@@ -4,16 +4,6 @@ Thank you for your patience and for sharing your concerns. I completely understa
 
 ---
 
-## WHY YOU MAY NOT SEE CHANGES ON THE SITE
-
-An important note first — the work I am doing is on a **development (preview) version** of your store, not the live site yet. This is standard practice to avoid disrupting your store while building. To see all the current work, please use this link:
-
-🔗 https://honorinclothing.com/?_ab=0&_fd=0&_sc=1&preview_theme_id=163039707357
-
-Once everything is complete and approved, I will publish it to your live store in one step.
-
----
-
 ## ✅ COMPLETED WORK
 
 ### Brand & Design Foundation
@@ -72,6 +62,15 @@ Once everything is complete and approved, I will publish it to your live store i
 - Klaviyo installed and connected — email signup form/popup configured
 - Judge.me installed — review widget live on product pages
 
+### Payments
+- Shopify Payments active (Visa, Mastercard, American Express, Discover, Diners Club)
+- PayPal Wallet active
+- Apple Pay active
+- Google Pay active
+
+### Launch
+- Theme is now **live** at honorinclothing.com
+
 ---
 
 ## 🔲 REMAINING WORK
@@ -89,10 +88,6 @@ Once everything is complete and approved, I will publish it to your live store i
 ### Email Flows (Klaviyo)
 - Abandoned cart email flow
 - Welcome email flow for new subscribers
-
-### Payments
-- Confirm Shopify Payments is fully configured
-- PayPal, Apple Pay, Google Pay setup
 
 ### Analytics
 - Google Analytics 4 setup
