@@ -118,7 +118,7 @@ Thank you for your patience and for sharing your concerns. I completely understa
 
 1. **Printful connection:** Please confirm you have a Printful account connected to your Shopify store, or let me know if you need help with that step.
 
-2. **Product tagging:** Once your Printful products are in Shopify, please tag each product with its lifestyle collection (e.g. "honor-adventure", "honor-strength") and gender (Men, Women, Youth) so I can assign them to the correct collections automatically.
+2. **Product tagging:** Once your products are in Shopify, please tag each product with its lifestyle collection (e.g. "honor-adventure", "honor-strength") and gender (Men, Women, Youth) so I can assign them to the correct collections.
 
 3. **Final copy/text:** If there are any specific phrases, taglines, or corrections you want on any page, please send them now so I can apply them during the QA pass.
 
