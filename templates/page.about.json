@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
@@ -19,27 +28,84 @@
     "story": {
       "type": "hi-about-story",
       "settings": {
-        "image": "shopify://shop_images/activewear-minimal-5.jpg",
         "eyebrow": "How We Started",
         "heading": "Our Story",
         "body_1": "Honor In Clothing was founded on a simple belief: the way you live matters more than the clothes you wear. In a world where trends change by the season and clothing often becomes disposable, we wanted to create something different — a brand built on timeless values instead of temporary fashion.",
         "body_2": "Honor isn't about perfection. It's about character. It's keeping your word when no one is watching. It's showing up for your family, your friends, and your community. It's working hard, taking responsibility, treating others with respect, and leaving places better than you found them. Those principles inspired the creation of Honor In Clothing.",
         "cta_label": "Shop The Collection",
-        "cta_url": "/collections/all"
+        "cta_url": "/collections/all",
+        "image": "shopify://shop_images/IMG_2885.jpg"
       }
     },
     "values": {
       "type": "hi-about-values",
       "blocks": {
-        "v1": { "type": "value", "settings": { "number": "01", "title": "Honor", "description": "Doing what's right even when no one is watching — in our materials, our making, and our word." } },
-        "v2": { "type": "value", "settings": { "number": "02", "title": "Character", "description": "Who you are under pressure. We build gear for people who show up and follow through." } },
-        "v3": { "type": "value", "settings": { "number": "03", "title": "Integrity", "description": "No shortcuts, no throwaway trends. What we promise is what we deliver." } },
-        "v4": { "type": "value", "settings": { "number": "04", "title": "Hard Work", "description": "Respect for the grind. Apparel made to keep up with a life lived fully." } },
-        "v5": { "type": "value", "settings": { "number": "05", "title": "Responsibility", "description": "To our craft, our customers, and the communities and causes we serve." } },
-        "v6": { "type": "value", "settings": { "number": "06", "title": "Service", "description": "Giving back is built into the brand — starting with the veterans who served us all." } },
-        "v7": { "type": "value", "settings": { "number": "07", "title": "Legacy", "description": "Gear designed to be repaired, re-worn, and passed on. Built to outlast the season." } }
+        "v1": {
+          "type": "value",
+          "settings": {
+            "number": "01",
+            "title": "Honor",
+            "description": "Doing what's right even when no one is watching — in our materials, our making, and our word."
+          }
+        },
+        "v2": {
+          "type": "value",
+          "settings": {
+            "number": "02",
+            "title": "Character",
+            "description": "Who you are under pressure. We build gear for people who show up and follow through."
+          }
+        },
+        "v3": {
+          "type": "value",
+          "settings": {
+            "number": "03",
+            "title": "Integrity",
+            "description": "No shortcuts, no throwaway trends. What we promise is what we deliver."
+          }
+        },
+        "v4": {
+          "type": "value",
+          "settings": {
+            "number": "04",
+            "title": "Hard Work",
+            "description": "Respect for the grind. Apparel made to keep up with a life lived fully."
+          }
+        },
+        "v5": {
+          "type": "value",
+          "settings": {
+            "number": "05",
+            "title": "Responsibility",
+            "description": "To our craft, our customers, and the communities and causes we serve."
+          }
+        },
+        "v6": {
+          "type": "value",
+          "settings": {
+            "number": "06",
+            "title": "Service",
+            "description": "Giving back is built into the brand — starting with the veterans who served us all."
+          }
+        },
+        "v7": {
+          "type": "value",
+          "settings": {
+            "number": "07",
+            "title": "Legacy",
+            "description": "Gear designed to be repaired, re-worn, and passed on. Built to outlast the season."
+          }
+        }
       },
-      "block_order": ["v1", "v2", "v3", "v4", "v5", "v6", "v7"],
+      "block_order": [
+        "v1",
+        "v2",
+        "v3",
+        "v4",
+        "v5",
+        "v6",
+        "v7"
+      ],
       "settings": {
         "eyebrow": "What We Stand For",
         "heading": "Our Values",
@@ -53,7 +119,7 @@
         "image": "shopify://shop_images/photo-1441974231531-c6227db76b6e.jpg",
         "eyebrow": "Our Commitment",
         "heading": "We honor those who served.",
-        "body": "<p>Honor In Clothing is committed to donating <strong>10% of our annual profits<\/strong> to a carefully vetted organization supporting veterans living with PTSD. This commitment is deeply personal — one of our founders' fathers served our country and struggled with PTSD, and its effects were felt throughout the family for generations. Supporting those who have sacrificed for others is part of what honor means to us.<\/p>",
+        "body": "<p>Honor In Clothing is committed to donating <strong>10% of our annual profits</strong> to a carefully vetted organization supporting veterans living with PTSD. This commitment is deeply personal — one of our founders' fathers served our country and struggled with PTSD, and its effects were felt throughout the family for generations. Supporting those who have sacrificed for others is part of what honor means to us.</p>",
         "cta_label": "Shop With Purpose",
         "cta_url": "/collections/all",
         "stat_1_number": "10%",
@@ -69,11 +135,33 @@
     "promise": {
       "type": "hi-about-promise",
       "blocks": {
-        "p1": { "type": "promise", "settings": { "title": "Made With Honor", "description": "Quality materials and considered fits, chosen the honest way. We'd rather make it right than make it cheap." } },
-        "p2": { "type": "promise", "settings": { "title": "Every Purchase Gives Back", "description": "10% of annual profits pledged to veterans living with PTSD. Your order is part of something bigger." } },
-        "p3": { "type": "promise", "settings": { "title": "Built To Last", "description": "Designed to be repaired, re-worn, and passed on. Gear that earns its place season after season." } }
+        "p1": {
+          "type": "promise",
+          "settings": {
+            "title": "Made With Honor",
+            "description": "Quality materials and considered fits, chosen the honest way. We'd rather make it right than make it cheap."
+          }
+        },
+        "p2": {
+          "type": "promise",
+          "settings": {
+            "title": "Every Purchase Gives Back",
+            "description": "10% of annual profits pledged to veterans living with PTSD. Your order is part of something bigger."
+          }
+        },
+        "p3": {
+          "type": "promise",
+          "settings": {
+            "title": "Built To Last",
+            "description": "Designed to be repaired, re-worn, and passed on. Gear that earns its place season after season."
+          }
+        }
       },
-      "block_order": ["p1", "p2", "p3"],
+      "block_order": [
+        "p1",
+        "p2",
+        "p3"
+      ],
       "settings": {
         "eyebrow": "Every Piece, Every Time",
         "heading": "The Honor In Promise"
@@ -100,5 +188,14 @@
       }
     }
   },
-  "order": ["hero", "mission", "story", "values", "commitment", "promise", "quote", "cta"]
+  "order": [
+    "hero",
+    "mission",
+    "story",
+    "values",
+    "commitment",
+    "promise",
+    "quote",
+    "cta"
+  ]
 }
