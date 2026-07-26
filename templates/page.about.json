@@ -20,10 +20,10 @@
       "type": "hi-about-story",
       "settings": {
         "image": "shopify://shop_images/activewear-minimal-5.jpg",
-        "eyebrow": "How It Started",
-        "heading": "Built by people who show up.",
-        "body_1": "Honor In Clothing was founded on a simple belief: the way you do anything is the way you do everything. We wanted apparel that could keep up with a life lived fully — durable enough for the work, refined enough for everything after.",
-        "body_2": "So we set out to make pieces the honest way — quality materials, considered fits, and hardware built to last. No shortcuts, no throwaway trends. Just gear you can trust and be proud to wear.",
+        "eyebrow": "Our Origin Story",
+        "heading": "Not born in a boardroom.",
+        "body_1": "Honor In Clothing was born from countless conversations around campfires, beside backyard pools, on road trips, and during quiet evenings spent dreaming about the kind of legacy we wanted to leave behind. We talked about what truly defines a person. Not their job title. Not their income. Not the clothes they wear. We kept coming back to one word: Honor. Honor is found in the promises you keep, the people you serve, the family you love, and the way you treat others when no one is watching.",
+        "body_2": "Those conversations became a vision. That vision became a mission. And that mission became Honor In Clothing — a brand created for people who believe character is something you live every day. Because some of life's greatest ideas aren't born in boardrooms. They're born around campfires, around the pool, on front porches, and anywhere good people gather to talk about what matters most.",
         "cta_label": "Shop The Collection",
         "cta_url": "/collections/all"
       }
