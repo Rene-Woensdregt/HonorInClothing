@@ -48,11 +48,10 @@
         "mega_menu_jykPzx": {
           "type": "mega_menu",
           "settings": {
-            "nav_title": "Youth",
-            "mega_image": "shopify://shop_images/photo-1521572163474-6864f9cf17ab.jpg",
-            "mega_label": "Youth",
-            "mega_title": "Built To Play",
-            "mega_cta_text": "Shop Youth",
+            "nav_title": "COLLECTIONS",
+            "mega_label": "",
+            "mega_title": "",
+            "mega_cta_text": "",
             "mega_cta_url": ""
           }
         },
@@ -97,7 +96,7 @@
         "mega_menu_ghXF8C"
       ],
       "settings": {
-        "menu": "new-main-menu",
+        "menu": "main-menu",
         "logo": "shopify://shop_images/Group_1437253275_acce5a57-ef59-46d4-9420-2538b8cd51ac.svg",
         "logo_text_line1": "HONOR IN",
         "logo_text_line2": "CLOTHING CO."
