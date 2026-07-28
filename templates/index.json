@@ -134,8 +134,8 @@
         "eyebrow": "Our Commitment",
         "heading": "We Honor Those Who Served.",
         "body": "<p>Honor In Clothing is committed to donating <strong>10% of our annual profits</strong> to a carefully vetted organization supporting veterans living with PTSD. This commitment is deeply personal — one of our founders' fathers served our country and struggled with PTSD, and its effects were felt throughout the family for generations. Supporting those who have sacrificed for others is part of what honor means to us.</p>",
-        "cta_label": "Honor In Story",
-        "cta_url": "shopify://pages/about-us"
+        "cta_label": "",
+        "cta_url": ""
       }
     },
     "hi-best-sellers": {
@@ -155,12 +155,12 @@
     "hi-brand-story": {
       "type": "hi-brand-story",
       "settings": {
-        "eyebrow": "The Honor In Story",
+        "eyebrow": "",
         "heading": "More than apparel — a way of living.",
         "body_1": "<p>Honor In Clothing was founded on a simple belief: the clothes you wear should reflect the values you live by. Created for people who believe character still matters.</p>",
         "body_2": "<p>Every piece we make is designed for movement, built for endurance, and worn with intention. This is apparel for people who show up — every single day.</p>",
-        "cta_label": "Our Full Story",
-        "cta_url": "/pages/about",
+        "cta_label": "",
+        "cta_url": "",
         "image": "shopify://shop_images/photo-1521572163474-6864f9cf17ab.jpg"
       }
     },
