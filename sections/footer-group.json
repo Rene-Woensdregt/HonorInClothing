@@ -18,34 +18,62 @@
           "type": "nav_column",
           "settings": {
             "title": "Shop",
-            "menu": "footer"
-          }
-        },
-        "nav-activity": {
-          "type": "nav_column",
-          "settings": {
-            "title": "Activity",
-            "menu": ""
+            "menu": "shop",
+            "link_1_label": "",
+            "link_1_url": "",
+            "link_2_label": "",
+            "link_2_url": "",
+            "link_3_label": "",
+            "link_3_url": "",
+            "link_4_label": "",
+            "link_4_url": "",
+            "link_5_label": "",
+            "link_5_url": "",
+            "link_6_label": "",
+            "link_6_url": ""
           }
         },
         "nav-company": {
           "type": "nav_column",
           "settings": {
             "title": "Company",
-            "menu": ""
+            "menu": "company",
+            "link_1_label": "",
+            "link_1_url": "",
+            "link_2_label": "",
+            "link_2_url": "",
+            "link_3_label": "",
+            "link_3_url": "",
+            "link_4_label": "",
+            "link_4_url": "",
+            "link_5_label": "",
+            "link_5_url": "",
+            "link_6_label": "",
+            "link_6_url": ""
           }
         },
         "nav-support": {
           "type": "nav_column",
           "settings": {
             "title": "Support",
-            "menu": ""
+            "menu": "support",
+            "link_1_label": "",
+            "link_1_url": "",
+            "link_2_label": "",
+            "link_2_url": "",
+            "link_3_label": "",
+            "link_3_url": "",
+            "link_4_label": "",
+            "link_4_url": "",
+            "link_5_label": "",
+            "link_5_url": "",
+            "link_6_label": "",
+            "link_6_url": ""
           }
         }
       },
       "block_order": [
         "nav-shop",
-        "nav-activity",
         "nav-company",
         "nav-support"
       ],
