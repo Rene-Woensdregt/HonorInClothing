@@ -18,7 +18,7 @@
         "subheading": "Honor In Clothing is built for people who believe character matters.",
         "cta_label": "Shop The Collection",
         "cta_url": "/collections/all",
-        "cta2_label": "Our Story",
+        "cta2_label": "Honor In Story",
         "cta2_url": "#our-commitment"
       }
     },
@@ -134,8 +134,8 @@
         "eyebrow": "Our Commitment",
         "heading": "We Honor Those Who Served.",
         "body": "<p>Honor In Clothing is committed to donating <strong>10% of our annual profits</strong> to a carefully vetted organization supporting veterans living with PTSD. This commitment is deeply personal — one of our founders' fathers served our country and struggled with PTSD, and its effects were felt throughout the family for generations. Supporting those who have sacrificed for others is part of what honor means to us.</p>",
-        "cta_label": "Learn About Our Mission",
-        "cta_url": ""
+        "cta_label": "Honor In Story",
+        "cta_url": "shopify://pages/about-us"
       }
     },
     "hi-best-sellers": {
