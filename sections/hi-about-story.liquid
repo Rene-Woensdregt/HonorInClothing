@@ -18,10 +18,10 @@
         <h2 class="hi-astory-h2">{{ section.settings.heading }}</h2>
       {%- endif -%}
       {%- if section.settings.body_1 != blank -%}
-        <p class="hi-astory-body">{{ section.settings.body_1 }}</p>
+        <div class="hi-astory-body">{{ section.settings.body_1 }}</div>
       {%- endif -%}
       {%- if section.settings.body_2 != blank -%}
-        <p class="hi-astory-body">{{ section.settings.body_2 }}</p>
+        <div class="hi-astory-body hi-astory-body--closing">{{ section.settings.body_2 }}</div>
       {%- endif -%}
       {%- if section.settings.cta_label != blank -%}
         <a href="{{ section.settings.cta_url }}" class="hi-btn hi-btn--ink hi-astory-cta">{{ section.settings.cta_label }}</a>
@@ -76,12 +76,28 @@
 }
 .hi-astory-body {
   font-family: 'Hanken Grotesk', sans-serif;
-  font-size: 17px;
-  line-height: 1.76;
+  font-size: 16px;
+  line-height: 1.78;
   color: #54504A;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
+.hi-astory-body p {
+  margin: 0 0 14px;
+}
+.hi-astory-body p:last-child { margin-bottom: 0; }
 .hi-astory-body:last-of-type { margin-bottom: 36px; }
+.hi-astory-body--closing {
+  border-top: 1px solid #D6D0C6;
+  padding-top: 24px;
+  margin-top: 4px;
+}
+.hi-astory-body--closing p {
+  font-style: italic;
+  color: #3A372F;
+  font-size: 15px;
+  line-height: 1.7;
+  margin-bottom: 6px;
+}
 .hi-astory-cta { margin-top: 0; align-self: flex-start; }
 .hi-astory-img-col {
   position: relative;
@@ -132,16 +148,14 @@
       "default": "Built by people who show up."
     },
     {
-      "type": "textarea",
+      "type": "richtext",
       "id": "body_1",
-      "label": "t:hi.hi_about_story.settings.body_1.label",
-      "default": "Honor In Clothing was founded on a simple belief: the way you do anything is the way you do everything. We wanted apparel that could keep up with a life lived fully — durable enough for the work, refined enough for everything after."
+      "label": "t:hi.hi_about_story.settings.body_1.label"
     },
     {
-      "type": "textarea",
+      "type": "richtext",
       "id": "body_2",
-      "label": "t:hi.hi_about_story.settings.body_2.label",
-      "default": "So we set out to make pieces the honest way — quality materials, considered fits, and hardware built to last. No shortcuts, no throwaway trends. Just gear you can trust and be proud to wear."
+      "label": "t:hi.hi_about_story.settings.body_2.label"
     },
     {
       "type": "header",

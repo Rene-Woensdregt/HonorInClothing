@@ -28,10 +28,10 @@
     "story": {
       "type": "hi-about-story",
       "settings": {
-        "eyebrow": "How We Started",
-        "heading": "Our Story",
-        "body_1": "Honor In Clothing was founded on a simple belief: the way you live matters more than the clothes you wear. In a world where trends change by the season and clothing often becomes disposable, we wanted to create something different — a brand built on timeless values instead of temporary fashion.",
-        "body_2": "Honor isn't about perfection. It's about character. It's keeping your word when no one is watching. It's showing up for your family, your friends, and your community. It's working hard, taking responsibility, treating others with respect, and leaving places better than you found them. Those principles inspired the creation of Honor In Clothing.",
+        "eyebrow": "Our Origin Story",
+        "heading": "Not born in a boardroom.",
+        "body_1": "<p>Honor In Clothing didn't begin in a boardroom. It began with family — ideas shared around a bonfire, by the pool, and conversations carried through family vacations.</p><p>My family and I have always been creative, and what started as casual conversations slowly grew into something much bigger.</p><p>We realized we didn't just want to build a clothing company — we wanted to build a family legacy. We wanted to create something our children and future generations could be proud of. A brand rooted in values that never go out of style: honor, character, responsibility, courage, integrity, and respect.</p><p>That's how Honor In Clothing was born.</p>",
+        "body_2": "<p>Every design we create is intended to be more than just apparel. It's a reminder that what you wear can reflect who you are. Whether you're in the gym, on the trail, at work, with your family, or serving your community, honor isn't reserved for special occasions — it's something you choose every day.</p><p>Our hope is that Honor In Clothing becomes more than a brand. We want it to become a community of people who believe character still matters, who believe a person's word has value, and who strive to live with purpose and integrity.</p><p>We also believe that true success means lifting others as we climb. As our company grows, our goal is to create opportunities, support meaningful causes, and help others whenever we can. We hope our journey inspires someone else to pursue their own dream, build something lasting, and leave a legacy for the people they love.</p><p>This is our story. A family with an idea. A dream to leave a legacy. A commitment to live with honor. Because honor isn't just something you wear — it's something you live. Honor in everything you do.</p>",
         "cta_label": "Shop The Collection",
         "cta_url": "/collections/all",
         "image": "shopify://shop_images/IMG_2885.jpg"
