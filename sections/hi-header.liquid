@@ -127,12 +127,7 @@
 
     {%- comment -%}──── RIGHT: search, account, cart ────{%- endcomment -%}
     <div class="hi-header-right hi-header-actions">
-      <a href="{{ routes.search_url }}" class="hi-icon" aria-label="{{ 'hi.general.search' | t }}">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <circle cx="11" cy="11" r="7"></circle>
-          <line x1="21" y1="21" x2="16.5" y2="16.5"></line>
-        </svg>
-      </a>
+      {% render 'header-search', input_id: 'Search-In-Hi-Header' %}
       {%- if shop.customer_accounts_enabled -%}
         <a href="{{ routes.account_url }}" class="hi-icon hi-desktop-only" aria-label="{{ 'hi.general.account' | t }}">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -544,6 +539,33 @@
   .hi-header-inner { padding: 0 20px; }
   .hi-header-actions { gap: 16px; }
 }
+
+/* ─────────── Search modal trigger — match hi-icon style ─────────── */
+.hi-header .header__search { display: inline-flex; }
+.hi-header .header__icon--search {
+  color: #16150F;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  list-style: none;
+  transition: opacity .2s ease;
+  box-shadow: none !important;
+  outline-offset: 3px;
+}
+.hi-header .header__icon--search:hover { opacity: .55; }
+.hi-header .header__icon--search .svg-wrapper { width: 21px; height: 21px; display: block; }
+.hi-header .header__icon--search svg { width: 21px; height: 21px; display: block; }
+/* Show search icon by default, swap to close when modal open */
+.hi-header .header__icon-close { display: none; }
+.hi-header details[open] > summary .header__icon-close { display: block; }
+.hi-header details[open] > summary .svg-wrapper:not(.header__icon-close) { display: none; }
+/* Suppress <summary> marker in all browsers */
+.hi-header summary.header__icon--search { list-style: none; }
+.hi-header summary.header__icon--search::-webkit-details-marker { display: none; }
 
 /* ─────────── Dawn override resets ─────────── */
 /* Dawn base.css sets body { line-height: 1.8 } which cascades to all descendants.
