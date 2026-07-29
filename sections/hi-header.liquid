@@ -567,6 +567,142 @@
 .hi-header summary.header__icon--search { list-style: none; }
 .hi-header summary.header__icon--search::-webkit-details-marker { display: none; }
 
+/* ─────────── Search modal — brand styling ─────────── */
+/* Input bar: obsidian background matching the header */
+.search-modal__content {
+  background: #16150F;
+  border-bottom: 1px solid rgba(251,249,245,.12);
+  padding: 0 32px;
+}
+.search-modal__form { max-width: 860px; margin: 0 auto; width: 100%; }
+.search-modal__form .field {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(251,249,245,.25);
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
+}
+.search-modal__form .field:focus-within {
+  border-bottom-color: rgba(251,249,245,.7);
+  box-shadow: none;
+}
+/* Input */
+.search__input {
+  background: transparent !important;
+  color: #FBF9F5 !important;
+  font-family: 'Hanken Grotesk', sans-serif !important;
+  font-size: 16px !important;
+  caret-color: #9AA585;
+  padding: 20px 0 !important;
+  height: auto !important;
+}
+.search__input::placeholder { color: rgba(251,249,245,.4) !important; }
+/* Floating label */
+.search-modal__form .field__label {
+  color: rgba(251,249,245,.45);
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 14px;
+  left: 0;
+}
+/* Search and reset icon buttons inside the input bar */
+.search-modal__form .search__button,
+.search-modal__form .reset__button {
+  color: rgba(251,249,245,.7);
+}
+.search-modal__form .search__button:hover,
+.search-modal__form .reset__button:hover { color: #FBF9F5; }
+/* Close button (X) to the right of the input bar */
+.search-modal__close-button { color: rgba(251,249,245,.7); }
+.search-modal__close-button:hover { color: #FBF9F5; }
+
+/* Results dropdown */
+.predictive-search--header {
+  background: #FBF9F5;
+  border: none;
+  border-top: 1px solid rgba(22,21,15,.08);
+  border-radius: 0;
+  box-shadow: 0 24px 60px rgba(12,12,9,.22);
+  left: 0 !important;
+  right: 0 !important;
+  transform: none !important;
+  width: 100% !important;
+  max-width: none !important;
+}
+/* Inner results wrapper — center and constrain width to match input */
+.predictive-search__results-groups-wrapper {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+/* "SUGGESTIONS" / "PRODUCTS" column headings */
+.predictive-search__heading {
+  font-family: 'Oswald', sans-serif !important;
+  font-size: 10.5px !important;
+  font-weight: 600 !important;
+  letter-spacing: .22em !important;
+  text-transform: uppercase !important;
+  color: #8A8479 !important;
+  padding: 20px 20px 10px !important;
+  margin: 0 !important;
+  border-bottom: 1px solid #E7E2D7 !important;
+}
+/* Query suggestion items */
+.predictive-search__item--term {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 14px;
+  color: #3A372F;
+  padding: 10px 20px;
+  border-bottom: 1px solid #ECE7DC;
+  transition: background .15s, color .15s;
+}
+.predictive-search__item--term:hover { background: #F3EFE6; color: #16150F; }
+.predictive-search__item--term mark {
+  background: none;
+  color: #5C6B47;
+  font-weight: 600;
+}
+/* Product items */
+.predictive-search__item--product {
+  font-family: 'Hanken Grotesk', sans-serif;
+  padding: 12px 20px;
+  border-bottom: 1px solid #ECE7DC;
+  transition: background .15s;
+}
+.predictive-search__item--product:hover { background: #F3EFE6; }
+.predictive-search__item-heading {
+  font-family: 'Hanken Grotesk', sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  color: #16150F !important;
+  line-height: 1.3 !important;
+}
+.predictive-search__item-vendor {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 12px;
+  color: #8A8479;
+}
+/* "Search for ..." footer row */
+.predictive-search__item--link {
+  font-family: 'Oswald', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #5C6B47;
+  padding: 14px 20px;
+  background: #F3EFE6;
+  border-top: 1px solid #E7E2D7;
+  transition: background .15s, color .15s;
+}
+.predictive-search__item--link:hover { background: #E7E2D7; color: #16150F; }
+
+/* Mobile adjustments */
+@media (max-width: 900px) {
+  .search-modal__content { padding: 0 20px; }
+  .predictive-search--header { width: calc(100% - 40px); }
+}
+
 /* ─────────── Dawn override resets ─────────── */
 /* Dawn base.css sets body { line-height: 1.8 } which cascades to all descendants.
    Set explicit line-heights so elements match the design proportions. */
