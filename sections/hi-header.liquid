@@ -156,11 +156,18 @@
   role="dialog" aria-modal="true" aria-label="{{ 'hi.general.menu' | t }}">
 
   <div class="hi-drawer-head">
-    <div class="hi-logo-text">
-      <span class="hi-logo-l1" style="font-size:18px;letter-spacing:.16em;">
-        {{ section.settings.logo_text_line1 | default: 'HONOR IN' }}
-      </span>
-    </div>
+    <a href="{{ routes.root_url }}" class="hi-logo-link" aria-label="{{ shop.name }}">
+      {%- if section.settings.logo != blank -%}
+        {{ section.settings.logo | image_url: width: 160 | image_tag:
+            class: 'hi-drawer-logo-img', loading: 'eager', alt: shop.name }}
+      {%- else -%}
+        <div class="hi-logo-text">
+          <span class="hi-logo-l1" style="font-size:18px;letter-spacing:.16em;">
+            {{ section.settings.logo_text_line1 | default: 'HONOR IN' }}
+          </span>
+        </div>
+      {%- endif -%}
+    </a>
     <button type="button" class="hi-drawer-close" data-hi-drawer-close
       aria-label="{{ 'hi.general.close_menu' | t }}">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
@@ -512,7 +519,8 @@
   transition: max-height .34s cubic-bezier(.2,.7,.3,1);
 }
 .hi-acc-panel[data-open="true"] { max-height: 1200px; }
-.hi-drawer .hi-acc-panel { background: #F1ECE1; }
+.hi-drawer .hi-acc-panel { background: #FBF9F5; }
+.hi-drawer-logo-img { height: 40px; width: auto; display: block; }
 .hi-acc-coltitle {
   font-family: 'Oswald', sans-serif;
   font-weight: 600; font-size: 11px;

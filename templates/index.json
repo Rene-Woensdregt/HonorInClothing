@@ -80,7 +80,7 @@
         "collection": "all",
         "products_limit": 8,
         "view_all_label": "Shop All New",
-        "view_all_url": "/collections/new-arrivals",
+        "view_all_url": "/collections/new",
         "show_price": true,
         "badge_label": "New",
         "badge_style": "dark"
@@ -124,7 +124,7 @@
       ],
       "settings": {
         "eyebrow": "Find Your Fit",
-        "title": "Shop By Activity"
+        "title": "Shop By Collection"
       }
     },
     "hi-veteran-support": {

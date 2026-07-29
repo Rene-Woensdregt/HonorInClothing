@@ -34,12 +34,19 @@
         "hr2": {
           "type": "hour_row",
           "settings": {
+            "day_range": "Saturday",
+            "time": "Closed"
+          }
+        },
+        "hr3": {
+          "type": "hour_row",
+          "settings": {
             "day_range": "Sunday",
             "time": "Closed"
           }
         }
       },
-      "block_order": ["hr1", "hr2"],
+      "block_order": ["hr1", "hr2", "hr3"],
       "settings": {
         "hours_note": "All times Eastern Time (EST). Closed on major U.S. holidays.",
         "hq_address": "Honor In Clothing Co.\nEllijay, Georgia\nUnited States\n\nEstablished 2025"
