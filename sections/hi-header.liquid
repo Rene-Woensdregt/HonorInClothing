@@ -559,62 +559,66 @@
 .hi-header .header__icon--search:hover { opacity: .55; }
 .hi-header .header__icon--search .svg-wrapper { width: 21px; height: 21px; display: block; }
 .hi-header .header__icon--search svg { width: 21px; height: 21px; display: block; }
-/* Show search icon by default, swap to close when modal open */
-.hi-header .header__icon-close { display: none; }
-.hi-header details[open] > summary .header__icon-close { display: block; }
-.hi-header details[open] > summary .svg-wrapper:not(.header__icon-close) { display: none; }
-/* Suppress <summary> marker in all browsers */
+/* Icon toggle: show search, hide X when closed; swap when open */
+.hi-header .header__search .header__icon-close { display: none !important; }
+.hi-header .header__search details[open] .header__icon-close { display: block !important; }
+/* Scope to summary only — avoids hiding reset button icon inside the modal */
+.hi-header .header__search details[open] summary .svg-wrapper:not(.header__icon-close) { display: none !important; }
+/* Suppress <summary> marker */
 .hi-header summary.header__icon--search { list-style: none; }
 .hi-header summary.header__icon--search::-webkit-details-marker { display: none; }
 
 /* ─────────── Search modal — brand styling ─────────── */
-/* Input bar: obsidian background matching the header */
+/* Input bar: white/linen background */
 .search-modal__content {
-  background: #16150F;
-  border-bottom: 1px solid rgba(251,249,245,.12);
+  background: #FBF9F5;
+  border-bottom: 1px solid #E7E2D7;
   padding: 0 32px;
 }
 .search-modal__form { max-width: 860px; margin: 0 auto; width: 100%; }
 .search-modal__form .field {
   background: transparent;
   border: none;
-  border-bottom: 1px solid rgba(251,249,245,.25);
+  border-bottom: 1px solid #D6D0C6;
   border-radius: 0;
   box-shadow: none;
   padding: 0;
 }
 .search-modal__form .field:focus-within {
-  border-bottom-color: rgba(251,249,245,.7);
+  border-bottom-color: #16150F;
   box-shadow: none;
 }
 /* Input */
 .search__input {
   background: transparent !important;
-  color: #FBF9F5 !important;
+  color: #16150F !important;
   font-family: 'Hanken Grotesk', sans-serif !important;
   font-size: 16px !important;
-  caret-color: #9AA585;
-  padding: 20px 0 !important;
+  caret-color: #5C6B47;
+  padding: 20px 0 20px 12px !important;
   height: auto !important;
 }
-.search__input::placeholder { color: rgba(251,249,245,.4) !important; }
+.search__input::placeholder { color: #8A8479 !important; }
 /* Floating label */
 .search-modal__form .field__label {
-  color: rgba(251,249,245,.45);
+  color: #8A8479;
   font-family: 'Hanken Grotesk', sans-serif;
   font-size: 14px;
-  left: 0;
+  left: 12px;
 }
-/* Search and reset icon buttons inside the input bar */
-.search-modal__form .search__button,
+/* Hide search submit icon — Enter key handles submission; keeps the bar clean */
+.search-modal__form .search__button { display: none !important; }
+/* Reset (clear) button — centered vertically, visible when input has text */
 .search-modal__form .reset__button {
-  color: rgba(251,249,245,.7);
+  color: #54504A;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0;
 }
-.search-modal__form .search__button:hover,
-.search-modal__form .reset__button:hover { color: #FBF9F5; }
-/* Close button (X) to the right of the input bar */
-.search-modal__close-button { color: rgba(251,249,245,.7); }
-.search-modal__close-button:hover { color: #FBF9F5; }
+.search-modal__form .reset__button:hover { color: #16150F; }
+/* Close button (X) outside the input, right edge of bar */
+.search-modal__close-button { color: #54504A; }
+.search-modal__close-button:hover { color: #16150F; }
 
 /* Results dropdown */
 .predictive-search--header {
