@@ -143,10 +143,10 @@
       "settings": {
         "eyebrow": "Customer Favorites",
         "title": "Best Sellers",
-        "collection": "all",
+        "collection": "best-sellers",
         "products_limit": 8,
         "view_all_label": "Shop All",
-        "view_all_url": "/collections/collections",
+        "view_all_url": "shopify://collections/best-sellers",
         "show_price": true,
         "badge_label": "Best Seller",
         "badge_style": "accent"
