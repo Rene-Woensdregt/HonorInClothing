@@ -25,18 +25,11 @@
           "settings": {
             "text": "Honor in everything you do."
           }
-        },
-        "msg_3": {
-          "type": "message",
-          "settings": {
-            "text": "Free returns on all orders"
-          }
         }
       },
       "block_order": [
         "msg_1",
-        "msg_2",
-        "msg_3"
+        "msg_2"
       ],
       "settings": {
         "speed": 40
